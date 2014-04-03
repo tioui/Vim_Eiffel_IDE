@@ -16,7 +16,6 @@ endif
 let s:keepcpo= &cpo
 set cpo&vim
 
-
 " Option handling
 
 if exists("eiffel_ignore_case")

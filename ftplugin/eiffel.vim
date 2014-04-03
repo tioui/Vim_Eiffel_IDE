@@ -14,12 +14,11 @@ endif
 let b:did_ftplugin = 1
 
 " Matchit handling
-
 " The following lines enable the macros/matchit.vim plugin for
 " extended matching with the % key.
 
 if exists("loaded_matchit")
-
+  autocmd BufNewFile,BufRead *.e set filetype=eiffel
   let b:match_ignorecase = 0
   if !exists("b:match_words") |
     let b:match_words = '\<\%(do\|if\|from\|check\|inspect\)\>:' . '\<\%(else\|elseif\|until\|loop\|when\):'. '\<end\>'
