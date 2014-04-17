@@ -1,0 +1,32 @@
+async_subprocess is a simple wrapper around Python's subprocess.Popen
+class.  You use it just like you would use subprocess.Popen; there are only
+two major differences:
+
+    * You can only pass None or PIPE as values for stdout, stdin, stderr.
+    * communicate() returns immediately with whatever data is available, rather
+      than waiting for EOF and process termination.  As such, you can now call
+      communicate() many times on the same object.
+
+async_subprocess is beta software, so it might still be a bit buggy.  It has
+been tested on the following configurations:
+    * Linux (Fedora 15), Python 2.7.1
+    * Linux (Fedora 15), Python 3.2
+It should also work on Windows, but this has not been tested yet.
+
+Example usage:
+
+from async_subprocess import AsyncPopen, PIPE
+args = ("echo", "Hello World!")
+proc = AsyncPopen(args, stdout=PIPE)
+stdoutdata, stderrdata = proc.communicate()
+print stdoutdata    # should print "Hello World!"
+
+
+----------------------------
+ What's New in Version 0.2?
+----------------------------
+
+* Got rid of the stray debug print statement that was accidentally left in
+  version 0.1.  Sorry about that, it's gone now, and 0.2 has been checked for
+  other stray debug statements.
+* Support for Python 3 added.

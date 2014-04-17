@@ -1,0 +1,20 @@
+Metadata-Version: 1.1
+Name: async_subprocess
+Version: 0.2.1
+Summary: Asynchronous subprocess.Popen module
+Home-page: http://pypi.python.org/pypi/async_subprocess/
+Author: James Buchwald
+Author-email: buchwj@rpi.edu
+License: UNKNOWN
+Description: Cross-platform wrapper around subprocess.Popen to provide an asynchronous version of Popen.communicate().
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Provides: async_subprocess
