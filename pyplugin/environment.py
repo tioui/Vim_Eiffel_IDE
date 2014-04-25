@@ -99,7 +99,7 @@ class buffer:
         Vim buffer.
         """
         if a_number:
-            self._item = vim.buffers[int(a_number) - 1]
+            self._item = vim.buffers[int(a_number)]
         else:
             self._item = vim.current.buffer
 

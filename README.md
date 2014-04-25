@@ -1,7 +1,7 @@
-Vim_EiffelStudio
+Vim_Eiffel_IDE
 ================
 
-A programming environment in Vim using the EiffelStudio tools.
+An Eiffel programming environment for Vim using the ISE EiffelStudio tools.
 
 What you can do with it
 -----------------------

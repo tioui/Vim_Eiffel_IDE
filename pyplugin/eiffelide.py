@@ -20,9 +20,9 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-"""EiffelStudio project
+"""Eiffel IDE project
 
-Contain the EiffelStudio project class and tools for compiling,
+Contain the Eiffel IDE project class and tools for compiling,
 managing error, retreiving system information, etc.
 """
 
@@ -36,13 +36,13 @@ import async_subprocess.async_subprocess as async_subprocess
 
 
 class project:
-    """An EiffelStudio project"""
+    """An Eiffel IDE project"""
 
     _config_file = None
-    """The EiffelStudio project config file (.ecf) name"""
+    """The Eiffel IDE project config file (.ecf) name"""
 
     _target_name = None
-    """The EiffelStudio project target name (None if no target needed)"""
+    """The Eiffel IDE project target name (None if no target needed)"""
 
     _compilation_output = None
     """The standard and error output of the compiler"""
