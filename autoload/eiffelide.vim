@@ -157,7 +157,7 @@ endfunction
 function! eiffelide#config_file()
 python << endpython
 if eiffel_project:
-    vim.command("return " + eiffel_project.config_file())
+    vim.command("return '" + eiffel_project.config_file() + "'")
 else:
     print "No Vim Eiffel IDE project opened."
 endpython
