@@ -290,6 +290,10 @@ class project:
         """
         self._execute_compiler(["-freeze", "-c_compile"], a_window)
 
+    def finalize(self, a_window=None):
+        """Run a 'finalize' compilation."""
+        self._execute_compiler(["-finalize", "-c_compile"], a_window)
+
     def melt(self, a_window=None):
         """Run a 'melting' compilation.
 
@@ -303,3 +307,11 @@ class project:
         See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
         """
         self._execute_compiler(["-quick_melt", "-c_compile"], a_window)
+
+    def run_command(self):
+        """ Return the command line to start the Eiffel Run and debug tools"""
+        result = self._ec_path() + " -stop -batch -debug -project_path " +\
+            self.config_file_path() + " -config " + self.config_file()
+        if self.target_name():
+            result = result + " -target " + self.target_name()
+        return result

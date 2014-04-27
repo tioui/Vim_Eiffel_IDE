@@ -44,6 +44,11 @@ command! EiffelRecompile call eiffelide#recompile()
 
 command! ERecompile EiffelRecompile 
 
+" DESC: Command shortcuts for a 'Finalize' compilation.
+command! EiffelFinalize call eiffelide#finalize()
+
+command! EFinalize EiffelFinalize 
+
 " DESC: Command shortcuts for a 'Freeze' compilation.
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
 command! EiffelFreeze call eiffelide#freeze()
@@ -69,6 +74,11 @@ command! EProject EiffelProject
 command! EiffelTarget echom eiffelide#target_name()
 
 command! ETarget EiffelTarget
+
+" DESC: Run and Debug
+command! EiffelRun call eiffelide#run()
+
+command! ERun EiffelRun
 
 " DESC: Use the `g:saved_window_number' value to go to preceding window
 " SEE: `eiffelide#open_tools_window()'
@@ -220,6 +230,20 @@ else:
 endpython
 endfunction
 
+" DESC: Run a 'Finilize' compilation of the openned `eiffel_project'
+function! eiffelide#finalize()
+python << endpython
+if eiffel_project:
+    l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+    l_buffer = environment.buffer(l_buffer_number)
+    eiffel_project.finalize(l_buffer)
+    if not eiffel_project.has_error():
+        vim.command("call eiffelide#return_to_saved_window()")
+else:
+    print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
 " DESC: Run a 'Quick Melting' compilation of the openned `eiffel_project'
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
 function! eiffelide#quick_melt()
@@ -250,3 +274,14 @@ else:
     print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
+
+" DESC: Launch the Debug and Run program to test project
+function! eiffelide#run()
+python << endpython
+if eiffel_project:
+	vim.command("!" + eiffel_project.run_command())
+else:
+    print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
