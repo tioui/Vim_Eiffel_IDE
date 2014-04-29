@@ -27,6 +27,7 @@ from the python file.
 """
 
 import vim
+import string
 
 
 def get_global_variable(a_variable_name):
@@ -83,6 +84,34 @@ def set_buffer_variable(a_variable_name, a_value):
         vim.command("let b:" + a_variable_name + " = \"\"")
     else:
         vim.command("let b:" + a_variable_name + " = " + str(a_value))
+
+
+def word_under_the_cursor():
+    non_splittable_characters = string.ascii_letters + string.digits + "_"
+    row, col = vim.current.window.cursor
+    row = row - 1
+    start = col
+    end = col + 1
+    result = ""
+    if len(vim.current.buffer) > row and\
+            len(vim.current.buffer[row]) > col and\
+            vim.current.buffer[row][col] in non_splittable_characters:
+        try:
+            while start > -1 and\
+                    vim.current.buffer[row][start] in\
+                    non_splittable_characters:
+                result = vim.current.buffer[row][start] + result
+                start = start - 1
+        except:
+            pass
+        try:
+            while end < len(vim.current.buffer[row]) and\
+                    vim.current.buffer[row][end] in non_splittable_characters:
+                result = result + vim.current.buffer[row][end]
+                end = end + 1
+        except:
+            pass
+    return result
 
 
 class buffer:

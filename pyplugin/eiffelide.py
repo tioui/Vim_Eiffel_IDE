@@ -179,9 +179,20 @@ class project:
         l_regex["line"] = re.compile("^Line: ([0-9]+)$", re.MULTILINE)
         self._error_warning_regex = l_regex
 
-    def _execute_compiler(self, a_params, a_window=None):
-        """Launch the compiler and manage the output. Use `a_params' as
-        compiler argument and print the output in `a_window' id define"""
+    def _execute_compiler(self, a_input, a_params, a_window=None,
+                          a_get_stdout=True, a_get_stderr=True):
+        """ Launch the EiffelStudio compiler
+
+        a_input: The standard input to use in the compiler.
+        a_params: Additionnal parameters to send to the compiler
+        a_window: An optionnal window to print output to
+        a_get_stdout: Returning the data returned by the standard output
+                      of th compiler
+        a_get_stderr: Returning the data returned by the error output
+                      of th compiler
+
+        Return: The data returned by the compiler
+        """
         l_params = [self._ec_path(), "-stop", "-batch",
                     "-project_path", self.config_file_path(),
                     "-config", self.config_file()]
@@ -193,25 +204,37 @@ class project:
                                                 stdout=async_subprocess.PIPE,
                                                 stderr=async_subprocess.PIPE)
         l_data = ""
+        if a_input and l_process.poll() is None:
+            l_data += self._get_new_process_output(l_process, a_input,
+                                                   a_get_stdout, a_get_stderr)
         while l_process.poll() is None:
-            l_data += self._get_new_process_output(l_process)
+            l_data += self._get_new_process_output(l_process, None,
+                                                   a_get_stdout, a_get_stderr)
             if a_window:
                 a_window.set_text(l_data)
             time.sleep(0.1)
-        l_data += self._get_new_process_output(l_process, "quit")
+        l_data += self._get_new_process_output(l_process, "quit",
+                                               a_get_stdout, a_get_stderr)
         if a_window:
             a_window.set_text(l_data)
-        self._compilation_output = l_data
-        self._manage_output(l_data)
+        return l_data
 
-    def _get_new_process_output(self, a_process, a_input=None):
+    def _execute_compilation(self, a_params, a_window=None):
+        """Launch the compiler and manage the output. Use `a_params' as
+        compiler argument and print the output in `a_window' id define"""
+        self._compilation_output =\
+            self._execute_compiler(None, a_params, a_window)
+        self._manage_output(self._compilation_output)
+
+    def _get_new_process_output(self, a_process, a_input=None,
+                                a_get_stdout=True, a_get_stderr=True):
         """Return the current output (standard and error) of `a_process'
         when sending `a_input' in his standard input pipe."""
         (l_stdout, l_stderr) = a_process.communicate(a_input)
         l_data = ""
-        if l_stdout:
+        if a_get_stdout and l_stdout:
             l_data += l_stdout
-        if l_stderr:
+        if a_get_stderr and l_stderr:
             l_data += l_stderr
         return l_data
 
@@ -281,32 +304,33 @@ class project:
 
     def recompile(self, a_window=None):
         """Recompile `Current' from scratch."""
-        self._execute_compiler(["-clean", "-freeze", "-c_compile"], a_window)
+        self._execute_compilation(["-clean", "-freeze", "-c_compile"],
+                                  a_window)
 
     def freeze(self, a_window=None):
         """Run a 'Freezing' compilation.
 
         See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
         """
-        self._execute_compiler(["-freeze", "-c_compile"], a_window)
+        self._execute_compilation(["-freeze", "-c_compile"], a_window)
 
     def finalize(self, a_window=None):
         """Run a 'finalize' compilation."""
-        self._execute_compiler(["-finalize", "-c_compile"], a_window)
+        self._execute_compilation(["-finalize", "-c_compile"], a_window)
 
     def melt(self, a_window=None):
         """Run a 'melting' compilation.
 
         See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
         """
-        self._execute_compiler(["-melt", "-c_compile"], a_window)
+        self._execute_compilation(["-melt", "-c_compile"], a_window)
 
     def quick_melt(self, a_window=None):
         """Run a 'Quick Melting' compilation.
 
         See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
         """
-        self._execute_compiler(["-quick_melt", "-c_compile"], a_window)
+        self._execute_compilation(["-quick_melt", "-c_compile"], a_window)
 
     def run_command(self):
         """ Return the command line to start the Eiffel Run and debug tools"""
@@ -315,3 +339,27 @@ class project:
         if self.target_name():
             result = result + " -target " + self.target_name()
         return result
+
+    def get_class_flat(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the flat view
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nF\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_ancestors(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the ancestors
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nA\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_attributes(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the attributes
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nB\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)

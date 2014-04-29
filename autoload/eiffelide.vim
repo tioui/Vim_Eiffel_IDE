@@ -32,6 +32,23 @@ if !exists("g:eiffel_ide_tools_window_vertical")
     let g:eiffel_ide_tools_window_vertical = 0
 endif
 
+" DESC: Redefine to put the Eiffel IDE tools à the right (or left) or the
+" current window
+" SEE: `g:eiffel_ide_tools_window_leftabove'
+if !exists("g:eiffel_ide_tools_window_statusline")
+	let status_line = "%f%m%r%h%w%q%=[%l,%v][%p%%]"
+	if &statusline !=# ''
+		let status_line = &statusline
+	endif
+	let status_line = substitute(status_line,"%f","%{exists('b:eiffel_ide_buffer_info')?(b:eiffel_ide_buffer_info):bufname('%')}","")
+	let status_line = substitute(status_line,"%F","%{exists('b:eiffel_ide_buffer_info')?(b:eiffel_ide_buffer_info):fnamemodify(bufname('%'), ':p')}","")
+    let g:eiffel_ide_tools_window_statusline = status_line
+	echom status_line
+endif
+
+let &statusline = g:eiffel_ide_tools_window_statusline
+
+
 " DESC: Command shortcuts for a simple speedy compilation
 command! EiffelCompile call eiffelide#quick_melt_no_focus()
 
@@ -80,6 +97,23 @@ command! EiffelRun call eiffelide#run()
 
 command! ERun EiffelRun
 
+" DESC: Class Flat View
+command! -nargs=* EiffelClassFlat call eiffelide#class_flat(<f-args>)
+
+command! -nargs=* ECFlat call eiffelide#class_flat(<f-args>)
+
+" DESC: Class Ancestors View
+command! -nargs=* EiffelClassAncestors call eiffelide#class_ancestors(<f-args>)
+
+command! -nargs=* ECAncestors call eiffelide#class_ancestors(<f-args>)
+
+" DESC: Class Attributes View
+command! -nargs=* EiffelClassAttributes call eiffelide#class_attributes(<f-args>)
+
+command! -nargs=* ECAttributes call eiffelide#class_attributes(<f-args>)
+
+
+
 " DESC: Use the `g:saved_window_number' value to go to preceding window
 " SEE: `eiffelide#open_tools_window()'
 function! eiffelide#return_to_saved_window()
@@ -94,36 +128,38 @@ endfunction
 " SEE: `eiffelide#return_to_saved_window()'
 function! eiffelide#open_tools_window()
     if g:eiffel_ide_tools_window_vertical
-	let l:vertical = "vertical"
+		let l:vertical = "vertical"
     else
-	let l:vertical = ""
+		let l:vertical = ""
     endif
     if g:eiffel_ide_tools_window_leftabove
-	let l:position = "leftabove"
+		let l:position = "leftabove"
     else
-	let l:position = "rightbelow"
+		let l:position = "rightbelow"
     endif
     if bufnr(g:eiffel_ide_buffer_name) < 0
         execute l:position . " " . l:vertical . " " . g:eiffel_ide_tools_window_dimension . " new " . g:eiffel_ide_buffer_name
         setlocal buftype=nofile
         setlocal bufhidden=hide
         setlocal noswapfile
-	redraw
-	wincmd p
-	let g:saved_window_number = bufwinnr('%')
-	wincmd p
+		let b:eiffel_ide_buffer_info = "Eiffel IDE Information"
+		redraw
+		wincmd p
+		let g:saved_window_number = bufwinnr('%')
+		wincmd p
     else
-	if bufwinnr(g:eiffel_ide_buffer_name) < 0
-	    execute l:position . " " . l:vertical . " " . g:eiffel_ide_tools_window_dimension . " split " . g:eiffel_ide_buffer_name
-	    redraw
-	    wincmd p
-	    let g:saved_window_number = bufwinnr('%')
-	    wincmd p
-	else
-	    let g:saved_window_number = bufwinnr('%')
-	    execute bufwinnr(g:eiffel_ide_buffer_name) . " wincmd w"
-	endif
+		if bufwinnr(g:eiffel_ide_buffer_name) < 0
+			execute l:position . " " . l:vertical . " " . g:eiffel_ide_tools_window_dimension . " split " . g:eiffel_ide_buffer_name
+			redraw
+			wincmd p
+			let g:saved_window_number = bufwinnr('%')
+			wincmd p
+		else
+			let g:saved_window_number = bufwinnr('%')
+			execute bufwinnr(g:eiffel_ide_buffer_name) . " wincmd w"
+		endif
     endif
+	setlocal filetype=
     return bufnr(g:eiffel_ide_buffer_name)
 endfunction
 
@@ -190,13 +226,15 @@ endfunction
 function! eiffelide#recompile()
 python << endpython
 if eiffel_project:
-    l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-    l_buffer = environment.buffer(l_buffer_number)
-    eiffel_project.recompile(l_buffer)
-    if not eiffel_project.has_error():
-        vim.command("call eiffelide#return_to_saved_window()")
+	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+	vim.command("let b:eiffel_ide_buffer_info = \"Freezing...\"")
+	l_buffer = environment.buffer(l_buffer_number)
+	eiffel_project.recompile(l_buffer)
+	vim.command("let b:eiffel_ide_buffer_info = \"Freezing complete\"")
+	if not eiffel_project.has_error():
+		vim.command("call eiffelide#return_to_saved_window()")
 else:
-    print "No Vim Eiffel IDE project opened."
+	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
 
@@ -205,13 +243,15 @@ endfunction
 function! eiffelide#freeze()
 python << endpython
 if eiffel_project:
-    l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-    l_buffer = environment.buffer(l_buffer_number)
-    eiffel_project.freeze(l_buffer)
-    if not eiffel_project.has_error():
-        vim.command("call eiffelide#return_to_saved_window()")
+	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+	vim.command("let b:eiffel_ide_buffer_info = \"Freezing...\"")
+	l_buffer = environment.buffer(l_buffer_number)
+	eiffel_project.freeze(l_buffer)
+	vim.command("let b:eiffel_ide_buffer_info = \"Freezing complete\"")
+	if not eiffel_project.has_error():
+		vim.command("call eiffelide#return_to_saved_window()")
 else:
-    print "No Vim Eiffel IDE project opened."
+	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
 
@@ -220,13 +260,15 @@ endfunction
 function! eiffelide#melt()
 python << endpython
 if eiffel_project:
-    l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-    l_buffer = environment.buffer(l_buffer_number)
-    eiffel_project.melt(l_buffer)
-    if not eiffel_project.has_error():
-        vim.command("call eiffelide#return_to_saved_window()")
+	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+	vim.command("let b:eiffel_ide_buffer_info = \"Melting...\"")
+	l_buffer = environment.buffer(l_buffer_number)
+	eiffel_project.melt(l_buffer)
+	vim.command("let b:eiffel_ide_buffer_info = \"Melting complete\"")
+	if not eiffel_project.has_error():
+		vim.command("call eiffelide#return_to_saved_window()")
 else:
-    print "No Vim Eiffel IDE project opened."
+	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
 
@@ -234,13 +276,15 @@ endfunction
 function! eiffelide#finalize()
 python << endpython
 if eiffel_project:
-    l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-    l_buffer = environment.buffer(l_buffer_number)
-    eiffel_project.finalize(l_buffer)
-    if not eiffel_project.has_error():
-        vim.command("call eiffelide#return_to_saved_window()")
+	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+	vim.command("let b:eiffel_ide_buffer_info = \"Finalizing...\"")
+	l_buffer = environment.buffer(l_buffer_number)
+	eiffel_project.finalize(l_buffer)
+	vim.command("let b:eiffel_ide_buffer_info = \"Finalizing complete\"")
+	if not eiffel_project.has_error():
+		vim.command("call eiffelide#return_to_saved_window()")
 else:
-    print "No Vim Eiffel IDE project opened."
+	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
 
@@ -249,13 +293,15 @@ endfunction
 function! eiffelide#quick_melt()
 python << endpython
 if eiffel_project:
-    l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-    l_buffer = environment.buffer(l_buffer_number)
-    eiffel_project.quick_melt(l_buffer)
-    if not eiffel_project.has_error():
-        vim.command("call eiffelide#return_to_saved_window()")
+	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+	vim.command("let b:eiffel_ide_buffer_info = \"Quick melting...\"")
+	l_buffer = environment.buffer(l_buffer_number)
+	eiffel_project.quick_melt(l_buffer)
+	vim.command("let b:eiffel_ide_buffer_info = \"Quick melting complete\"")
+	if not eiffel_project.has_error():
+		vim.command("call eiffelide#return_to_saved_window()")
 else:
-    print "No Vim Eiffel IDE project opened."
+	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
 
@@ -266,12 +312,14 @@ endfunction
 function! eiffelide#quick_melt_no_focus()
 python << endpython
 if eiffel_project:
-    l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-    l_buffer = environment.buffer(l_buffer_number)
-    eiffel_project.quick_melt(l_buffer)
-    vim.command("call eiffelide#return_to_saved_window()")
+	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+	vim.command("let b:eiffel_ide_buffer_info = \"Compiling...\"")
+	l_buffer = environment.buffer(l_buffer_number)
+	eiffel_project.quick_melt(l_buffer)
+	vim.command("let b:eiffel_ide_buffer_info = \"Compiling complete\"")
+	vim.command("call eiffelide#return_to_saved_window()")
 else:
-    print "No Vim Eiffel IDE project opened."
+	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
 
@@ -281,7 +329,78 @@ python << endpython
 if eiffel_project:
 	vim.command("!" + eiffel_project.run_command())
 else:
-    print "No Vim Eiffel IDE project opened."
+	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
 
+python << endpython
+def class_execute(a_name, a_routine):
+    """Tool routine for all class information functionnalities
+
+    a_name: The name of the functionnality
+    a_routine: The lambda routine that get/print information
+
+    Return: None
+    """
+    if int(vim.eval("a:0")) > 0:
+        l_class = vim.eval("a:1")
+    else:
+        l_class = environment.word_under_the_cursor()
+    if l_class:
+        l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+        vim.command("let b:eiffel_ide_buffer_info = \"Getting " +
+                    a_name.lower() + " of " + l_class + "\"")
+        vim.command("setlocal filetype=eiffel")
+        l_buffer = environment.buffer(l_buffer_number)
+        a_routine(l_class, l_buffer)
+        vim.command("let b:eiffel_ide_buffer_info = \"" + a_name + " of " +
+                    l_class + "\"")
+    else:
+        print "Class name not valid"
+endpython
+
+
+
+" DESC: The flat view displays all the features for the current class, i.e. 
+" including both written-in and inherited features
+function! eiffelide#class_flat(...)
+python << endpython
+if eiffel_project:
+	class_execute("Flat view",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_flat(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: The ancestors view displays all the classes from which the current
+" class inherits, directly or not, using a tree-like indented layout.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/ancestors
+function! eiffelide#class_ancestors(...)
+python << endpython
+if eiffel_project:
+	class_execute("Ancestors",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_ancestors(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: The attributes view displays all the attributes of the current class,
+" including inherited attributes. 
+" SEE: https://docs.eiffel.com/book/eiffelstudio/attributes
+function! eiffelide#class_attributes(...)
+python << endpython
+if eiffel_project:
+	class_execute("Attributes",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_attributes(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction

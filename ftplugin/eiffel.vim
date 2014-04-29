@@ -1,9 +1,12 @@
 " Vim filetype plugin file
 " Language:	Eiffel
-" Maintainer:	Jocelyn Fiat <jfiat@eiffel.com>
-" 				(https://github.com/eiffelhub/vim-eiffel)
-" URL: https://github.com/eiffelhub/vim-eiffel
-" Last Change:	Tue 22 Apr 2003 09:50:08
+" Maintainer:	Louis Marchand <prog@tioui.com>
+" URL:	https://github.com/tioui/Vim_Eiffel_IDE
+" Last Change:	Mon 28 Apr 2014
+"
+" Original Maintainer:	Jocelyn Fiat <jfiat@eiffel.com>
+" 						(https://github.com/eiffelhub/vim-eiffel)
+" Original URL: https://github.com/eiffelhub/vim-eiffel
 
 " Only do this when not done yet for this buffer
 if exists("b:did_ftplugin")
@@ -21,7 +24,7 @@ if exists("loaded_matchit")
   autocmd BufNewFile,BufRead *.e set filetype=eiffel
   let b:match_ignorecase = 0
   if !exists("b:match_words") |
-    let b:match_words = '\<\%(do\|if\|from\|check\|inspect\)\>:' . '\<\%(else\|elseif\|until\|loop\|when\):'. '\<end\>'
+    let b:match_words = '\<\%(do\|if\|from\|check\|across\|inspect\)\>:' . '\<\%(else\|elseif\|until\|loop\|when\):'. '\<end\>'
   endif
 
 endif " exists("loaded_matchit")
