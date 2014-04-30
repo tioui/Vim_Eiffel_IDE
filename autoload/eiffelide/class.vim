@@ -50,7 +50,6 @@ def class_execute(a_name, a_routine):
 endpython
 
 
-
 " DESC: The flat view displays all the features for the current class, i.e. 
 " including both written-in and inherited features
 function! eiffelide#class#flat(...)
@@ -64,6 +63,7 @@ else:
 	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
+
 
 " DESC: The ancestors view displays all the classes from which the current
 " class inherits, directly or not, using a tree-like indented layout.
@@ -80,6 +80,7 @@ else:
 endpython
 endfunction
 
+
 " DESC: The attributes view displays all the attributes of the current class,
 " including inherited attributes. 
 " SEE: https://docs.eiffel.com/book/eiffelstudio/attributes
@@ -94,3 +95,203 @@ else:
 	print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
+
+
+" DESC: The clients view displays all the classes which are using features 
+" of the current class, and thus rely on its interface.  
+" SEE: https://docs.eiffel.com/book/eiffelstudio/clients
+function! eiffelide#class#clients(...)
+python << endpython
+if eiffel_project:
+	class_execute("Clients",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_clients(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+
+" DESC: The deferred view displays all the deferred features of a class.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/deferred-features
+function! eiffelide#class#deferred(...)
+python << endpython
+if eiffel_project:
+	class_execute("Deferred features",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_deferred(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+
+" DESC: The descendants view displays all the classes which inherit from the 
+" current class,directly or not, using a tree-like indented layout.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/descendants
+function! eiffelide#class#descendants(...)
+python << endpython
+if eiffel_project:
+	class_execute("Descendants",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_descendants(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+
+" DESC: The exported view displays all the features of the current class that 
+" all other classes may call.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/exported-features
+function! eiffelide#class#exported(...)
+python << endpython
+if eiffel_project:
+	class_execute("Exported features",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_exported(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+
+" DESC: The external view displays all the external features of the current 
+" class.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/class-formatters-external-features
+function! eiffelide#class#externals(...)
+python << endpython
+if eiffel_project:
+	class_execute("External features",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_externals(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+
+" DESC: The Flat Contract view displays the contracts of all written-in and 
+" inherited features of the current class.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/flat-contract-view
+function! eiffelide#class#flatshort(...)
+python << endpython
+if eiffel_project:
+	class_execute("Flat contract view",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_flatshort(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+
+" DESC: The once view displays all the routines declared as once and the 
+" constant attributes in the current class (or in its ancestors).
+" SEE: https://docs.eiffel.com/book/eiffelstudio/once-routines-and-constants
+function! eiffelide#class#once(...)
+python << endpython
+if eiffel_project:
+	class_execute("Once features",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_once(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: The invariants view displays all the invariants of the current class.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/invariants
+function! eiffelide#class#invariants(...)
+python << endpython
+if eiffel_project:
+	class_execute("Invariants",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_invariants(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: The routines view displays all the routine signatures of the current 
+" class, including inherited routines.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/routines
+function! eiffelide#class#routines(...)
+python << endpython
+if eiffel_project:
+	class_execute("Routines",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_routines(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: The creators view displays all the creation procedure signatures of
+" the current class.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/creators
+function! eiffelide#class#creators(...)
+python << endpython
+if eiffel_project:
+	class_execute("Creators",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_creators(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: The contract view displays the contracts of all written-in features of
+" the current class.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/contract-view
+function! eiffelide#class#short(...)
+python << endpython
+if eiffel_project:
+	class_execute("Contract View",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_short(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: The suppliers view displays all the classes from which the current
+" class is calling features.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/suppliers
+function! eiffelide#class#suppliers(...)
+python << endpython
+if eiffel_project:
+	class_execute("Suppliers",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_suppliers(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: Show the original text source code of the class.
+" SEE: https://docs.eiffel.com/book/eiffelstudio/class-formatters-basic-text-view
+function! eiffelide#class#text(...)
+python << endpython
+if eiffel_project:
+	class_execute("Text View",\
+		lambda a_class, a_buffer:\
+			eiffel_project.get_class_text(a_class, a_buffer)
+		)
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+

@@ -364,3 +364,107 @@ class project:
         """
         return self._execute_compiler("C\nB\n" + a_class + "\n\nQ\n",
                                       ["-loop"], a_window, False, True)
+
+    def get_class_clients(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the clients
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nC\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_deferred(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the deferred feature
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nE\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_descendants(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the descendants
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nD\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_exported(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the exported features
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nP\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_externals(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the external features
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nX\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_flatshort(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the flat contract view
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nI\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_once(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the once features
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nO\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_invariants(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the invariants
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nK\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_routines(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the routines
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nR\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_creators(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the creators
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nN\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_short(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the contracts
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nS\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_suppliers(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the suppliers
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nU\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)
+
+    def get_class_text(self, a_class, a_window=None):
+        """
+            Return and optionnaly print on `a_window' the source code text
+            of `a_class'.
+        """
+        return self._execute_compiler("C\nT\n" + a_class + "\n\nQ\n",
+                                      ["-loop"], a_window, False, True)

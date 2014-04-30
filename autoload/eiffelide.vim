@@ -73,6 +73,8 @@ endif
 let &statusline = g:eiffel_ide_tools_window_statusline
 
 
+" ========================== Compilation commands============================
+
 " DESC: Command shortcuts for a simple speedy compilation
 command! EiffelCompile call eiffelide#compilation#quick_melt_no_focus()
 
@@ -116,27 +118,105 @@ command! EiffelTarget echom eiffelide#target_name()
 
 command! ETarget EiffelTarget
 
-" DESC: Run and Debug
-command! EiffelRun call eiffelide#run()
-
-command! ERun EiffelRun
+" ====================== Class informations commands ========================
 
 " DESC: Class Flat View
 command! -nargs=* EiffelClassFlat call eiffelide#class#flat(<f-args>)
 
 command! -nargs=* ECFlat call eiffelide#class#flat(<f-args>)
 
-" DESC: Class Ancestors View
+" DESC: Class Ancestors
 command! -nargs=* EiffelClassAncestors call eiffelide#class#ancestors(<f-args>)
 
 command! -nargs=* ECAncestors call eiffelide#class#ancestors(<f-args>)
 
-" DESC: Class Attributes View
+" DESC: Class Attributes
 command! -nargs=* EiffelClassAttributes call eiffelide#class#attributes(<f-args>)
 
 command! -nargs=* ECAttributes call eiffelide#class#attributes(<f-args>)
 
+" DESC: Class Clients
+command! -nargs=* EiffelClassClients call eiffelide#class#clients(<f-args>)
 
+command! -nargs=* ECClients call eiffelide#class#clients(<f-args>)
+
+" DESC: Class Deferred features
+command! -nargs=* EiffelClassDeferred call eiffelide#class#deferred(<f-args>)
+
+command! -nargs=* ECDeferred call eiffelide#class#deferred(<f-args>)
+
+" DESC: Class Descendants
+command! -nargs=* EiffelClassDescendants call eiffelide#class#descendants(<f-args>)
+
+command! -nargs=* ECDescendants call eiffelide#class#descendants(<f-args>)
+
+" DESC: Class Exported features
+command! -nargs=* EiffelClassExported call eiffelide#class#exported(<f-args>)
+
+command! -nargs=* ECExported call eiffelide#class#exported(<f-args>)
+
+" DESC: Class External features
+command! -nargs=* EiffelClassExternals call eiffelide#class#externals(<f-args>)
+
+command! -nargs=* ECExternals call eiffelide#class#externals(<f-args>)
+
+" DESC: Class Flat contract view
+command! -nargs=* EiffelClassFlatShort call eiffelide#class#flatshort(<f-args>)
+
+command! -nargs=* ECFlatShort call eiffelide#class#flatshort(<f-args>)
+
+command! -nargs=* EiffelClassFlatContract call eiffelide#class#flatshort(<f-args>)
+
+command! -nargs=* ECFlatContract call eiffelide#class#flatshort(<f-args>)
+
+" DESC: Class Once features
+command! -nargs=* EiffelClassOnce call eiffelide#class#once(<f-args>)
+
+command! -nargs=* ECOnce call eiffelide#class#once(<f-args>)
+
+" DESC: Class Invariants
+command! -nargs=* EiffelClassInvariants call eiffelide#class#invariants(<f-args>)
+
+command! -nargs=* ECInvariants call eiffelide#class#invariants(<f-args>)
+
+" DESC: Class Routines
+command! -nargs=* EiffelClassRoutines call eiffelide#class#routines(<f-args>)
+
+command! -nargs=* ECRoutines call eiffelide#class#routines(<f-args>)
+
+" DESC: Class Creators
+command! -nargs=* EiffelClassCreators call eiffelide#class#creators(<f-args>)
+
+command! -nargs=* ECCreators call eiffelide#class#creators(<f-args>)
+
+" DESC: Class Short View
+command! -nargs=* EiffelClassShort call eiffelide#class#short(<f-args>)
+
+command! -nargs=* ECShort call eiffelide#class#short(<f-args>)
+
+command! -nargs=* EiffelClassContract call eiffelide#class#short(<f-args>)
+
+command! -nargs=* ECContract call eiffelide#class#short(<f-args>)
+
+" DESC: Class Suppliers
+command! -nargs=* EiffelClassSuppliers call eiffelide#class#suppliers(<f-args>)
+
+command! -nargs=* ECSuppliers call eiffelide#class#suppliers(<f-args>)
+
+" DESC: Class Text
+command! -nargs=* EiffelClassText call eiffelide#class#text(<f-args>)
+
+command! -nargs=* ECText call eiffelide#class#text(<f-args>)
+
+
+" ============================ Others commands ==============================
+
+" DESC: Run and Debug
+command! EiffelRun call eiffelide#run()
+
+command! ERun EiffelRun
+
+" ============================ Common routines ============================
 
 " DESC: Use the `g:saved_window_number' value to go to preceding window
 " SEE: `eiffelide#open_tools_window()'
