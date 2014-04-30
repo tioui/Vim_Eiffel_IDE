@@ -1,3 +1,27 @@
+" The MIT License (MIT)
+"
+" Copyright (c) 2014 Louis Marchand
+"
+" Permission is hereby granted, free of charge, to any person obtaining a copy
+" of this software and associated documentation files (the "Software"), to
+" deal
+" in the Software without restriction, including without limitation the rights
+" to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+" copies of the Software, and to permit persons to whom the Software is
+" furnished to do so, subject to the following conditions:
+"
+" The above copyright notice and this permission notice shall be included in
+" all copies or substantial portions of the Software.
+"
+" THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+" IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+" FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+" AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+" LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+" FROM,
+" OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+" THE SOFTWARE.
+
 
 " DESC: Redefine to change the path to the EiffelStudio (EC) compiler.
 if !exists("g:eiffelstudio_compiler")
@@ -50,36 +74,36 @@ let &statusline = g:eiffel_ide_tools_window_statusline
 
 
 " DESC: Command shortcuts for a simple speedy compilation
-command! EiffelCompile call eiffelide#quick_melt_no_focus()
+command! EiffelCompile call eiffelide#compilation#quick_melt_no_focus()
 
 command! ECompile EiffelCompile 
 
 command! EC EiffelCompile 
 
 " DESC: Command shortcuts for a 'Recompile from scratch' compilation
-command! EiffelRecompile call eiffelide#recompile()
+command! EiffelRecompile call eiffelide#compilation#recompile()
 
 command! ERecompile EiffelRecompile 
 
 " DESC: Command shortcuts for a 'Finalize' compilation.
-command! EiffelFinalize call eiffelide#finalize()
+command! EiffelFinalize call eiffelide#compilation#finalize()
 
 command! EFinalize EiffelFinalize 
 
 " DESC: Command shortcuts for a 'Freeze' compilation.
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-command! EiffelFreeze call eiffelide#freeze()
+command! EiffelFreeze call eiffelide#compilation#freeze()
 
 command! EFreeze EiffelFreeze 
 
 " DESC: Command shortcut for a 'Melting' compilation
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-command! EiffelMelt call eiffelide#melt()
+command! EiffelMelt call eiffelide#compilation#melt()
 
 command! EMelt EiffelMelt
 
 " DESC: Command shortcut for a 'Quick Melting' compilation
-command! EiffelQuickMelt call eiffelide#quick_melt()
+command! EiffelQuickMelt call eiffelide#compilation#quick_melt()
 
 command! EQuickMelt EiffelQuickMelt
 
@@ -98,19 +122,19 @@ command! EiffelRun call eiffelide#run()
 command! ERun EiffelRun
 
 " DESC: Class Flat View
-command! -nargs=* EiffelClassFlat call eiffelide#class_flat(<f-args>)
+command! -nargs=* EiffelClassFlat call eiffelide#class#flat(<f-args>)
 
-command! -nargs=* ECFlat call eiffelide#class_flat(<f-args>)
+command! -nargs=* ECFlat call eiffelide#class#flat(<f-args>)
 
 " DESC: Class Ancestors View
-command! -nargs=* EiffelClassAncestors call eiffelide#class_ancestors(<f-args>)
+command! -nargs=* EiffelClassAncestors call eiffelide#class#ancestors(<f-args>)
 
-command! -nargs=* ECAncestors call eiffelide#class_ancestors(<f-args>)
+command! -nargs=* ECAncestors call eiffelide#class#ancestors(<f-args>)
 
 " DESC: Class Attributes View
-command! -nargs=* EiffelClassAttributes call eiffelide#class_attributes(<f-args>)
+command! -nargs=* EiffelClassAttributes call eiffelide#class#attributes(<f-args>)
 
-command! -nargs=* ECAttributes call eiffelide#class_attributes(<f-args>)
+command! -nargs=* ECAttributes call eiffelide#class#attributes(<f-args>)
 
 
 
@@ -189,7 +213,7 @@ function! eiffelide#open(...)
     else
 	python eiffel_project = eiffelide.project(vim.eval('config_file'))
     endif
-    call eiffelide#quick_melt()
+    call eiffelide#compilation#quick_melt()
 endfunction
 
 " DESC: Open an Eiffel Project. The first optionnal argument is the Eiffel 
@@ -222,107 +246,6 @@ else:
 endpython
 endfunction
 
-" DESC: Run a compilation from scratch of the openned `eiffel_project'
-function! eiffelide#recompile()
-python << endpython
-if eiffel_project:
-	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Freezing...\"")
-	l_buffer = environment.buffer(l_buffer_number)
-	eiffel_project.recompile(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Freezing complete\"")
-	if not eiffel_project.has_error():
-		vim.command("call eiffelide#return_to_saved_window()")
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
-
-" DESC: Run a 'Freezing' compilation of the openned `eiffel_project'
-" SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology 
-function! eiffelide#freeze()
-python << endpython
-if eiffel_project:
-	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Freezing...\"")
-	l_buffer = environment.buffer(l_buffer_number)
-	eiffel_project.freeze(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Freezing complete\"")
-	if not eiffel_project.has_error():
-		vim.command("call eiffelide#return_to_saved_window()")
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
-
-" DESC: Run a 'Melting' compilation of the openned `eiffel_project'
-" SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-function! eiffelide#melt()
-python << endpython
-if eiffel_project:
-	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Melting...\"")
-	l_buffer = environment.buffer(l_buffer_number)
-	eiffel_project.melt(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Melting complete\"")
-	if not eiffel_project.has_error():
-		vim.command("call eiffelide#return_to_saved_window()")
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
-
-" DESC: Run a 'Finilize' compilation of the openned `eiffel_project'
-function! eiffelide#finalize()
-python << endpython
-if eiffel_project:
-	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Finalizing...\"")
-	l_buffer = environment.buffer(l_buffer_number)
-	eiffel_project.finalize(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Finalizing complete\"")
-	if not eiffel_project.has_error():
-		vim.command("call eiffelide#return_to_saved_window()")
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
-
-" DESC: Run a 'Quick Melting' compilation of the openned `eiffel_project'
-" SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-function! eiffelide#quick_melt()
-python << endpython
-if eiffel_project:
-	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Quick melting...\"")
-	l_buffer = environment.buffer(l_buffer_number)
-	eiffel_project.quick_melt(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Quick melting complete\"")
-	if not eiffel_project.has_error():
-		vim.command("call eiffelide#return_to_saved_window()")
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
-
-" DESC: Run a 'Quick Melting' compilation of the openned `eiffel_project' and
-" even if there is error, do not put the focus in the Eiffel IDE tools
-" buffer window.
-" SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-function! eiffelide#quick_melt_no_focus()
-python << endpython
-if eiffel_project:
-	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Compiling...\"")
-	l_buffer = environment.buffer(l_buffer_number)
-	eiffel_project.quick_melt(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Compiling complete\"")
-	vim.command("call eiffelide#return_to_saved_window()")
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
-
 " DESC: Launch the Debug and Run program to test project
 function! eiffelide#run()
 python << endpython
@@ -333,74 +256,3 @@ else:
 endpython
 endfunction
 
-python << endpython
-def class_execute(a_name, a_routine):
-    """Tool routine for all class information functionnalities
-
-    a_name: The name of the functionnality
-    a_routine: The lambda routine that get/print information
-
-    Return: None
-    """
-    if int(vim.eval("a:0")) > 0:
-        l_class = vim.eval("a:1")
-    else:
-        l_class = environment.word_under_the_cursor()
-    if l_class:
-        l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-        vim.command("let b:eiffel_ide_buffer_info = \"Getting " +
-                    a_name.lower() + " of " + l_class + "\"")
-        vim.command("setlocal filetype=eiffel")
-        l_buffer = environment.buffer(l_buffer_number)
-        a_routine(l_class, l_buffer)
-        vim.command("let b:eiffel_ide_buffer_info = \"" + a_name + " of " +
-                    l_class + "\"")
-    else:
-        print "Class name not valid"
-endpython
-
-
-
-" DESC: The flat view displays all the features for the current class, i.e. 
-" including both written-in and inherited features
-function! eiffelide#class_flat(...)
-python << endpython
-if eiffel_project:
-	class_execute("Flat view",\
-		lambda a_class, a_buffer:\
-			eiffel_project.get_class_flat(a_class, a_buffer)
-		)
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
-
-" DESC: The ancestors view displays all the classes from which the current
-" class inherits, directly or not, using a tree-like indented layout.
-" SEE: https://docs.eiffel.com/book/eiffelstudio/ancestors
-function! eiffelide#class_ancestors(...)
-python << endpython
-if eiffel_project:
-	class_execute("Ancestors",\
-		lambda a_class, a_buffer:\
-			eiffel_project.get_class_ancestors(a_class, a_buffer)
-		)
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
-
-" DESC: The attributes view displays all the attributes of the current class,
-" including inherited attributes. 
-" SEE: https://docs.eiffel.com/book/eiffelstudio/attributes
-function! eiffelide#class_attributes(...)
-python << endpython
-if eiffel_project:
-	class_execute("Attributes",\
-		lambda a_class, a_buffer:\
-			eiffel_project.get_class_attributes(a_class, a_buffer)
-		)
-else:
-	print "No Vim Eiffel IDE project opened."
-endpython
-endfunction
