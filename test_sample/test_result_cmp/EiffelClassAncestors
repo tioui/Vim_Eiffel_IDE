@@ -1,0 +1,36 @@
+
+
+	LINKED_LIST [G]
+		DYNAMIC_LIST* [G]
+			LIST* [G]
+				CHAIN* [G]
+					CURSOR_STRUCTURE* [G]
+						ACTIVE* [G]
+							BAG* [G]
+								COLLECTION* [G]
+									CONTAINER* [G]
+										ANY
+					INDEXABLE* [G, H -> INTEGER_32]
+						TABLE* [G, H]
+							BAG* [G]...
+						READABLE_INDEXABLE* [G]
+							ITERABLE* [G]
+								ANY
+					SEQUENCE* [G]
+						ACTIVE* [G]...
+						BILINEAR* [G]
+							LINEAR* [G]
+								TRAVERSABLE* [G]
+									CONTAINER* [G]...
+							LINEAR* [G]...
+						FINITE* [G]
+							BOX* [G]
+								CONTAINER* [G]...
+					SEQUENCE* [G]...
+			DYNAMIC_CHAIN* [G]
+				CHAIN* [G]...
+				UNBOUNDED* [G]
+					FINITE* [G]...
+			DYNAMIC_CHAIN* [G]...
+
+

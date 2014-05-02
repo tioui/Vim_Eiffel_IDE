@@ -1,0 +1,391 @@
+
+note
+	description: "[
+		Sequences of values, all of the same type or of a conforming one,
+		accessible through integer indices in a contiguous interval.
+	]"
+	library: "Free implementation of ELKS library"
+	status: "See notice at end of class."
+	legal: "See notice at end of class."
+	date: "$Date: 2013-01-25 14:18:20 -0800 (Fri, 25 Jan 2013) $"
+	revision: "$Revision: 92138 $"
+
+class interface
+	ARRAY [G]
+
+create 
+	make_empty,
+	make,
+	make_filled,
+	make_from_array,
+	make_from_special,
+	make_from_cil
+
+convert
+	to_cil: {NATIVE_ARRAY [G]},
+	to_special: {SPECIAL [G]},
+	make_from_cil ({NATIVE_ARRAY [G]})
+
+feature -- Initialization
+
+	make_empty
+			-- Allocate empty array starting at `1'.
+		ensure
+			lower_set: lower = 1
+			upper_set: upper = 0
+			items_set: all_default
+
+	make_filled (a_default_value: G; min_index, max_index: INTEGER_32)
+			-- Allocate array; set index interval to
+			-- `min_index' .. `max_index'; set all values to default.
+			-- (Make array empty if `min_index' = `max_index' + 1).
+		require
+			valid_bounds: min_index <= max_index + 1
+		ensure
+			lower_set: lower = min_index
+			upper_set: upper = max_index
+			items_set: filled_with (a_default_value)
+
+	make_from_array (a: ARRAY [G])
+			-- Initialize from the items of `a'.
+			-- (Useful in proper descendants of class `ARRAY',
+			-- to initialize an array-like object from a manifest array.)
+		require
+			array_exists: a /= Void
+		ensure
+			shared: area = a.area
+			lower_set: lower = a.lower
+			upper_set: upper = a.upper
+
+	make_from_cil (na: NATIVE_ARRAY [like item])
+			-- Initialize array from `na'.
+		require
+			is_dotnet: {PLATFORM}.is_dotnet
+			na_not_void: na /= Void
+
+	make_from_special (a: SPECIAL [G])
+			-- Initialize Current from items of `a'.
+		require
+			special_attached: a /= Void
+		ensure
+			shared: area = a
+			lower_set: lower = 1
+			upper_set: upper = a.count
+	
+feature -- Access
+
+	at alias "@" (i: INTEGER_32): G assign put
+			-- Entry at index `i', if in index interval
+			-- Was declared in ARRAY as synonym of item.
+
+	entry (i: INTEGER_32): G
+			-- Entry at index `i', if in index interval
+		require
+			valid_key: valid_index (i)
+
+	has (v: G): BOOLEAN
+			-- Does `v' appear in array?
+			-- (Reference or object equality,
+			-- based on object_comparison.)
+
+	item alias "[]" (i: INTEGER_32): G assign put
+			-- Entry at index `i', if in index interval
+			-- Was declared in ARRAY as synonym of at.
+	
+feature -- Measurement
+
+	capacity: INTEGER_32
+			-- Number of available indices
+			-- Was declared in ARRAY as synonym of count.
+		ensure then
+			consistent_with_bounds: Result = upper - lower + 1
+
+	count: INTEGER_32
+			-- Number of available indices
+			-- Was declared in ARRAY as synonym of capacity.
+		ensure then
+			consistent_with_bounds: Result = upper - lower + 1
+
+	index_set: INTEGER_INTERVAL
+			-- Range of acceptable indexes
+		ensure then
+			same_count: Result.count = count
+			same_bounds: ((Result.lower = lower) and (Result.upper = upper))
+
+	lower: INTEGER_32
+			-- Minimum index
+
+	occurrences (v: G): INTEGER_32
+			-- Number of times `v' appears in structure
+
+	upper: INTEGER_32
+			-- Maximum index
+	
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+			-- Is array made of the same items as `other'?
+	
+feature -- Status report
+
+	all_default: BOOLEAN
+			-- Are all items set to default values?
+		ensure
+			definition: Result = (count = 0 or else ((not attached item (upper) as i or else i = ({G}).default) and subarray (lower, upper - 1).all_default))
+
+	extendible: BOOLEAN
+			-- May items be added?
+			-- (Answer: no, although array may be resized.)
+
+	filled_with (v: G): BOOLEAN
+			-- Are all items set to `v'?
+		ensure
+			definition: Result = (count = 0 or else (item (upper) = v and subarray (lower, upper - 1).filled_with (v)))
+
+	full: BOOLEAN
+			-- Is structure filled to capacity? (Answer: yes)
+
+	prunable: BOOLEAN
+			-- May items be removed? (Answer: no.)
+
+	resizable: BOOLEAN
+			-- Can array be resized automatically?
+
+	same_items (other: like Current): BOOLEAN
+			-- Do `other' and Current have same items?
+		require
+			other_not_void: other /= Void
+		ensure
+			definition: Result = ((count = other.count) and then (count = 0 or else (item (upper) = other.item (other.upper) and subarray (lower, upper - 1).same_items (other.subarray (other.lower, other.upper - 1)))))
+
+	valid_index (i: INTEGER_32): BOOLEAN
+			-- Is `i' within the bounds of the array?
+
+	valid_index_set: BOOLEAN
+	
+feature -- Element change
+
+	enter (v: like item; i: INTEGER_32)
+			-- Replace `i'-th entry, if in index interval, by `v'.
+		require
+			valid_key: valid_index (i)
+
+	fill_with (v: G)
+			-- Set items between lower and upper with `v'.
+		ensure
+			same_capacity: capacity = old capacity
+			count_definition: count = old count
+			filled: filled_with (v)
+
+	force (v: like item; i: INTEGER_32)
+			-- Assign item `v' to `i'-th entry.
+			-- Resize the array if `i' falls out of currently defined bounds; preserve existing items.
+			-- In void-safe mode, if ({G}).has_default does not hold, then you can only insert between
+			-- `lower - 1' or `upper + 1' position in the ARRAY.
+		require
+			has_default_if_too_low: (i < lower - 1 and lower /= {like lower}.min_value) implies ({G}).has_default
+			has_default_if_too_high: (i > upper + 1 and upper /= {like upper}.max_value) implies ({G}).has_default
+		ensure
+			inserted: item (i) = v
+			higher_count: count >= old count
+			lower_set: lower = (old lower).min (i)
+			upper_set: upper = (old upper).max (i)
+
+	put (v: like item; i: INTEGER_32)
+			-- Replace `i'-th entry, if in index interval, by `v'.
+
+	subcopy (other: ARRAY [like item]; start_pos, end_pos, index_pos: INTEGER_32)
+			-- Copy items of `other' within bounds `start_pos' and `end_pos'
+			-- to current array starting at index `index_pos'.
+		require
+			other_not_void: other /= Void
+			valid_start_pos: start_pos >= other.lower
+			valid_end_pos: end_pos <= other.upper
+			valid_bounds: start_pos <= end_pos + 1
+			valid_index_pos: index_pos >= lower
+			enough_space: (upper - index_pos) >= (end_pos - start_pos)
+	
+feature -- Removal
+
+	clear_all
+			-- Reset all items to default values.
+		require
+			has_default: ({G}).has_default
+		ensure
+			stable_lower: lower = old lower
+			stable_upper: upper = old upper
+			default_items: all_default
+
+	discard_items
+			-- Reset all items to default values with reallocation.
+		require
+			has_default: ({G}).has_default
+		ensure
+			default_items: all_default
+
+	keep_head (n: INTEGER_32)
+			-- Remove all items except for the first `n';
+			-- do nothing if `n' >= count.
+		require
+			non_negative_argument: n >= 0
+		ensure
+			new_count: count = n.min (old count)
+			same_lower: lower = old lower
+
+	keep_tail (n: INTEGER_32)
+			-- Remove all items except for the last `n';
+			-- do nothing if `n' >= count.
+		require
+			non_negative_argument: n >= 0
+		ensure
+			new_count: count = n.min (old count)
+			same_upper: upper = old upper
+
+	remove_head (n: INTEGER_32)
+			-- Remove first `n' items;
+			-- if `n' > count, remove all.
+		require
+			n_non_negative: n >= 0
+		ensure
+			new_count: count = (old count - n).max (0)
+			same_upper: upper = old upper
+
+	remove_tail (n: INTEGER_32)
+			-- Remove last `n' items;
+			-- if `n' > count, remove all.
+		require
+			n_non_negative: n >= 0
+		ensure
+			new_count: count = (old count - n).max (0)
+			same_lower: lower = old lower
+	
+feature -- Resizing
+
+	conservative_resize_with_default (a_default_value: G; min_index, max_index: INTEGER_32)
+			-- Rearrange array so that it can accommodate
+			-- indices down to `min_index' and up to `max_index'.
+			-- Do not lose any previously entered item.
+		require
+			good_indices: min_index <= max_index
+		ensure
+			no_low_lost: lower = min_index or else lower = old lower
+			no_high_lost: upper = max_index or else upper = old upper
+
+	grow (i: INTEGER_32)
+			-- Change the capacity to at least `i'.
+
+	rebase (a_lower: like lower)
+			-- Without changing the actual content of `Current' we set lower to `a_lower'
+			-- and upper accordingly to `a_lower + count - 1'.
+		ensure
+			lower_set: lower = a_lower
+			upper_set: upper = a_lower + old count - 1
+
+	trim
+			-- Decrease capacity to the minimum value.
+			-- Apply to reduce allocated storage.
+		ensure then
+			same_items: same_items (old twin)
+	
+feature -- Conversion
+
+	linear_representation: LINEAR [G]
+			-- Representation as a linear structure
+
+	to_c: ANY
+			-- Address of actual sequence of values,
+			-- for passing to external (non-Eiffel) routines.
+		require
+			not_is_dotnet: not {PLATFORM}.is_dotnet
+
+	to_cil: NATIVE_ARRAY [G]
+			-- Address of actual sequence of values,
+			-- for passing to external (non-Eiffel) routines.
+		require
+			is_dotnet: {PLATFORM}.is_dotnet
+		ensure
+			to_cil_not_void: Result /= Void
+
+	to_special: SPECIAL [G]
+			-- 'area'.
+		ensure
+			to_special_not_void: Result /= Void
+	
+feature -- Duplication
+
+	copy (other: like Current)
+			-- Reinitialize by copying all the items of `other'.
+			-- (This is also used by clone.)
+		ensure then
+			equal_areas: area ~ other.area
+
+	subarray (start_pos, end_pos: INTEGER_32): ARRAY [G]
+			-- Array made of items of current array within
+			-- bounds `start_pos' and `end_pos'.
+		require
+			valid_start_pos: valid_index (start_pos)
+			valid_end_pos: end_pos <= upper
+			valid_bounds: (start_pos <= end_pos) or (start_pos = end_pos + 1)
+		ensure
+			lower: Result.lower = start_pos
+			upper: Result.upper = end_pos
+	
+feature -- Iteration
+
+	do_all (action: PROCEDURE [ANY, TUPLE [G]])
+			-- Apply `action' to every item, from first to last.
+			-- Semantics not guaranteed if `action' changes the structure;
+			-- in such a case, apply iterator to clone of structure instead.
+		require
+			action_not_void: action /= Void
+
+	do_all_with_index (action: PROCEDURE [ANY, TUPLE [G, INTEGER_32]])
+			-- Apply `action' to every item, from first to last.
+			-- `action' receives item and its index.
+			-- Semantics not guaranteed if `action' changes the structure;
+			-- in such a case, apply iterator to clone of structure instead.
+
+	do_if (action: PROCEDURE [ANY, TUPLE [G]]; test: FUNCTION [ANY, TUPLE [G], BOOLEAN])
+			-- Apply `action' to every item that satisfies `test', from first to last.
+			-- Semantics not guaranteed if `action' or `test' changes the structure;
+			-- in such a case, apply iterator to clone of structure instead.
+		require
+			action_not_void: action /= Void
+			test_not_void: test /= Void
+
+	do_if_with_index (action: PROCEDURE [ANY, TUPLE [G, INTEGER_32]]; test: FUNCTION [ANY, TUPLE [G, INTEGER_32], BOOLEAN])
+			-- Apply `action' to every item that satisfies `test', from first to last.
+			-- `action' and `test' receive the item and its index.
+			-- Semantics not guaranteed if `action' or `test' changes the structure;
+			-- in such a case, apply iterator to clone of structure instead.
+
+	for_all (test: FUNCTION [ANY, TUPLE [G], BOOLEAN]): BOOLEAN
+			-- Is `test' true for all items?
+		require
+			test_not_void: test /= Void
+
+	there_exists (test: FUNCTION [ANY, TUPLE [G], BOOLEAN]): BOOLEAN
+			-- Is `test' true for at least one item?
+		require
+			test_not_void: test /= Void
+	
+invariant
+	area_exists: area /= Void
+	consistent_size: capacity = upper - lower + 1
+	non_negative_count: count >= 0
+	index_set_has_same_count: valid_index_set
+
+note
+	copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
+	source: "[
+		Eiffel Software
+		5949 Hollister Ave., Goleta, CA 93117 USA
+		Telephone 805-685-1006, Fax 805-685-6869
+		Website http://www.eiffel.com
+		Customer support http://support.eiffel.com
+	]"
+
+end -- class ARRAY
+
+

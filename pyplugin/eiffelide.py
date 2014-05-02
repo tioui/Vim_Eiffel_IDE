@@ -45,7 +45,7 @@ class project:
     _target_name = None
     """The Eiffel IDE project target name (None if no target needed)"""
 
-    _compilation_output = None
+    _command_output = None
     """The standard and error output of the compiler"""
 
     _is_compile = None
@@ -87,7 +87,7 @@ class project:
         Erronous line if any (Key 'line')
     """
 
-    def compilation_output(self):
+    def command_output(self):
         """Return the standard and error output of the compiler on the last
         compilation"""
         result = ""
@@ -95,7 +95,7 @@ class project:
             result = self.compilation_output
         return result
 
-    def show_compilation_output(self, a_window):
+    def show_command_output(self, a_window):
         """Print the last compiler standard and error output in the
         `a_window'"""
         a_window.set_text(self.compilation_output)
@@ -110,7 +110,7 @@ class project:
 
     def config_file(self):
         """Return the config file name (.ecf) of `Current'"""
-        return self._config_file
+        return os.path.expanduser(self._config_file)
 
     def config_file_path(self):
         """Return complete absolute path of `Current' config file name
@@ -218,14 +218,13 @@ class project:
                                                a_get_stdout, a_get_stderr)
         if a_window:
             a_window.set_text(l_data)
-        return l_data
+        self._command_output = l_data
 
     def _execute_compilation(self, a_params, a_window=None):
         """Launch the compiler and manage the output. Use `a_params' as
         compiler argument and print the output in `a_window' id define"""
-        self._compilation_output =\
-            self._execute_compiler(None, a_params, a_window)
-        self._manage_output(self._compilation_output)
+        self._execute_compiler(None, a_params, a_window)
+        self._manage_output(self._command_output)
 
     def _get_new_process_output(self, a_process, a_input=None,
                                 a_get_stdout=True, a_get_stderr=True):
@@ -341,130 +340,130 @@ class project:
             result = result + " -target " + self.target_name()
         return result
 
-    def get_class_flat(self, a_class, a_window=None):
+    def fetch_class_flat(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the flat view
+            Fetch and optionnaly print on `a_window' the flat view
             of `a_class'.
         """
-        return self._execute_compiler("C\nF\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nF\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_ancestors(self, a_class, a_window=None):
+    def fetch_class_ancestors(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the ancestors
+            Fetch and optionnaly print on `a_window' the ancestors
             of `a_class'.
         """
-        return self._execute_compiler("C\nA\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nA\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_attributes(self, a_class, a_window=None):
+    def fetch_class_attributes(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the attributes
+            Fetch and optionnaly print on `a_window' the attributes
             of `a_class'.
         """
-        return self._execute_compiler("C\nB\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nB\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_clients(self, a_class, a_window=None):
+    def fetch_class_clients(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the clients
+            Fetch and optionnaly print on `a_window' the clients
             of `a_class'.
         """
-        return self._execute_compiler("C\nC\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nC\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_deferred(self, a_class, a_window=None):
+    def fetch_class_deferred(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the deferred feature
+            Fetch and optionnaly print on `a_window' the deferred feature
             of `a_class'.
         """
-        return self._execute_compiler("C\nE\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nE\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_descendants(self, a_class, a_window=None):
+    def fetch_class_descendants(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the descendants
+            Fetch and optionnaly print on `a_window' the descendants
             of `a_class'.
         """
-        return self._execute_compiler("C\nD\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nD\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_exported(self, a_class, a_window=None):
+    def fetch_class_exported(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the exported features
+            Fetch and optionnaly print on `a_window' the exported features
             of `a_class'.
         """
-        return self._execute_compiler("C\nP\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nP\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_externals(self, a_class, a_window=None):
+    def fetch_class_externals(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the external features
+            Fetch and optionnaly print on `a_window' the external features
             of `a_class'.
         """
-        return self._execute_compiler("C\nX\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nX\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_flatshort(self, a_class, a_window=None):
+    def fetch_class_flatshort(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the flat contract view
+            Fetch and optionnaly print on `a_window' the flat contract view
             of `a_class'.
         """
-        return self._execute_compiler("C\nI\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nI\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_once(self, a_class, a_window=None):
+    def fetch_class_once(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the once features
+            Fetch and optionnaly print on `a_window' the once features
             of `a_class'.
         """
-        return self._execute_compiler("C\nO\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nO\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_invariants(self, a_class, a_window=None):
+    def fetch_class_invariants(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the invariants
+            Fetch and optionnaly print on `a_window' the invariants
             of `a_class'.
         """
-        return self._execute_compiler("C\nK\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nK\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_routines(self, a_class, a_window=None):
+    def fetch_class_routines(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the routines
+            Fetch and optionnaly print on `a_window' the routines
             of `a_class'.
         """
-        return self._execute_compiler("C\nR\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nR\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_creators(self, a_class, a_window=None):
+    def fetch_class_creators(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the creators
+            Fetch and optionnaly print on `a_window' the creators
             of `a_class'.
         """
-        return self._execute_compiler("C\nN\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nN\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_short(self, a_class, a_window=None):
+    def fetch_class_short(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the contracts
+            Fetch and optionnaly print on `a_window' the contracts
             of `a_class'.
         """
-        return self._execute_compiler("C\nS\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nS\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_suppliers(self, a_class, a_window=None):
+    def fetch_class_suppliers(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the suppliers
+            Fetch and optionnaly print on `a_window' the suppliers
             of `a_class'.
         """
-        return self._execute_compiler("C\nU\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nU\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)
 
-    def get_class_text(self, a_class, a_window=None):
+    def fetch_class_text(self, a_class, a_window=None):
         """
-            Return and optionnaly print on `a_window' the source code text
+            Fetch and optionnaly print on `a_window' the source code text
             of `a_class'.
         """
-        return self._execute_compiler("C\nT\n" + a_class + "\n\nQ\n",
-                                      ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nT\n" + a_class + "\n\nQ\n",
+                               ["-loop"], a_window, False, True)

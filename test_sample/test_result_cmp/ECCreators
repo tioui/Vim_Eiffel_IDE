@@ -1,0 +1,15 @@
+
+
+Class FILE*:
+
+	make (fn: STRING_8)
+	make_create_read_write (fn: READABLE_STRING_GENERAL)
+	make_open_append (fn: READABLE_STRING_GENERAL)
+	make_open_read (fn: READABLE_STRING_GENERAL)
+	make_open_read_append (fn: READABLE_STRING_GENERAL)
+	make_open_read_write (fn: READABLE_STRING_GENERAL)
+	make_open_write (fn: READABLE_STRING_GENERAL)
+	make_with_name (fn: READABLE_STRING_GENERAL)
+	make_with_path (a_path: PATH)
+
+

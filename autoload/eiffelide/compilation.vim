@@ -123,3 +123,17 @@ else:
 endpython
 endfunction
 
+" DESC: Return True if the last compilation was a success.
+function! eiffelide#compilation#is_success()
+	let result = 0
+python << endpython
+if eiffel_project:
+	if eiffel_project.has_error():
+		vim.command("let result = 0")
+	else:
+		vim.command("let result = 1")
+else:
+	print "No Vim Eiffel IDE project opened."
+endpython
+	return result
+endfunction

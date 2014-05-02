@@ -1,0 +1,66 @@
+
+
+Class ANY:
+
+	as_attached: [attached like Current] attached PLATFORM
+	clone (other: detachable ANY): [like arg #1] detachable ANY
+	conforms_to (other: ANY): BOOLEAN
+	copy (other: [attached like Current] attached PLATFORM)
+	deep_clone (other: detachable ANY): [like arg #1] detachable ANY
+	deep_copy (other: [attached like Current] attached PLATFORM)
+	deep_equal (a: detachable ANY; b: [like arg #1] detachable ANY): BOOLEAN
+	deep_twin: [attached like Current] attached PLATFORM
+	default: [detachable like Current] detachable PLATFORM
+	default_create
+	default_pointer: POINTER
+	default_rescue
+	do_nothing
+	equal (a: detachable ANY; b: [like arg #1] detachable ANY): BOOLEAN
+	generating_type: TYPE [[detachable like Current] detachable PLATFORM]
+	generator: STRING_8
+	internal_correct_mismatch
+	Io: STD_FILES
+	is_deep_equal (other: [attached like Current] attached PLATFORM): BOOLEAN
+	is_equal (other: [attached like Current] attached PLATFORM): BOOLEAN
+	Operating_environment: OPERATING_ENVIRONMENT
+	out: STRING_8
+	print (o: detachable ANY)
+	same_type (other: ANY): BOOLEAN
+	standard_clone (other: detachable ANY): [like arg #1] detachable ANY
+	standard_copy (other: [attached like Current] attached PLATFORM)
+	standard_equal (a: detachable ANY; b: [like arg #1] detachable ANY): BOOLEAN
+	standard_is_equal (other: [attached like Current] attached PLATFORM): BOOLEAN
+	standard_twin: [attached like Current] attached PLATFORM
+	tagged_out: STRING_8
+	twin: [attached like Current] attached PLATFORM
+
+Class PLATFORM:
+
+	boolean_bits: INTEGER_32
+	boolean_bytes: INTEGER_32
+	character_bits: INTEGER_32
+	character_bytes: INTEGER_32
+	double_bits: INTEGER_32
+	double_bytes: INTEGER_32
+	integer_bits: INTEGER_32
+	integer_bytes: INTEGER_32
+	is_dotnet: BOOLEAN
+	Is_little_endian: BOOLEAN
+	is_mac: BOOLEAN
+	is_scoop_capable: BOOLEAN
+	is_thread_capable: BOOLEAN
+	is_unix: BOOLEAN
+	is_vms: BOOLEAN
+	is_vxworks: BOOLEAN
+	is_windows: BOOLEAN
+	maximum_character_code: INTEGER_32
+	maximum_integer: INTEGER_32
+	minimum_character_code: INTEGER_32
+	minimum_integer: INTEGER_32
+	pointer_bits: INTEGER_32
+	pointer_bytes: INTEGER_32
+	real_bits: INTEGER_32
+	real_bytes: INTEGER_32
+	wide_character_bytes: INTEGER_32
+
+

@@ -1,0 +1,35 @@
+
+
+Class ANY:
+
+	as_attached: [attached like Current] attached TEST_CASE
+	clone (other: detachable ANY): [like arg #1] detachable ANY  (obsolete)
+	conforms_to (other: ANY): BOOLEAN
+	copy (other: [attached like Current] attached TEST_CASE)
+	deep_clone (other: detachable ANY): [like arg #1] detachable ANY  (obsolete)
+	deep_copy (other: [attached like Current] attached TEST_CASE)
+	deep_equal (a: detachable ANY; b: [like arg #1] detachable ANY): BOOLEAN
+	deep_twin: [attached like Current] attached TEST_CASE
+	default: [detachable like Current] detachable TEST_CASE
+	default_pointer: POINTER
+	default_rescue
+	do_nothing
+	equal (a: detachable ANY; b: [like arg #1] detachable ANY): BOOLEAN
+	generating_type: TYPE [[detachable like Current] detachable TEST_CASE]
+	generator: STRING_8
+	Io: STD_FILES
+	is_deep_equal (other: [attached like Current] attached TEST_CASE): BOOLEAN
+	is_equal (other: [attached like Current] attached TEST_CASE): BOOLEAN
+	Operating_environment: OPERATING_ENVIRONMENT
+	out: STRING_8
+	print (o: detachable ANY)
+	same_type (other: ANY): BOOLEAN
+	standard_clone (other: detachable ANY): [like arg #1] detachable ANY  (obsolete)
+	standard_copy (other: [attached like Current] attached TEST_CASE)
+	standard_equal (a: detachable ANY; b: [like arg #1] detachable ANY): BOOLEAN
+	standard_is_equal (other: [attached like Current] attached TEST_CASE): BOOLEAN
+	standard_twin: [attached like Current] attached TEST_CASE
+	tagged_out: STRING_8
+	twin: [attached like Current] attached TEST_CASE
+
+

@@ -67,7 +67,6 @@ if !exists("g:eiffel_ide_tools_window_statusline")
 	let status_line = substitute(status_line,"%f","%{exists('b:eiffel_ide_buffer_info')?(b:eiffel_ide_buffer_info):bufname('%')}","")
 	let status_line = substitute(status_line,"%F","%{exists('b:eiffel_ide_buffer_info')?(b:eiffel_ide_buffer_info):fnamemodify(bufname('%'), ':p')}","")
     let g:eiffel_ide_tools_window_statusline = status_line
-	echom status_line
 endif
 
 let &statusline = g:eiffel_ide_tools_window_statusline
@@ -319,6 +318,19 @@ python << endpython
 if eiffel_project:
     if eiffel_project.target_name():
 	vim.command("return '" + eiffel_project.target_name() + "'")
+    else:
+	vim.command("return ''")
+else:
+    print "No Vim Eiffel IDE project opened."
+endpython
+endfunction
+
+" DESC: Return the project path of the openned `eiffel_project' (if any).
+function! eiffelide#project_path()
+python << endpython
+if eiffel_project:
+    if eiffel_project.config_file_path():
+	vim.command("return '" + eiffel_project.config_file_path() + "'")
     else:
 	vim.command("return ''")
 else:

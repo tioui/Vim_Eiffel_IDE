@@ -1,0 +1,11 @@
+
+invariant
+	managed_pointer_valid: not shared implies managed_pointer /= Void
+	internal_item_valid: shared implies internal_item /= default_pointer
+
+		-- from ANY
+	reflexive_equality: standard_is_equal (Current)
+	reflexive_conformance: conforms_to (Current)
+
+
+

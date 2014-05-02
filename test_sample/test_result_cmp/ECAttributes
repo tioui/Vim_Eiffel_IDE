@@ -1,0 +1,9 @@
+
+
+Class PATH:
+
+	internal_name: detachable IMMUTABLE_STRING_32
+	is_normalized: BOOLEAN
+	storage: STRING_8
+
+

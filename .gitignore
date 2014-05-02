@@ -1,2 +1,5 @@
+*.swp
 *.pyc
 __pycache__
+test_sample/EIFGENs
+test_sample/test_result

@@ -1,0 +1,11 @@
+
+invariant
+	item_not_null: item = default_pointer implies (count = 0 and is_shared)
+	valid_count: count >= 0
+
+		-- from ANY
+	reflexive_equality: standard_is_equal (Current)
+	reflexive_conformance: conforms_to (Current)
+
+
+

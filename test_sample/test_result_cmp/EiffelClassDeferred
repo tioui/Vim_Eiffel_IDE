@@ -1,0 +1,22 @@
+
+
+Class BAG* [G]:
+
+	extend (v: G)
+	occurrences (v: G): INTEGER_32
+
+Class COLLECTION* [G]:
+
+	extendible: BOOLEAN
+	prunable: BOOLEAN
+	prune (v: G)
+	put (v: G)
+	wipe_out
+
+Class CONTAINER* [G]:
+
+	has (v: G): BOOLEAN
+	is_empty: BOOLEAN
+	linear_representation: LINEAR [G]
+
+

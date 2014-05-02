@@ -1,0 +1,10 @@
+
+
+	IO_MEDIUM*
+		FILE*
+			RAW_FILE
+			PLAIN_TEXT_FILE
+				CONSOLE
+		STREAM
+
+

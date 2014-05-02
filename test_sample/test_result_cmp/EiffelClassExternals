@@ -1,0 +1,34 @@
+
+
+Class ANY:
+
+	conforms_to (other: ANY): BOOLEAN
+	copy (other: [attached like Current] attached SINGLE_MATH)
+	deep_twin: [attached like Current] attached SINGLE_MATH
+	generator: STRING_8
+	is_deep_equal (other: [attached like Current] attached SINGLE_MATH): BOOLEAN
+	is_equal (other: [attached like Current] attached SINGLE_MATH): BOOLEAN
+	same_type (other: ANY): BOOLEAN
+	standard_copy (other: [attached like Current] attached SINGLE_MATH)
+	standard_is_equal (other: [attached like Current] attached SINGLE_MATH): BOOLEAN
+	standard_twin: [attached like Current] attached SINGLE_MATH
+	tagged_out: STRING_8
+	twin: [attached like Current] attached SINGLE_MATH
+
+Class SINGLE_MATH:
+
+	arc_cosine (v: REAL_32): REAL_32
+	arc_sine (v: REAL_32): REAL_32
+	arc_tangent (v: REAL_32): REAL_32
+	ceiling (v: REAL_32): REAL_32
+	cosine (v: REAL_32): REAL_32
+	exp (x: REAL_32): REAL_32
+	floor (v: REAL_32): REAL_32
+	log (v: REAL_32): REAL_32
+	log10 (v: REAL_32): REAL_32
+	rabs (v: REAL_32): REAL_32
+	sine (v: REAL_32): REAL_32
+	sqrt (v: REAL_32): REAL_32
+	tangent (v: REAL_32): REAL_32
+
+

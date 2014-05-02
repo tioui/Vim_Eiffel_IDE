@@ -1,0 +1,793 @@
+
+note
+	description: "test_sample application root class"
+	date: "$Date$"
+	revision: "$Revision$"
+
+class 
+	SAMPLE
+
+create 
+	make
+
+feature {NONE} -- Initialization
+
+	default_create
+			-- Process instances of classes with no creation clause.
+			-- (Default: do nothing.)
+			-- (from ANY)
+		do
+		end
+
+	make
+			-- Run application.
+		do
+			attr := 2
+			print ("Hello Eiffel World " + test_routine (3) + "!%N")
+		end
+	
+feature -- Access
+
+	argument (i: INTEGER_32): STRING_8
+			-- `i'-th argument of command that started system execution
+			-- (the command name if `i' = 0)
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			index_large_enough: i >= 0
+			index_small_enough: i <= argument_count
+		do
+			Result := Internal_arguments.argument (i).as_string_8
+		ensure -- from ARGUMENTS
+			argument_not_void: Result /= Void
+		end
+
+	Argument_array: ARRAY [STRING_8]
+			-- Array containing command name (position 0) and arguments
+			-- (from ARGUMENTS)
+		once
+			Result := internal_argument_array
+		ensure -- from ARGUMENTS
+			argument_array_not_void: Result /= Void
+			argument_array_compare_objects: Result.object_comparison
+		end
+
+	Command_line: STRING_8
+			-- Total command line
+			-- (from ARGUMENTS)
+		local
+			i: INTEGER_32
+		once
+			Result := Command_name.twin
+			from
+				i := 1
+			until
+				i > argument_count
+			loop
+				Result.append (" ")
+				Result.append (argument (i))
+				i := i + 1
+			end
+		ensure -- from ARGUMENTS
+			Result.count >= Command_name.count
+		end
+
+	Command_name: STRING_8
+			-- Name of command that started system execution
+			-- (from ARGUMENTS)
+		once
+			Result := argument (0)
+		ensure -- from ARGUMENTS
+			definition: Result ~ argument (0)
+		end
+
+	generating_type: TYPE [detachable SAMPLE]
+			-- Type of current object
+			-- (type of which it is a direct instance)
+			-- (from ANY)
+		do
+			Result := {detachable SAMPLE}
+		ensure -- from ANY
+			generating_type_not_void: Result /= Void
+		end
+
+	generator: STRING_8
+			-- Name of current object's generating class
+			-- (base class of the type of which it is a direct instance)
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			generator_not_void: Result /= Void
+			generator_not_empty: not Result.is_empty
+		end
+	
+feature -- Measurement
+
+	argument_count: INTEGER_32
+			-- Number of arguments given to command that started
+			-- system execution (command name does not count)
+			-- (from ARGUMENTS)
+		do
+			Result := Internal_arguments.argument_count
+		ensure -- from ARGUMENTS
+			argument_count_positive: Result >= 0
+		end
+	
+feature -- Comparison
+
+	frozen deep_equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void
+			-- or attached to isomorphic object structures?
+			-- (from ANY)
+		do
+			if a = Void then
+				Result := b = Void
+			else
+				Result := b /= Void and then a.is_deep_equal (b)
+			end
+		ensure -- from ANY
+			shallow_implies_deep: standard_equal (a, b) implies Result
+			both_or_none_void: (a = Void) implies (Result = (b = Void))
+			same_type: (Result and (a /= Void)) implies (b /= Void and then a.same_type (b))
+			symmetric: Result implies deep_equal (b, a)
+		end
+
+	frozen equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void or attached
+			-- to objects considered equal?
+			-- (from ANY)
+		do
+			if a = Void then
+				Result := b = Void
+			else
+				Result := b /= Void and then a.is_equal (b)
+			end
+		ensure -- from ANY
+			definition: Result = (a = Void and b = Void) or else ((a /= Void and b /= Void) and then a.is_equal (b))
+		end
+
+	frozen is_deep_equal (other: attached SAMPLE): BOOLEAN
+			-- Are `Current' and `other' attached to isomorphic object structures?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		ensure -- from ANY
+			shallow_implies_deep: standard_is_equal (other) implies Result
+			same_type: Result implies same_type (other)
+			symmetric: Result implies other.is_deep_equal (Current)
+		end
+
+	is_equal (other: attached SAMPLE): BOOLEAN
+			-- Is `other' attached to an object considered
+			-- equal to current object?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		ensure -- from ANY
+			symmetric: Result implies other ~ Current
+			consistent: standard_is_equal (other) implies Result
+		end
+
+	frozen standard_equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void or attached to
+			-- field-by-field identical objects of the same type?
+			-- Always uses default object comparison criterion.
+			-- (from ANY)
+		do
+			if a = Void then
+				Result := b = Void
+			else
+				Result := b /= Void and then a.standard_is_equal (b)
+			end
+		ensure -- from ANY
+			definition: Result = (a = Void and b = Void) or else ((a /= Void and b /= Void) and then a.standard_is_equal (b))
+		end
+
+	frozen standard_is_equal (other: attached SAMPLE): BOOLEAN
+			-- Is `other' attached to an object of the same type
+			-- as current object, and field-by-field identical to it?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		ensure -- from ANY
+			same_type: Result implies same_type (other)
+			symmetric: Result implies other.standard_is_equal (Current)
+		end
+	
+feature -- Status report
+
+	coalesced_character_option_value (o: CHARACTER_8): detachable STRING_8
+			-- The value, if any, specified for character option `o' on
+			-- the command line.
+			-- Defined as follows (where 'X' is the current 'option_sign' and
+			-- 'xx' is an arbitrary, possibly empty sequence of characters):
+			--   `val' if command line includes an argument of the form `Xxxoval'
+			--	   (this may be an empty string if argument is just `Xxxo').
+			--   Void otherwise.
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			o_non_null: o /= '%U'
+		local
+			p: INTEGER_32
+			l: STRING_8
+		do
+			p := index_of_character_option (o)
+			if p /= 0 then
+				l := Argument_array.item (p).twin
+				if Option_sign.item /= '%U' then
+					l.remove (1)
+				end
+				Result := l.substring (l.index_of (o, 1) + 1, l.count)
+			end
+		end
+
+	coalesced_option_character_value (o: CHARACTER_8): detachable STRING_8
+		obsolete "Use coalesced_character_option_value instead."
+			-- (from ARGUMENTS)
+		do
+			Result := coalesced_character_option_value (o)
+		end
+
+	coalesced_option_word_value (opt: STRING_8): detachable STRING_8
+		obsolete "Use coalesced_word_option_value instead."
+			-- (from ARGUMENTS)
+		do
+			Result := coalesced_word_option_value (opt)
+		end
+
+	coalesced_word_option_value (opt: STRING_8): detachable STRING_8
+			-- The value, if any, specified for word option `opt' on the
+			-- command line.
+			-- Defined as follows (where X is the current Option_sign):
+			--   `val' if command line includes an argument of the form `Xoptval'
+			--	   (this may be an empty string if argument is just `Xopt').
+			--   Void otherwise.
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			opt_non_void: opt /= Void
+			opt_meaningful: not opt.is_empty
+		local
+			p: INTEGER_32
+			l: STRING_8
+		do
+			p := index_of_beginning_with_word_option (opt)
+			if p /= 0 then
+				l := Argument_array.item (p).twin
+				if Option_sign.item /= '%U' then
+					l.remove (1)
+				end
+				Result := l.substring (opt.count + 1, l.count)
+			end
+		end
+
+	conforms_to (other: ANY): BOOLEAN
+			-- Does type of current object conform to type
+			-- of `other' (as per Eiffel: The Language, chapter 13)?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		end
+
+	has_character_option (o: CHARACTER_8): INTEGER_32
+		obsolete "Use index_of_character_option instead."
+			-- (from ARGUMENTS)
+		do
+			Result := index_of_character_option (o)
+		end
+
+	has_word_option (opt: STRING_8): INTEGER_32
+		obsolete "Use index_of_word_option instead."
+			-- (from ARGUMENTS)
+		do
+			Result := index_of_word_option (opt)
+		end
+
+	index_of_beginning_with_word_option (opt: STRING_8): INTEGER_32
+			-- Does command line specify argument beginning with word
+			-- option `opt' and, if so, at what position?
+			-- If one of the arguments in list of space-separated arguments
+			-- is `Xoptxx', where `X' is the current Option_sign, 'xx'
+			-- is arbitrary, possibly empty sequence of characters,
+			-- then index of this argument in list;
+			-- else 0.
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			opt_non_void: opt /= Void
+			opt_meaningful: not opt.is_empty
+		local
+			i: INTEGER_32
+		do
+			from
+				i := 1
+			until
+				i > argument_count or else option_word_begins_with (Argument_array.item (i), opt)
+			loop
+				i := i + 1
+			end
+			if i <= argument_count then
+				Result := i
+			end
+		end
+
+	index_of_character_option (o: CHARACTER_8): INTEGER_32
+			-- Does command line specify character option `o' and, if so,
+			-- at what position?
+			-- If one of the space-separated arguments is of the form `Xxxoyy',
+			-- where `X' is the current Option_sign, `xx' and `yy'
+			-- are arbitrary, possibly empty sequences of characters,
+			-- then index of this argument in list of arguments;
+			-- else 0.
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			o_non_null: o /= '%U'
+		local
+			i: INTEGER_32
+		do
+			from
+				i := 1
+			until
+				i > argument_count or else option_character_equal (Argument_array.item (i), o)
+			loop
+				i := i + 1
+			end
+			if i <= argument_count then
+				Result := i
+			end
+		end
+
+	index_of_word_option (opt: STRING_8): INTEGER_32
+			-- Does command line specify word option `opt' and, if so,
+			-- at what position?
+			-- If one of the arguments in list of space-separated arguments
+			-- is `Xopt', where `X' is the current Option_sign,
+			-- then index of this argument in list;
+			-- else 0.
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			opt_non_void: opt /= Void
+			opt_meaningful: not opt.is_empty
+		local
+			i: INTEGER_32
+		do
+			from
+				i := 1
+			until
+				i > argument_count or else option_word_equal (Argument_array.item (i), opt)
+			loop
+				i := i + 1
+			end
+			if i <= argument_count then
+				Result := i
+			end
+		end
+
+	Option_sign: CHARACTER_8_REF
+			-- The character used to signal options on the command line.
+			-- This can be '%U' if no sign is necessary for the argument
+			-- to be an option
+			-- Default is '-'
+			-- (from ARGUMENTS)
+		once
+			create Result
+			Result.set_item ('-')
+		end
+
+	same_type (other: ANY): BOOLEAN
+			-- Is type of current object identical to type of `other'?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		ensure -- from ANY
+			definition: Result = (conforms_to (other) and other.conforms_to (Current))
+		end
+
+	separate_character_option_value (o: CHARACTER_8): detachable STRING_8
+			-- The value, if any, specified after character option `o' on
+			-- the command line.
+			-- This is one of the following (where `X' is the current
+			-- Option_sign, `xx' and 'yy' are arbitrary, possibly empty
+			-- sequences of characters):
+			--   `val' if command line includes two consecutive arguments
+			--	   of the form `Xxxoyy' and `val' respectively.
+			--   Empty string if command line includes argument `Xxxoyy', which is
+			--	   either last argument or followed by argument starting with `X'.
+			--   Void if there is no argument of the form `Xxxoyy'.
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			o_non_null: o /= '%U'
+		local
+			p: INTEGER_32
+		do
+			p := index_of_character_option (o)
+			if p /= 0 then
+				if p = argument_count or else Argument_array.item (p + 1).item (1) = Option_sign.item then
+					Result := ""
+				else
+					Result := Argument_array.item (p + 1)
+				end
+			end
+		end
+
+	separate_word_option_value (opt: STRING_8): detachable STRING_8
+			-- The value, if any, specified after word option `opt' on the
+			-- command line.
+			-- This is one of the following (where `X' is the current Option_sign):
+			--   `val' if command line includes two consecutive arguments
+			--	   of the form `Xopt' and `val' respectively.
+			--   Empty string if command line includes argument `Xopt', which is
+			--	   either last argument or followed by argument starting with `X'.
+			--   Void if no `Xopt' argument.
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			opt_non_void: opt /= Void
+			opt_meaningful: not opt.is_empty
+		local
+			p: INTEGER_32
+		do
+			p := index_of_word_option (opt)
+			if p /= 0 then
+				if p = argument_count or else Argument_array.item (p + 1).item (1) = Option_sign.item then
+					Result := ""
+				else
+					Result := Argument_array.item (p + 1)
+				end
+			end
+		end
+	
+feature -- Status setting
+
+	set_option_sign (c: CHARACTER_8)
+			-- Make `c' the option sign.
+			-- Use'%U' if no sign is necessary for the argument to
+			-- be an option
+			-- (from ARGUMENTS)
+		do
+			Option_sign.set_item (c)
+		end
+	
+feature -- Duplication
+
+	frozen clone (other: detachable ANY): like other
+		obsolete "Use `twin' instead."
+			-- Void if `other' is void; otherwise new object
+			-- equal to `other'
+			--
+			-- For non-void `other', clone calls copy;
+			-- to change copying/cloning semantics, redefine copy.
+			-- (from ANY)
+		do
+			if other /= Void then
+				Result := other.twin
+			end
+		ensure -- from ANY
+			equal: Result ~ other
+		end
+
+	copy (other: attached SAMPLE)
+			-- Update current object using fields of object attached
+			-- to `other', so as to yield equal objects.
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+			type_identity: same_type (other)
+		external
+			"built_in"
+		ensure -- from ANY
+			is_equal: Current ~ other
+		end
+
+	frozen deep_clone (other: detachable ANY): like other
+		obsolete "Use `deep_twin' instead."
+			-- Void if `other' is void: otherwise, new object structure
+			-- recursively duplicated from the one attached to `other'
+			-- (from ANY)
+		do
+			if other /= Void then
+				Result := other.deep_twin
+			end
+		ensure -- from ANY
+			deep_equal: deep_equal (other, Result)
+		end
+
+	frozen deep_copy (other: attached SAMPLE)
+			-- Effect equivalent to that of:
+			--		copy (`other' . deep_twin)
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		do
+			copy (other.deep_twin)
+		ensure -- from ANY
+			deep_equal: deep_equal (Current, other)
+		end
+
+	frozen deep_twin: attached SAMPLE
+			-- New object structure recursively duplicated from Current.
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			deep_twin_not_void: Result /= Void
+			deep_equal: deep_equal (Current, Result)
+		end
+
+	frozen standard_clone (other: detachable ANY): like other
+		obsolete "Use `standard_twin' instead."
+			-- Void if `other' is void; otherwise new object
+			-- field-by-field identical to `other'.
+			-- Always uses default copying semantics.
+			-- (from ANY)
+		do
+			if other /= Void then
+				Result := other.standard_twin
+			end
+		ensure -- from ANY
+			equal: standard_equal (Result, other)
+		end
+
+	frozen standard_copy (other: attached SAMPLE)
+			-- Copy every field of `other' onto corresponding field
+			-- of current object.
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+			type_identity: same_type (other)
+		external
+			"built_in"
+		ensure -- from ANY
+			is_standard_equal: standard_is_equal (other)
+		end
+
+	frozen standard_twin: attached SAMPLE
+			-- New object field-by-field identical to `other'.
+			-- Always uses default copying semantics.
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			standard_twin_not_void: Result /= Void
+			equal: standard_equal (Result, Current)
+		end
+
+	frozen twin: attached SAMPLE
+			-- New object equal to `Current'
+			-- twin calls copy; to change copying/twinning semantics, redefine copy.
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			twin_not_void: Result /= Void
+			is_equal: Result ~ Current
+		end
+	
+feature -- Basic operations
+
+	frozen as_attached: attached SAMPLE
+			-- Attached version of Current
+			-- (Can be used during transitional period to convert
+			-- non-void-safe classes to void-safe ones.)
+			-- (from ANY)
+		do
+			Result := Current
+		end
+
+	frozen default: detachable SAMPLE
+			-- Default value of object's type
+			-- (from ANY)
+		do
+		end
+
+	frozen default_pointer: POINTER
+			-- Default value of type `POINTER'
+			-- (Avoid the need to write `p'.default for
+			-- some `p' of type `POINTER'.)
+			-- (from ANY)
+		do
+		end
+
+	default_rescue
+			-- Process exception for routines with no Rescue clause.
+			-- (Default: do nothing.)
+			-- (from ANY)
+		do
+		end
+
+	frozen do_nothing
+			-- Execute a null action.
+			-- (from ANY)
+		do
+		end
+	
+feature {NONE} -- Implementation
+
+	internal_argument_array: ARRAY [STRING_8]
+			-- Array containing command name (position 0) and arguments
+			-- (from ARGUMENTS)
+		local
+			i: INTEGER_32
+		do
+			create Result.make_filled ("", 0, argument_count)
+			Result.compare_objects
+			from
+			until
+				i > argument_count
+			loop
+				Result.put (argument (i), i)
+				i := i + 1
+			end
+		ensure -- from ARGUMENTS
+			internal_argument_array_not_void: Result /= Void
+			internal_argument_array_compare_objects: Result.object_comparison
+		end
+
+	Internal_arguments: ARGUMENTS_32
+			-- Access to the Unicode arguments.
+			-- (from ARGUMENTS)
+		once
+			create Result
+		end
+
+	option_character_equal (arg: STRING_8; c: CHARACTER_8): BOOLEAN
+			-- Does `arg' contain the character option `c'?
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			arg_not_void: arg /= Void
+		do
+			if Option_sign.item = '%U' then
+				Result := arg.has (c)
+			elseif arg.item (1) = Option_sign.item then
+				Result := arg.substring (2, arg.count).has (c)
+			end
+		end
+
+	option_word_begins_with (arg, w: STRING_8): BOOLEAN
+			-- Does `arg' begin with the word option `w'?
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			arg_not_void: arg /= Void
+			w_not_void: w /= Void
+		do
+			if Option_sign.item = '%U' and then arg.count >= w.count then
+				Result := arg.substring (1, w.count) ~ w
+			elseif arg.item (1) = Option_sign.item and then arg.count > w.count then
+				Result := arg.substring (2, w.count + 1) ~ w
+			end
+		end
+
+	option_word_equal (arg, w: STRING_8): BOOLEAN
+			-- Is `arg' equal to the word option `w'?
+			-- (from ARGUMENTS)
+		require -- from ARGUMENTS
+			arg_not_void: arg /= Void
+			w_not_void: w /= Void
+		do
+			if Option_sign.item = '%U' then
+				Result := arg ~ w
+			elseif not arg.is_empty and then arg.item (1) = Option_sign.item then
+				Result := arg.substring (2, arg.count) ~ w
+			end
+		end
+	
+feature -- Access: Cursor
+
+	new_cursor: ITERATION_CURSOR [STRING_8]
+			-- Fresh cursor associated with current structure
+			-- (from ARGUMENTS)
+		do
+			Result := Argument_array.new_cursor
+		ensure -- from ITERABLE
+			result_attached: Result /= Void
+		end
+	
+feature -- Output
+
+	Io: STD_FILES
+			-- Handle to standard file setup
+			-- (from ANY)
+		once
+			create Result
+			Result.set_output_default
+		ensure -- from ANY
+			io_not_void: Result /= Void
+		end
+
+	out: STRING_8
+			-- New string containing terse printable representation
+			-- of current object
+			-- (from ANY)
+		do
+			Result := tagged_out
+		ensure -- from ANY
+			out_not_void: Result /= Void
+		end
+
+	print (o: detachable ANY)
+			-- Write terse external representation of `o'
+			-- on standard output.
+			-- (from ANY)
+		do
+			if o /= Void then
+				Io.put_string (o.out)
+			end
+		end
+
+	frozen tagged_out: STRING_8
+			-- New string containing terse printable representation
+			-- of current object
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			tagged_out_not_void: Result /= Void
+		end
+	
+feature -- Platform
+
+	Operating_environment: OPERATING_ENVIRONMENT
+			-- Objects available from the operating system
+			-- (from ANY)
+		once
+			create Result
+		ensure -- from ANY
+			operating_environment_not_void: Result /= Void
+		end
+	
+feature {NONE} -- Retrieval
+
+	frozen internal_correct_mismatch
+			-- Called from runtime to perform a proper dynamic dispatch on `correct_mismatch'
+			-- from MISMATCH_CORRECTOR.
+			-- (from ANY)
+		local
+			l_msg: STRING_8
+			l_exc: EXCEPTIONS
+		do
+			if attached {MISMATCH_CORRECTOR} Current as l_corrector then
+				l_corrector.correct_mismatch
+			else
+				create l_msg.make_from_string ("Mismatch: ")
+				create l_exc
+				l_msg.append (generating_type.name)
+				l_exc.raise_retrieval_exception (l_msg)
+			end
+		end
+	
+feature -- Testing
+
+	attr: INTEGER_32
+
+	test_routine (a_arg: INTEGER_32): STRING_8
+		require
+			arg_is_positive: a_arg > 0
+		local
+			l_var: INTEGER_32
+		do
+			l_var := a_arg + attr + 1
+			Result := l_var.out
+		ensure
+			result_is_valid: Result ~ (a_arg + attr + 1).out
+		end
+	
+invariant
+	attribute_is_positive: attr > 0
+
+		-- from ARGUMENTS
+	argument_array_consistent: Argument_array ~ internal_argument_array
+
+		-- from ANY
+	reflexive_equality: standard_is_equal (Current)
+	reflexive_conformance: conforms_to (Current)
+
+end -- class SAMPLE
+
+

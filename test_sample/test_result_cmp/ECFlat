@@ -1,0 +1,1067 @@
+
+note
+	description: "Structures whose items are sorted according to a total order relation"
+	library: "Free implementation of ELKS library"
+	legal: "See notice at end of class."
+	status: "See notice at end of class."
+	names: sorted_struct, comparable_struct
+	access: index, membership, min, max
+	contents: generic
+	date: "$Date: 2012-07-23 14:02:19 -0700 (Mon, 23 Jul 2012) $"
+	revision: "$Revision: 91989 $"
+
+deferred class 
+	SORTED_STRUCT [G -> COMPARABLE]
+
+feature {NONE} -- Initialization
+
+	default_create
+			-- Process instances of classes with no creation clause.
+			-- (Default: do nothing.)
+			-- (from ANY)
+		do
+		end
+	
+feature -- Access
+
+	at alias "@" (k: INTEGER_32): G assign put_i_th
+			-- Entry of key `k'.
+			-- Was declared in TABLE as synonym of item.
+			-- (from TABLE)
+		require -- from TABLE
+			valid_key: valid_index (k)
+		deferred
+		end
+
+	generating_type: TYPE [detachable SORTED_STRUCT [G]]
+			-- Type of current object
+			-- (type of which it is a direct instance)
+			-- (from ANY)
+		do
+			Result := {detachable SORTED_STRUCT [G]}
+		ensure -- from ANY
+			generating_type_not_void: Result /= Void
+		end
+
+	generator: STRING_8
+			-- Name of current object's generating class
+			-- (base class of the type of which it is a direct instance)
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			generator_not_void: Result /= Void
+			generator_not_empty: not Result.is_empty
+		end
+
+	has (v: like item): BOOLEAN
+			-- Does structure include an occurrence of `v'?
+			-- (Reference or object equality,
+			-- based on object_comparison.)
+			-- (from LINEAR)
+		require -- from  CONTAINER
+			True
+		do
+			start
+			if not off then
+				search (v)
+			end
+			Result := not exhausted
+		ensure -- from CONTAINER
+			not_found_in_empty: Result implies not is_empty
+		end
+
+	index_of (v: like item; i: INTEGER_32): INTEGER_32
+			-- Index of `i'-th occurrence of `v'.
+			-- 0 if none.
+			-- (Reference or object equality,
+			-- based on object_comparison.)
+			-- (from LINEAR)
+		require -- from LINEAR
+			positive_occurrences: i > 0
+		local
+			occur, pos: INTEGER_32
+		do
+			if object_comparison and v /= Void then
+				from
+					start
+					pos := 1
+				until
+					exhausted or (occur = i)
+				loop
+					if item ~ v then
+						occur := occur + 1
+					end
+					forth
+					pos := pos + 1
+				end
+			else
+				from
+					start
+					pos := 1
+				until
+					exhausted or (occur = i)
+				loop
+					if item = v then
+						occur := occur + 1
+					end
+					forth
+					pos := pos + 1
+				end
+			end
+			if occur = i then
+				Result := pos - 1
+			end
+		ensure -- from LINEAR
+			non_negative_result: Result >= 0
+		end
+
+	item: G
+			-- Item at current position
+			-- (from TRAVERSABLE)
+		require -- from TRAVERSABLE
+			not_off: not off
+		deferred
+		end
+
+	i_th (k: INTEGER_32): G assign put_i_th
+			-- Entry of key `k'.
+			-- Was declared in TABLE as synonym of at.
+			-- (from TABLE)
+		require -- from TABLE
+			valid_key: valid_index (k)
+		require -- from READABLE_INDEXABLE
+			valid_index: valid_index (k)
+		deferred
+		end
+
+	item_for_iteration: G
+			-- Item at current position
+			-- (from LINEAR)
+		require -- from LINEAR
+			not_off: not off
+		do
+			Result := item
+		end
+
+	new_cursor: INDEXABLE_ITERATION_CURSOR [G]
+			-- Fresh cursor associated with current structure
+			-- (from READABLE_INDEXABLE)
+		do
+			create Result.make (Current)
+			Result.start
+		ensure -- from ITERABLE
+			result_attached: Result /= Void
+		end
+
+	occurrences (v: like item): INTEGER_32
+			-- Number of times `v' appears.
+			-- (Reference or object equality,
+			-- based on object_comparison.)
+			-- (from LINEAR)
+		require -- from  BAG
+			True
+		do
+			from
+				start
+				search (v)
+			until
+				exhausted
+			loop
+				Result := Result + 1
+				forth
+				search (v)
+			end
+		ensure -- from BAG
+			non_negative_occurrences: Result >= 0
+		end
+
+	search (v: like item)
+			-- Move to first position (at or after current
+			-- position) where item and `v' are equal.
+			-- (Reference or object equality,
+			-- based on object_comparison.)
+			-- If no such position ensure that exhausted will be true.
+			-- (from LINEAR)
+		do
+			if object_comparison then
+				from
+				until
+					exhausted or else v ~ item
+				loop
+					forth
+				end
+			else
+				from
+				until
+					exhausted or else v = item
+				loop
+					forth
+				end
+			end
+		ensure -- from LINEAR
+			object_found: (not exhausted and object_comparison) implies v ~ item
+			item_found: (not exhausted and not object_comparison) implies v = item
+		end
+	
+feature {NONE} -- Access
+
+	sequential_search (v: like item)
+			-- Move to first position (at or after current
+			-- position) where item and `v' are equal.
+			-- (Reference or object equality,
+			-- based on object_comparison.)
+			-- If no such position ensure that exhausted will be true.
+			-- (from LINEAR)
+		do
+			if object_comparison then
+				from
+				until
+					exhausted or else v ~ item
+				loop
+					forth
+				end
+			else
+				from
+				until
+					exhausted or else v = item
+				loop
+					forth
+				end
+			end
+		ensure -- from LINEAR
+			object_found: (not exhausted and object_comparison) implies v ~ item
+			item_found: (not exhausted and not object_comparison) implies v = item
+		end
+	
+feature -- Measurement
+
+	index_set: INTEGER_INTERVAL
+			-- Range of acceptable indexes
+			-- (from READABLE_INDEXABLE)
+		deferred
+		ensure -- from READABLE_INDEXABLE
+			not_void: Result /= Void
+		end
+
+	max: like item
+			-- Maximum item
+		require -- from COMPARABLE_STRUCT
+			min_max_available
+		require else
+			is_sorted: sorted
+		do
+			finish
+			Result := item
+		end
+
+	median: like item
+			-- Median element
+		deferred
+		ensure
+			median_present: has (Result)
+		end
+
+	min: like item
+			-- Minimum item
+		require -- from COMPARABLE_STRUCT
+			min_max_available
+		require else
+			is_sorted: sorted
+		do
+			start
+			Result := item
+		end
+
+	min_max_available: BOOLEAN
+			-- Can min and max be computed?
+			-- (from COMPARABLE_STRUCT)
+		do
+			Result := not is_empty
+		ensure -- from COMPARABLE_STRUCT
+			Result implies not is_empty
+		end
+	
+feature -- Comparison
+
+	frozen deep_equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void
+			-- or attached to isomorphic object structures?
+			-- (from ANY)
+		do
+			if a = Void then
+				Result := b = Void
+			else
+				Result := b /= Void and then a.is_deep_equal (b)
+			end
+		ensure -- from ANY
+			shallow_implies_deep: standard_equal (a, b) implies Result
+			both_or_none_void: (a = Void) implies (Result = (b = Void))
+			same_type: (Result and (a /= Void)) implies (b /= Void and then a.same_type (b))
+			symmetric: Result implies deep_equal (b, a)
+		end
+
+	frozen equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void or attached
+			-- to objects considered equal?
+			-- (from ANY)
+		do
+			if a = Void then
+				Result := b = Void
+			else
+				Result := b /= Void and then a.is_equal (b)
+			end
+		ensure -- from ANY
+			definition: Result = (a = Void and b = Void) or else ((a /= Void and b /= Void) and then a.is_equal (b))
+		end
+
+	frozen is_deep_equal (other: attached SORTED_STRUCT [G]): BOOLEAN
+			-- Are `Current' and `other' attached to isomorphic object structures?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		ensure -- from ANY
+			shallow_implies_deep: standard_is_equal (other) implies Result
+			same_type: Result implies same_type (other)
+			symmetric: Result implies other.is_deep_equal (Current)
+		end
+
+	is_equal (other: attached SORTED_STRUCT [G]): BOOLEAN
+			-- Is `other' attached to an object considered
+			-- equal to current object?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		ensure -- from ANY
+			symmetric: Result implies other ~ Current
+			consistent: standard_is_equal (other) implies Result
+		end
+
+	frozen standard_equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void or attached to
+			-- field-by-field identical objects of the same type?
+			-- Always uses default object comparison criterion.
+			-- (from ANY)
+		do
+			if a = Void then
+				Result := b = Void
+			else
+				Result := b /= Void and then a.standard_is_equal (b)
+			end
+		ensure -- from ANY
+			definition: Result = (a = Void and b = Void) or else ((a /= Void and b /= Void) and then a.standard_is_equal (b))
+		end
+
+	frozen standard_is_equal (other: attached SORTED_STRUCT [G]): BOOLEAN
+			-- Is `other' attached to an object of the same type
+			-- as current object, and field-by-field identical to it?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		ensure -- from ANY
+			same_type: Result implies same_type (other)
+			symmetric: Result implies other.standard_is_equal (Current)
+		end
+	
+feature -- Status report
+
+	after: BOOLEAN
+			-- Is there no valid position to the right of current one?
+			-- (from LINEAR)
+		deferred
+		end
+
+	changeable_comparison_criterion: BOOLEAN
+			-- May object_comparison be changed?
+			-- (Answer: yes by default.)
+			-- (from CONTAINER)
+		do
+			Result := True
+		end
+
+	conforms_to (other: ANY): BOOLEAN
+			-- Does type of current object conform to type
+			-- of `other' (as per Eiffel: The Language, chapter 13)?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		end
+
+	empty: BOOLEAN
+		obsolete "ELKS 2000: Use `is_empty' instead"
+			-- Is there no element?
+			-- (from CONTAINER)
+		do
+			Result := is_empty
+		end
+
+	exhausted: BOOLEAN
+			-- Has structure been completely explored?
+			-- (from LINEAR)
+		do
+			Result := off
+		ensure -- from LINEAR
+			exhausted_when_off: off implies Result
+		end
+
+	extendible: BOOLEAN
+			-- May new items be added?
+			-- (from COLLECTION)
+		deferred
+		end
+
+	is_empty: BOOLEAN
+			-- Is there no element?
+			-- (from CONTAINER)
+		deferred
+		end
+
+	is_inserted (v: G): BOOLEAN
+			-- Has `v' been inserted by the most recent insertion?
+			-- (By default, the value returned is equivalent to calling 
+			-- `has (v)'. However, descendants might be able to provide more
+			-- efficient implementations.)
+			-- (from COLLECTION)
+		do
+			Result := has (v)
+		end
+
+	object_comparison: BOOLEAN
+			-- Must search operations use equal rather than `='
+			-- for comparing references? (Default: no, use `='.)
+			-- (from CONTAINER)
+
+	off: BOOLEAN
+			-- Is there no current item?
+			-- (from LINEAR)
+		require -- from  TRAVERSABLE
+			True
+		do
+			Result := is_empty or after
+		end
+
+	prunable: BOOLEAN
+			-- May items be removed?
+			-- (from COLLECTION)
+		deferred
+		end
+
+	same_type (other: ANY): BOOLEAN
+			-- Is type of current object identical to type of `other'?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		external
+			"built_in"
+		ensure -- from ANY
+			definition: Result = (conforms_to (other) and other.conforms_to (Current))
+		end
+
+	sorted: BOOLEAN
+			-- Is structure sorted?
+		local
+			m: like item
+		do
+			if is_empty then
+				Result := True
+			else
+				from
+					start
+					m := item
+					forth
+				until
+					exhausted or else (item < m)
+				loop
+					m := item
+					forth
+				end
+				Result := exhausted
+			end
+		end
+
+	valid_index (i: INTEGER_32): BOOLEAN
+			-- Is `i' a valid index?
+			-- (from READABLE_INDEXABLE)
+		require -- from  TABLE
+			True
+		deferred
+		ensure -- from READABLE_INDEXABLE
+			only_if_in_index_set: Result implies ((i >= index_set.lower) and (i <= index_set.upper))
+		end
+	
+feature -- Status setting
+
+	compare_objects
+			-- Ensure that future search operations will use equal
+			-- rather than `=' for comparing references.
+			-- (from CONTAINER)
+		require -- from CONTAINER
+			changeable_comparison_criterion: changeable_comparison_criterion
+		do
+			object_comparison := True
+		ensure -- from CONTAINER
+			object_comparison
+		end
+
+	compare_references
+			-- Ensure that future search operations will use `='
+			-- rather than equal for comparing references.
+			-- (from CONTAINER)
+		require -- from CONTAINER
+			changeable_comparison_criterion: changeable_comparison_criterion
+		do
+			object_comparison := False
+		ensure -- from CONTAINER
+			reference_comparison: not object_comparison
+		end
+	
+feature -- Cursor movement
+
+	back
+			-- Move to previous position.
+			-- (from BILINEAR)
+		require -- from BILINEAR
+			not_before: not before
+		deferred
+		end
+
+	before: BOOLEAN
+			-- Is there no valid position to the left of current one?
+			-- (from BILINEAR)
+		deferred
+		end
+
+	finish
+			-- Move to last position.
+			-- (from LINEAR)
+		deferred
+		end
+
+	forth
+			-- Move to next position; if no next position,
+			-- ensure that exhausted will be true.
+			-- (from LINEAR)
+		require -- from LINEAR
+			not_after: not after
+		deferred
+		end
+
+	start
+			-- Move to first position if any.
+			-- (from TRAVERSABLE)
+		deferred
+		end
+	
+feature -- Element change
+
+	extend (v: G)
+			-- Add a new occurrence of `v'.
+			-- (from BAG)
+		require -- from COLLECTION
+			extendible: extendible
+		deferred
+		ensure -- from COLLECTION
+			item_inserted: is_inserted (v)
+		end
+
+	fill (other: CONTAINER [G])
+			-- Fill with as many items of `other' as possible.
+			-- The representations of `other' and current structure
+			-- need not be the same.
+			-- (from COLLECTION)
+		require -- from COLLECTION
+			other_not_void: other /= Void
+			extendible: extendible
+		local
+			lin_rep: LINEAR [G]
+		do
+			lin_rep := other.linear_representation
+			from
+				lin_rep.start
+			until
+				not extendible or else lin_rep.off
+			loop
+				extend (lin_rep.item)
+				lin_rep.forth
+			end
+		end
+
+	put_i_th (v: G; k: INTEGER_32)
+			-- Associate value `v' with key `k'.
+			-- (from TABLE)
+		require -- from TABLE
+			valid_key: valid_index (k)
+		require -- from TABLE
+			valid_key: valid_index (k)
+		deferred
+		ensure -- from TABLE
+			inserted: i_th (k) = v
+		end
+	
+feature -- Removal
+
+	prune (v: G)
+			-- Remove one occurrence of `v' if any.
+			-- (Reference or object equality,
+			-- based on object_comparison.)
+			-- (from COLLECTION)
+		require -- from COLLECTION
+			prunable: prunable
+		deferred
+		end
+
+	prune_all (v: G)
+			-- Remove all occurrences of `v'.
+			-- (Reference or object equality,
+			-- based on object_comparison.)
+			-- (from COLLECTION)
+		require -- from COLLECTION
+			prunable: prunable
+		do
+			from
+			until
+				not has (v)
+			loop
+				prune (v)
+			end
+		ensure -- from COLLECTION
+			no_more_occurrences: not has (v)
+		end
+
+	wipe_out
+			-- Remove all items.
+			-- (from COLLECTION)
+		require -- from COLLECTION
+			prunable: prunable
+		deferred
+		ensure -- from COLLECTION
+			wiped_out: is_empty
+		end
+	
+feature -- Transformation
+
+	sort
+			-- Sort structure.
+		deferred
+		ensure
+			is_sorted: sorted
+		end
+	
+feature -- Conversion
+
+	linear_representation: LINEAR [G]
+			-- Representation as a linear structure
+			-- (from LINEAR)
+		require -- from  CONTAINER
+			True
+		do
+			Result := Current
+		end
+	
+feature -- Duplication
+
+	frozen clone (other: detachable ANY): like other
+		obsolete "Use `twin' instead."
+			-- Void if `other' is void; otherwise new object
+			-- equal to `other'
+			--
+			-- For non-void `other', clone calls copy;
+			-- to change copying/cloning semantics, redefine copy.
+			-- (from ANY)
+		do
+			if other /= Void then
+				Result := other.twin
+			end
+		ensure -- from ANY
+			equal: Result ~ other
+		end
+
+	copy (other: attached SORTED_STRUCT [G])
+			-- Update current object using fields of object attached
+			-- to `other', so as to yield equal objects.
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+			type_identity: same_type (other)
+		external
+			"built_in"
+		ensure -- from ANY
+			is_equal: Current ~ other
+		end
+
+	frozen deep_clone (other: detachable ANY): like other
+		obsolete "Use `deep_twin' instead."
+			-- Void if `other' is void: otherwise, new object structure
+			-- recursively duplicated from the one attached to `other'
+			-- (from ANY)
+		do
+			if other /= Void then
+				Result := other.deep_twin
+			end
+		ensure -- from ANY
+			deep_equal: deep_equal (other, Result)
+		end
+
+	frozen deep_copy (other: attached SORTED_STRUCT [G])
+			-- Effect equivalent to that of:
+			--		copy (`other' . deep_twin)
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		do
+			copy (other.deep_twin)
+		ensure -- from ANY
+			deep_equal: deep_equal (Current, other)
+		end
+
+	frozen deep_twin: attached SORTED_STRUCT [G]
+			-- New object structure recursively duplicated from Current.
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			deep_twin_not_void: Result /= Void
+			deep_equal: deep_equal (Current, Result)
+		end
+
+	frozen standard_clone (other: detachable ANY): like other
+		obsolete "Use `standard_twin' instead."
+			-- Void if `other' is void; otherwise new object
+			-- field-by-field identical to `other'.
+			-- Always uses default copying semantics.
+			-- (from ANY)
+		do
+			if other /= Void then
+				Result := other.standard_twin
+			end
+		ensure -- from ANY
+			equal: standard_equal (Result, other)
+		end
+
+	frozen standard_copy (other: attached SORTED_STRUCT [G])
+			-- Copy every field of `other' onto corresponding field
+			-- of current object.
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+			type_identity: same_type (other)
+		external
+			"built_in"
+		ensure -- from ANY
+			is_standard_equal: standard_is_equal (other)
+		end
+
+	frozen standard_twin: attached SORTED_STRUCT [G]
+			-- New object field-by-field identical to `other'.
+			-- Always uses default copying semantics.
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			standard_twin_not_void: Result /= Void
+			equal: standard_equal (Result, Current)
+		end
+
+	frozen twin: attached SORTED_STRUCT [G]
+			-- New object equal to `Current'
+			-- twin calls copy; to change copying/twinning semantics, redefine copy.
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			twin_not_void: Result /= Void
+			is_equal: Result ~ Current
+		end
+	
+feature -- Basic operations
+
+	frozen as_attached: attached SORTED_STRUCT [G]
+			-- Attached version of Current
+			-- (Can be used during transitional period to convert
+			-- non-void-safe classes to void-safe ones.)
+			-- (from ANY)
+		do
+			Result := Current
+		end
+
+	frozen default: detachable SORTED_STRUCT [G]
+			-- Default value of object's type
+			-- (from ANY)
+		do
+		end
+
+	frozen default_pointer: POINTER
+			-- Default value of type `POINTER'
+			-- (Avoid the need to write `p'.default for
+			-- some `p' of type `POINTER'.)
+			-- (from ANY)
+		do
+		end
+
+	default_rescue
+			-- Process exception for routines with no Rescue clause.
+			-- (Default: do nothing.)
+			-- (from ANY)
+		do
+		end
+
+	frozen do_nothing
+			-- Execute a null action.
+			-- (from ANY)
+		do
+		end
+	
+feature {NONE} -- Inapplicable
+
+	putt (v: like item)
+			-- Ensure that structure includes `v'.
+		require -- from COLLECTION
+			extendible: extendible
+		do
+		ensure -- from COLLECTION
+			item_inserted: is_inserted (v)
+		end
+	
+feature -- Inapplicable
+
+	index: INTEGER_32
+			-- Index of current position
+			-- (from COMPARABLE_STRUCT)
+		require -- from  LINEAR
+			True
+		do
+		end
+	
+feature -- Iteration
+
+	do_all (action: PROCEDURE [ANY, TUPLE [G]])
+			-- Apply `action' to every item.
+			-- Semantics not guaranteed if `action' changes the structure;
+			-- in such a case, apply iterator to clone of structure instead.
+			-- (from LINEAR)
+		require -- from TRAVERSABLE
+			action_exists: action /= Void
+		local
+			c: detachable CURSOR
+			cs: detachable CURSOR_STRUCTURE [G]
+		do
+			if attached {CURSOR_STRUCTURE [G]} Current as acs then
+				cs := acs
+				c := acs.cursor
+			end
+			from
+				start
+			until
+				after
+			loop
+				action.call ([item])
+				forth
+			end
+			if cs /= Void and c /= Void then
+				cs.go_to (c)
+			end
+		end
+
+	do_if (action: PROCEDURE [ANY, TUPLE [G]]; test: FUNCTION [ANY, TUPLE [G], BOOLEAN])
+			-- Apply `action' to every item that satisfies `test'.
+			-- Semantics not guaranteed if `action' or `test' changes the structure;
+			-- in such a case, apply iterator to clone of structure instead.
+			-- (from LINEAR)
+		require -- from TRAVERSABLE
+			action_exists: action /= Void
+			test_exists: test /= Void
+		local
+			c: detachable CURSOR
+			cs: detachable CURSOR_STRUCTURE [G]
+		do
+			if attached {CURSOR_STRUCTURE [G]} Current as acs then
+				cs := acs
+				c := acs.cursor
+			end
+			from
+				start
+			until
+				after
+			loop
+				if test.item ([item]) then
+					action.call ([item])
+				end
+				forth
+			end
+			if cs /= Void and c /= Void then
+				cs.go_to (c)
+			end
+		end
+
+	for_all (test: FUNCTION [ANY, TUPLE [G], BOOLEAN]): BOOLEAN
+			-- Is `test' true for all items?
+			-- Semantics not guaranteed if `test' changes the structure;
+			-- in such a case, apply iterator to clone of structure instead.
+			-- (from LINEAR)
+		require -- from TRAVERSABLE
+			test_exists: test /= Void
+		local
+			c: detachable CURSOR
+			cs: detachable CURSOR_STRUCTURE [G]
+		do
+			if attached {CURSOR_STRUCTURE [G]} Current as acs then
+				cs := acs
+				c := acs.cursor
+			end
+			from
+				start
+				Result := True
+			until
+				after or not Result
+			loop
+				Result := test.item ([item])
+				forth
+			end
+			if cs /= Void and c /= Void then
+				cs.go_to (c)
+			end
+		ensure then -- from LINEAR
+			empty: is_empty implies Result
+		end
+
+	there_exists (test: FUNCTION [ANY, TUPLE [G], BOOLEAN]): BOOLEAN
+			-- Is `test' true for at least one item?
+			-- Semantics not guaranteed if `test' changes the structure;
+			-- in such a case, apply iterator to clone of structure instead.
+			-- (from LINEAR)
+		require -- from TRAVERSABLE
+			test_exists: test /= Void
+		local
+			c: detachable CURSOR
+			cs: detachable CURSOR_STRUCTURE [G]
+		do
+			if attached {CURSOR_STRUCTURE [G]} Current as acs then
+				cs := acs
+				c := acs.cursor
+			end
+			from
+				start
+			until
+				after or Result
+			loop
+				Result := test.item ([item])
+				forth
+			end
+			if cs /= Void and c /= Void then
+				cs.go_to (c)
+			end
+		end
+	
+feature -- Output
+
+	Io: STD_FILES
+			-- Handle to standard file setup
+			-- (from ANY)
+		once
+			create Result
+			Result.set_output_default
+		ensure -- from ANY
+			io_not_void: Result /= Void
+		end
+
+	out: STRING_8
+			-- New string containing terse printable representation
+			-- of current object
+			-- (from ANY)
+		do
+			Result := tagged_out
+		ensure -- from ANY
+			out_not_void: Result /= Void
+		end
+
+	print (o: detachable ANY)
+			-- Write terse external representation of `o'
+			-- on standard output.
+			-- (from ANY)
+		do
+			if o /= Void then
+				Io.put_string (o.out)
+			end
+		end
+
+	frozen tagged_out: STRING_8
+			-- New string containing terse printable representation
+			-- of current object
+			-- (from ANY)
+		external
+			"built_in"
+		ensure -- from ANY
+			tagged_out_not_void: Result /= Void
+		end
+	
+feature -- Platform
+
+	Operating_environment: OPERATING_ENVIRONMENT
+			-- Objects available from the operating system
+			-- (from ANY)
+		once
+			create Result
+		ensure -- from ANY
+			operating_environment_not_void: Result /= Void
+		end
+	
+feature {NONE} -- Retrieval
+
+	frozen internal_correct_mismatch
+			-- Called from runtime to perform a proper dynamic dispatch on `correct_mismatch'
+			-- from MISMATCH_CORRECTOR.
+			-- (from ANY)
+		local
+			l_msg: STRING_8
+			l_exc: EXCEPTIONS
+		do
+			if attached {MISMATCH_CORRECTOR} Current as l_corrector then
+				l_corrector.correct_mismatch
+			else
+				create l_msg.make_from_string ("Mismatch: ")
+				create l_exc
+				l_msg.append (generating_type.name)
+				l_exc.raise_retrieval_exception (l_msg)
+			end
+		end
+	
+invariant
+		-- from COMPARABLE_STRUCT
+	empty_constraint: min_max_available implies not is_empty
+
+		-- from BILINEAR
+	not_both: not (after and before)
+	before_constraint: before implies off
+
+		-- from LINEAR
+	after_constraint: after implies off
+
+		-- from TRAVERSABLE
+	empty_constraint: is_empty implies off
+
+		-- from ANY
+	reflexive_equality: standard_is_equal (Current)
+	reflexive_conformance: conforms_to (Current)
+
+note
+	copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
+	source: "[
+		Eiffel Software
+		5949 Hollister Ave., Goleta, CA 93117 USA
+		Telephone 805-685-1006, Fax 805-685-6869
+		Website http://www.eiffel.com
+		Customer support http://support.eiffel.com
+	]"
+
+end -- class SORTED_STRUCT
+
+

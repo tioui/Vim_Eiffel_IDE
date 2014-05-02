@@ -1,0 +1,48 @@
+
+
+Class ACTIVE* [G]:
+
+	item: G
+	replace (v: G)
+
+Class BAG* [G]:
+
+	extend (v: G)
+
+Class BILINEAR* [G]:
+
+	back
+
+Class BOX* [G]:
+
+	full: BOOLEAN
+
+Class CHAIN* [G]:
+
+	duplicate (n: INTEGER_32): [attached like Current] attached LIST [G]
+
+Class COLLECTION* [G]:
+
+	extendible: BOOLEAN
+	prunable: BOOLEAN
+	wipe_out
+
+Class CURSOR_STRUCTURE* [G]:
+
+	cursor: CURSOR
+	go_to (p: CURSOR)
+	valid_cursor (p: CURSOR): BOOLEAN
+
+Class FINITE* [G]:
+
+	count: INTEGER_32
+
+Class LINEAR* [G]:
+
+	index: INTEGER_32
+
+Class LIST* [G]:
+
+	forth
+
+

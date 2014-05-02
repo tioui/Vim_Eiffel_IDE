@@ -1,0 +1,73 @@
+
+
+Class ANY:
+
+	conforms_to (other: ANY): BOOLEAN
+	copy (other: [attached like Current] attached FILE)
+	deep_twin: [attached like Current] attached FILE
+	generator: STRING_8
+	is_deep_equal (other: [attached like Current] attached FILE): BOOLEAN
+	is_equal (other: [attached like Current] attached FILE): BOOLEAN
+	same_type (other: ANY): BOOLEAN
+	standard_copy (other: [attached like Current] attached FILE)
+	standard_is_equal (other: [attached like Current] attached FILE): BOOLEAN
+	standard_twin: [attached like Current] attached FILE
+	tagged_out: STRING_8
+	twin: [attached like Current] attached FILE
+
+Class DISPOSABLE*:
+
+	is_in_final_collect: BOOLEAN
+
+Class FILE*:
+
+	c_basic_store (file_handle: INTEGER_32; object: POINTER)
+	c_general_store (file_handle: INTEGER_32; object: POINTER)
+	c_independent_store (file_handle: INTEGER_32; object: POINTER)
+	c_retrieved (file_handle: INTEGER_32): detachable ANY
+	eif_file_access_date (a_path: POINTER): INTEGER_32
+	eif_file_date (a_path: POINTER): INTEGER_32
+	file_access (fname: POINTER; which: INTEGER_32): BOOLEAN
+	file_append (file, from_file: POINTER; length: INTEGER_32)
+	file_chgrp (fname: POINTER; new_group: INTEGER_32)
+	file_chmod (fname: POINTER; mask: INTEGER_32)
+	file_chown (fname: POINTER; new_owner: INTEGER_32)
+	file_close (file: POINTER)
+	file_creatable (fname: POINTER; n: INTEGER_32): BOOLEAN
+	file_dopen (fd, how: INTEGER_32): POINTER
+	file_exists (fname: POINTER): BOOLEAN
+	file_fd (file: POINTER): INTEGER_32
+	file_feof (file: POINTER): BOOLEAN
+	file_flush (file: POINTER)
+	file_gc (file: POINTER): CHARACTER_8
+	file_go (file: POINTER; abs_position: INTEGER_32)
+	file_gs (file, a_string: POINTER; length, begin: INTEGER_32): INTEGER_32
+	file_gs_ta (file, a_string: POINTER; length, begin: INTEGER_32): INTEGER_32
+	file_gss (file, a_string: POINTER; length: INTEGER_32): INTEGER_32
+	file_gss_ta (file, a_string: POINTER; length: INTEGER_32): INTEGER_32
+	file_gw (file, a_string: POINTER; length, begin: INTEGER_32): INTEGER_32
+	file_gw_ta (file, a_string: POINTER; length, begin: INTEGER_32): INTEGER_32
+	file_lh (file: POINTER): CHARACTER_8
+	file_link (from_name, to_name: POINTER)
+	file_move (file: POINTER; offset: INTEGER_32)
+	file_open (fname: POINTER; how: INTEGER_32): POINTER
+	file_path_exists (fname: POINTER): BOOLEAN
+	file_pc (file: POINTER; c: CHARACTER_8)
+	file_perm (fname, who, what: POINTER; flag: INTEGER_32)
+	file_ps (file, a_string: POINTER; length: INTEGER_32)
+	file_recede (file: POINTER; abs_position: INTEGER_32)
+	file_rename (old_name, new_name: POINTER)
+	file_reopen (fname: POINTER; how: INTEGER_32; file: POINTER): POINTER
+	file_size (file: POINTER): INTEGER_32
+	file_tell (file: POINTER): INTEGER_32
+	file_tnil (file: POINTER)
+	file_tnwl (file: POINTER)
+	file_touch (fname: POINTER)
+	file_unlink (fname: POINTER)
+	file_utime (fname: POINTER; time, how: INTEGER_32)
+
+Class NATIVE_STRING_HANDLER:
+
+	c_pointer_length_in_bytes (a_ptr: POINTER): NATURAL_64
+
+

@@ -1,0 +1,606 @@
+
+note
+	description: "[
+		The ASCII character set.
+		This class may be used as ancestor by classes needing its facilities.
+	]"
+	library: "Free implementation of ELKS library"
+	status: "See notice at end of class."
+	legal: "See notice at end of class."
+	date: "$Date: 2012-05-23 21:13:10 -0700 (Wed, 23 May 2012) $"
+	revision: "$Revision: 91981 $"
+
+class interface
+	ASCII
+
+create 
+	default_create
+			-- Process instances of classes with no creation clause.
+			-- (Default: do nothing.)
+			-- (from ANY)
+
+feature -- Access
+
+	Ack: INTEGER_32 = 6
+
+	Ampersand: INTEGER_32 = 38
+
+	Back_space: INTEGER_32 = 8
+
+	Backslash: INTEGER_32 = 92
+
+	Bar: INTEGER_32 = 124
+
+	Bel: INTEGER_32 = 7
+
+	Blank: INTEGER_32 = 32
+
+	Break: INTEGER_32 = -7
+
+	Bs: INTEGER_32 = 8
+
+	Buf_overflow: INTEGER_32 = -9
+
+	Can: INTEGER_32 = 24
+
+	Carriage_return: INTEGER_32 = 13
+
+	Case_diff: INTEGER_32 = 32
+			-- Lower_a - Upper_a
+
+	Character_set_size: INTEGER_32 = 128
+
+	Circumflex: INTEGER_32 = 94
+
+	Closing_brace: INTEGER_32 = 125
+
+	Colon: INTEGER_32 = 58
+
+	Comma: INTEGER_32 = 44
+
+	Commercial_at: INTEGER_32 = 64
+
+	Cr: INTEGER_32 = 13
+
+	Ctrl_a: INTEGER_32 = 1
+
+	Ctrl_b: INTEGER_32 = 2
+
+	Ctrl_backslash: INTEGER_32 = 28
+
+	Ctrl_c: INTEGER_32 = 3
+
+	Ctrl_circumflex: INTEGER_32 = 30
+
+	Ctrl_d: INTEGER_32 = 4
+
+	Ctrl_e: INTEGER_32 = 5
+
+	Ctrl_f: INTEGER_32 = 6
+
+	Ctrl_g: INTEGER_32 = 7
+
+	Ctrl_h: INTEGER_32 = 8
+
+	Ctrl_i: INTEGER_32 = 9
+
+	Ctrl_j: INTEGER_32 = 10
+
+	Ctrl_k: INTEGER_32 = 11
+
+	Ctrl_l: INTEGER_32 = 12
+
+	Ctrl_lbracket: INTEGER_32 = 27
+
+	Ctrl_m: INTEGER_32 = 13
+
+	Ctrl_n: INTEGER_32 = 14
+
+	Ctrl_o: INTEGER_32 = 15
+
+	Ctrl_p: INTEGER_32 = 16
+
+	Ctrl_q: INTEGER_32 = 17
+
+	Ctrl_questmark: INTEGER_32 = 127
+
+	Ctrl_r: INTEGER_32 = 18
+
+	Ctrl_rbracket: INTEGER_32 = 29
+
+	Ctrl_s: INTEGER_32 = 19
+
+	Ctrl_t: INTEGER_32 = 20
+
+	Ctrl_u: INTEGER_32 = 21
+
+	Ctrl_underlined: INTEGER_32 = 31
+
+	Ctrl_v: INTEGER_32 = 22
+
+	Ctrl_w: INTEGER_32 = 23
+
+	Ctrl_x: INTEGER_32 = 24
+
+	Ctrl_y: INTEGER_32 = 25
+
+	Ctrl_z: INTEGER_32 = 26
+
+	Dc1: INTEGER_32 = 17
+
+	Dc2: INTEGER_32 = 18
+
+	Dc3: INTEGER_32 = 19
+
+	Dc4: INTEGER_32 = 20
+
+	Del: INTEGER_32 = 127
+
+	Dle: INTEGER_32 = 16
+
+	Dollar: INTEGER_32 = 36
+
+	Dot: INTEGER_32 = 46
+
+	Doublequote: INTEGER_32 = 34
+
+	Down_arrow: INTEGER_32 = -3
+
+	Eight: INTEGER_32 = 56
+
+	Em: INTEGER_32 = 25
+
+	Enq: INTEGER_32 = 5
+
+	Eot: INTEGER_32 = 4
+
+	Equal_sign: INTEGER_32 = 61
+
+	Esc: INTEGER_32 = 27
+
+	Etb: INTEGER_32 = 23
+
+	Etx: INTEGER_32 = 3
+
+	Exclamation: INTEGER_32 = 33
+
+	First_printable: INTEGER_32 = 32
+
+	Five: INTEGER_32 = 53
+
+	Four: INTEGER_32 = 52
+
+	Fs: INTEGER_32 = 28
+
+	generating_type: TYPE [detachable ASCII]
+			-- Type of current object
+			-- (type of which it is a direct instance)
+			-- (from ANY)
+		ensure -- from ANY
+			generating_type_not_void: Result /= Void
+
+	generator: STRING_8
+			-- Name of current object's generating class
+			-- (base class of the type of which it is a direct instance)
+			-- (from ANY)
+		ensure -- from ANY
+			generator_not_void: Result /= Void
+			generator_not_empty: not Result.is_empty
+
+	Grave_accent: INTEGER_32 = 96
+
+	Greaterthan: INTEGER_32 = 62
+
+	Gs: INTEGER_32 = 29
+
+	Home_arrow: INTEGER_32 = -6
+
+	Ht: INTEGER_32 = 9
+
+	Last_ascii: INTEGER_32 = 127
+
+	Last_printable: INTEGER_32 = 126
+
+	Lbracket: INTEGER_32 = 91
+
+	Lcurly: INTEGER_32 = 40
+
+	Left_arrow: INTEGER_32 = -4
+
+	Lessthan: INTEGER_32 = 60
+
+	Letter_layout: INTEGER_32 = 70
+
+	Line_feed: INTEGER_32 = 10
+
+	Lower_a: INTEGER_32 = 97
+
+	Lower_b: INTEGER_32 = 98
+
+	Lower_c: INTEGER_32 = 99
+
+	Lower_d: INTEGER_32 = 100
+
+	Lower_e: INTEGER_32 = 101
+
+	Lower_f: INTEGER_32 = 102
+
+	Lower_g: INTEGER_32 = 103
+
+	Lower_h: INTEGER_32 = 104
+
+	Lower_i: INTEGER_32 = 105
+
+	Lower_j: INTEGER_32 = 106
+
+	Lower_k: INTEGER_32 = 107
+
+	Lower_l: INTEGER_32 = 108
+
+	Lower_m: INTEGER_32 = 109
+
+	Lower_n: INTEGER_32 = 110
+
+	Lower_o: INTEGER_32 = 111
+
+	Lower_p: INTEGER_32 = 112
+
+	Lower_q: INTEGER_32 = 113
+
+	Lower_r: INTEGER_32 = 114
+
+	Lower_s: INTEGER_32 = 115
+
+	Lower_t: INTEGER_32 = 116
+
+	Lower_u: INTEGER_32 = 117
+
+	Lower_v: INTEGER_32 = 118
+
+	Lower_w: INTEGER_32 = 119
+
+	Lower_x: INTEGER_32 = 120
+
+	Lower_y: INTEGER_32 = 121
+
+	Lower_z: INTEGER_32 = 122
+
+	Minus: INTEGER_32 = 45
+
+	Nak: INTEGER_32 = 21
+
+	Nine: INTEGER_32 = 57
+
+	Nl: INTEGER_32 = 10
+
+	Np: INTEGER_32 = 12
+
+	Nul: INTEGER_32 = 0
+
+	Number_sign: INTEGER_32 = 35
+
+	One: INTEGER_32 = 49
+
+	Opening_brace: INTEGER_32 = 123
+
+	Overflow: INTEGER_32 = -8
+
+	Percent: INTEGER_32 = 37
+
+	Plus: INTEGER_32 = 43
+
+	Questmark: INTEGER_32 = 63
+
+	Rbracket: INTEGER_32 = 93
+
+	Rcurly: INTEGER_32 = 41
+
+	Right_arrow: INTEGER_32 = -5
+
+	Rs: INTEGER_32 = 30
+
+	Semicolon: INTEGER_32 = 59
+
+	Seven: INTEGER_32 = 55
+
+	Si: INTEGER_32 = 15
+
+	Singlequote: INTEGER_32 = 39
+
+	Six: INTEGER_32 = 54
+
+	Slash: INTEGER_32 = 47
+
+	So: INTEGER_32 = 14
+
+	Soh: INTEGER_32 = 1
+
+	Sp: INTEGER_32 = 32
+
+	Star: INTEGER_32 = 42
+
+	Stx: INTEGER_32 = 2
+
+	Sub: INTEGER_32 = 26
+
+	Syn: INTEGER_32 = 22
+
+	Tabulation: INTEGER_32 = 9
+
+	Three: INTEGER_32 = 51
+
+	Tilde: INTEGER_32 = 126
+
+	Two: INTEGER_32 = 50
+
+	Underlined: INTEGER_32 = 95
+
+	Up_arrow: INTEGER_32 = -2
+
+	Upper_a: INTEGER_32 = 65
+
+	Upper_b: INTEGER_32 = 66
+
+	Upper_c: INTEGER_32 = 67
+
+	Upper_d: INTEGER_32 = 68
+
+	Upper_e: INTEGER_32 = 69
+
+	Upper_f: INTEGER_32 = 70
+
+	Upper_g: INTEGER_32 = 71
+
+	Upper_h: INTEGER_32 = 72
+
+	Upper_i: INTEGER_32 = 73
+
+	Upper_j: INTEGER_32 = 74
+
+	Upper_k: INTEGER_32 = 75
+
+	Upper_l: INTEGER_32 = 76
+
+	Upper_m: INTEGER_32 = 77
+
+	Upper_n: INTEGER_32 = 78
+
+	Upper_o: INTEGER_32 = 79
+
+	Upper_p: INTEGER_32 = 80
+
+	Upper_q: INTEGER_32 = 81
+
+	Upper_r: INTEGER_32 = 82
+
+	Upper_s: INTEGER_32 = 83
+
+	Upper_t: INTEGER_32 = 84
+
+	Upper_u: INTEGER_32 = 85
+
+	Upper_v: INTEGER_32 = 86
+
+	Upper_w: INTEGER_32 = 87
+
+	Upper_x: INTEGER_32 = 88
+
+	Upper_y: INTEGER_32 = 89
+
+	Upper_z: INTEGER_32 = 90
+
+	Us: INTEGER_32 = 31
+
+	Vt: INTEGER_32 = 11
+
+	Zero: INTEGER_32 = 48
+	
+feature -- Comparison
+
+	frozen deep_equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void
+			-- or attached to isomorphic object structures?
+			-- (from ANY)
+		ensure -- from ANY
+			shallow_implies_deep: standard_equal (a, b) implies Result
+			both_or_none_void: (a = Void) implies (Result = (b = Void))
+			same_type: (Result and (a /= Void)) implies (b /= Void and then a.same_type (b))
+			symmetric: Result implies deep_equal (b, a)
+
+	frozen equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void or attached
+			-- to objects considered equal?
+			-- (from ANY)
+		ensure -- from ANY
+			definition: Result = (a = Void and b = Void) or else ((a /= Void and b /= Void) and then a.is_equal (b))
+
+	frozen is_deep_equal (other: attached ASCII): BOOLEAN
+			-- Are `Current' and `other' attached to isomorphic object structures?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		ensure -- from ANY
+			shallow_implies_deep: standard_is_equal (other) implies Result
+			same_type: Result implies same_type (other)
+			symmetric: Result implies other.is_deep_equal (Current)
+
+	is_equal (other: attached ASCII): BOOLEAN
+			-- Is `other' attached to an object considered
+			-- equal to current object?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		ensure -- from ANY
+			symmetric: Result implies other ~ Current
+			consistent: standard_is_equal (other) implies Result
+
+	frozen standard_equal (a: detachable ANY; b: like arg #1): BOOLEAN
+			-- Are `a' and `b' either both void or attached to
+			-- field-by-field identical objects of the same type?
+			-- Always uses default object comparison criterion.
+			-- (from ANY)
+		ensure -- from ANY
+			definition: Result = (a = Void and b = Void) or else ((a /= Void and b /= Void) and then a.standard_is_equal (b))
+
+	frozen standard_is_equal (other: attached ASCII): BOOLEAN
+			-- Is `other' attached to an object of the same type
+			-- as current object, and field-by-field identical to it?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		ensure -- from ANY
+			same_type: Result implies same_type (other)
+			symmetric: Result implies other.standard_is_equal (Current)
+	
+feature -- Status report
+
+	conforms_to (other: ANY): BOOLEAN
+			-- Does type of current object conform to type
+			-- of `other' (as per Eiffel: The Language, chapter 13)?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+
+	same_type (other: ANY): BOOLEAN
+			-- Is type of current object identical to type of `other'?
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		ensure -- from ANY
+			definition: Result = (conforms_to (other) and other.conforms_to (Current))
+	
+feature -- Duplication
+
+	copy (other: attached ASCII)
+			-- Update current object using fields of object attached
+			-- to `other', so as to yield equal objects.
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+			type_identity: same_type (other)
+		ensure -- from ANY
+			is_equal: Current ~ other
+
+	frozen deep_copy (other: attached ASCII)
+			-- Effect equivalent to that of:
+			--		copy (`other' . deep_twin)
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+		ensure -- from ANY
+			deep_equal: deep_equal (Current, other)
+
+	frozen deep_twin: attached ASCII
+			-- New object structure recursively duplicated from Current.
+			-- (from ANY)
+		ensure -- from ANY
+			deep_twin_not_void: Result /= Void
+			deep_equal: deep_equal (Current, Result)
+
+	frozen standard_copy (other: attached ASCII)
+			-- Copy every field of `other' onto corresponding field
+			-- of current object.
+			-- (from ANY)
+		require -- from ANY
+			other_not_void: other /= Void
+			type_identity: same_type (other)
+		ensure -- from ANY
+			is_standard_equal: standard_is_equal (other)
+
+	frozen standard_twin: attached ASCII
+			-- New object field-by-field identical to `other'.
+			-- Always uses default copying semantics.
+			-- (from ANY)
+		ensure -- from ANY
+			standard_twin_not_void: Result /= Void
+			equal: standard_equal (Result, Current)
+
+	frozen twin: attached ASCII
+			-- New object equal to `Current'
+			-- twin calls copy; to change copying/twinning semantics, redefine copy.
+			-- (from ANY)
+		ensure -- from ANY
+			twin_not_void: Result /= Void
+			is_equal: Result ~ Current
+	
+feature -- Basic operations
+
+	frozen as_attached: attached ASCII
+			-- Attached version of Current
+			-- (Can be used during transitional period to convert
+			-- non-void-safe classes to void-safe ones.)
+			-- (from ANY)
+
+	frozen default: detachable ASCII
+			-- Default value of object's type
+			-- (from ANY)
+
+	frozen default_pointer: POINTER
+			-- Default value of type `POINTER'
+			-- (Avoid the need to write `p'.default for
+			-- some `p' of type `POINTER'.)
+			-- (from ANY)
+
+	default_rescue
+			-- Process exception for routines with no Rescue clause.
+			-- (Default: do nothing.)
+			-- (from ANY)
+
+	frozen do_nothing
+			-- Execute a null action.
+			-- (from ANY)
+	
+feature -- Output
+
+	Io: STD_FILES
+			-- Handle to standard file setup
+			-- (from ANY)
+		ensure -- from ANY
+			io_not_void: Result /= Void
+
+	out: STRING_8
+			-- New string containing terse printable representation
+			-- of current object
+			-- (from ANY)
+		ensure -- from ANY
+			out_not_void: Result /= Void
+
+	print (o: detachable ANY)
+			-- Write terse external representation of `o'
+			-- on standard output.
+			-- (from ANY)
+
+	frozen tagged_out: STRING_8
+			-- New string containing terse printable representation
+			-- of current object
+			-- (from ANY)
+		ensure -- from ANY
+			tagged_out_not_void: Result /= Void
+	
+feature -- Platform
+
+	Operating_environment: OPERATING_ENVIRONMENT
+			-- Objects available from the operating system
+			-- (from ANY)
+		ensure -- from ANY
+			operating_environment_not_void: Result /= Void
+	
+invariant
+		-- from ANY
+	reflexive_equality: standard_is_equal (Current)
+	reflexive_conformance: conforms_to (Current)
+
+note
+	copyright: "Copyright (c) 1984-2012, Eiffel Software and others"
+	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
+	source: "[
+		Eiffel Software
+		5949 Hollister Ave., Goleta, CA 93117 USA
+		Telephone 805-685-1006, Fax 805-685-6869
+		Website http://www.eiffel.com
+		Customer support http://support.eiffel.com
+	]"
+
+end -- class ASCII
+
+

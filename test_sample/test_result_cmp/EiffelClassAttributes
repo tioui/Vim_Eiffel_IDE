@@ -1,0 +1,36 @@
+
+
+Class CONTAINER* [G]:
+
+	object_comparison: BOOLEAN
+
+Class FILE*:
+
+	descriptor_available: BOOLEAN
+	file_pointer: POINTER
+	internal_detachable_name_pointer: detachable MANAGED_POINTER
+	internal_name: READABLE_STRING_GENERAL
+	mode: INTEGER_32
+	separator: CHARACTER_8
+
+Class IO_MEDIUM*:
+
+	bytes_read: INTEGER_32
+	last_character: CHARACTER_8
+	last_double: REAL_64
+	last_integer: INTEGER_32
+	last_integer_16: INTEGER_16
+	last_integer_64: INTEGER_64
+	last_integer_8: INTEGER_8
+	last_natural: NATURAL_32
+	last_natural_16: NATURAL_16
+	last_natural_64: NATURAL_64
+	last_natural_8: NATURAL_8
+	last_real: REAL_32
+	last_string: STRING_8
+
+Class PLAIN_TEXT_FILE:
+
+	is_sequence_an_expected_numeric: BOOLEAN
+
+

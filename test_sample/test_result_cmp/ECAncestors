@@ -1,0 +1,17 @@
+
+
+	CURSOR_TREE* [G]
+		HIERARCHICAL* [G]
+			TRAVERSABLE* [G]
+				CONTAINER* [G]
+					ANY
+		CURSOR_STRUCTURE* [G]
+			ACTIVE* [G]
+				BAG* [G]
+					COLLECTION* [G]
+						CONTAINER* [G]...
+		LINEAR* [G]
+			TRAVERSABLE* [G]...
+		LINEAR* [G]...
+
+
