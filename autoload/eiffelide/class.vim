@@ -22,31 +22,45 @@
 " OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 " THE SOFTWARE.
 
-
 python << endpython
+
+def get_class_from_buffer():
+	if vim.eval("bufname('%')") ==\
+			vim.eval("g:eiffel_ide_buffer_name"):
+		l_class = vim.eval("b:eiffel_ide_buffer_class")
+	else:
+		l_buffer_text = "\n".join(vim.current.buffer)
+		l_class = eiffel_project.class_name_from_text(l_buffer_text)
+	return l_class
+
 def class_execute(a_name, a_routine):
-    """Tool routine for all class information functionnalities
+	"""Tool routine for all class information functionnalities
 
-    a_name: The name of the functionnality
-    a_routine: The lambda routine that get/print information
+	a_name: The name of the functionnality
+	a_routine: The lambda routine that get/print information
 
-    Return: None
-    """
-    if int(vim.eval("a:0")) > 0:
-        l_class = vim.eval("a:1")
-    else:
-        l_class = environment.word_under_the_cursor()
-    if l_class:
-        l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-        vim.command("let b:eiffel_ide_buffer_info = \"Getting " +
-                    a_name.lower() + " of " + l_class + "\"")
-        vim.command("setlocal filetype=eiffel")
-        l_buffer = environment.buffer(l_buffer_number)
-        a_routine(l_class, l_buffer)
-        vim.command("let b:eiffel_ide_buffer_info = \"" + a_name + " of " +
-                    l_class + "\"")
-    else:
-        print "Class name not valid"
+	Return: None
+	"""
+	if int(vim.eval("a:0")) > 0:
+		l_class = vim.eval("a:1")
+		if l_class == "%":
+			l_class = get_class_from_buffer()
+	else:
+		l_class = environment.word_under_the_cursor()
+		if not l_class:
+			l_class = get_class_from_buffer()
+	if l_class:
+		l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+		vim.command("let b:eiffel_ide_buffer_info = \"Getting " +
+					a_name.lower() + " of " + l_class + "\"")
+		vim.command("setlocal filetype=eiffel")
+		l_buffer = environment.window(l_buffer_number, False)
+		a_routine(l_class, l_buffer)
+		vim.command("let b:eiffel_ide_buffer_info = \"" + a_name + " of " +
+					l_class + "\"")
+		vim.command("let b:eiffel_ide_buffer_class = \"" + l_class + "\"")
+	else:
+		print "Class name not valid"
 endpython
 
 

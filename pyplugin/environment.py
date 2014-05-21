@@ -115,28 +115,41 @@ def word_under_the_cursor():
     return result
 
 
-class buffer:
-    """A Vim buffer."""
+def buffer_to_text(a_number=None):
+    if a_number:
+        l_buffer = vim.buffers[int(a_number)]
+    else:
+        l_buffer = vim.current.buffer
+    return "\n".join(l_buffer)
+
+
+class window:
+    """A Vim window."""
 
     _item = None
-    """Internal Vim buffer represented by `Current'"""
+    """Internal Vim window represented by `Current'"""
 
-    def __init__(self, a_number=None):
-        """Constructor of the vim buffer
-        Create a python interface of a Vim buffer. If `a_number' is provided,
-        `Current' represent the vim buffer with that number value. If
+    must_scroll = False
+    """`Current' must scroll when the full"""
+
+    def __init__(self, a_number=None, scroll=False):
+        """Constructor of the vim window
+        Create a python interface of a Vim window. If `a_number' is provided,
+        `Current' represent the vim window with that number value. If
         `a_number' is not provided, `Current' represent the currently used
-        Vim buffer.
+        Vim window.
         """
         if a_number:
             self._item = vim.buffers[int(a_number)]
         else:
             self._item = vim.current.buffer
+        self.must_scroll = scroll
 
     def append(self, a_text):
         """Append `a_text' to `Current'"""
         self._item.append(a_text.split("\n"))
-        vim.command("normal! G")
+        if self.must_scroll:
+            vim.command("normal! G")
         vim.command("redraw")
 
     def clear(self):

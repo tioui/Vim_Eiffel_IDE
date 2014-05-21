@@ -245,6 +245,7 @@ function! eiffelide#open_tools_window()
         setlocal buftype=nofile
         setlocal bufhidden=hide
         setlocal noswapfile
+		let b:eiffel_ide_buffer_class = ""
 		let b:eiffel_ide_buffer_info = "Eiffel IDE Information"
 		redraw
 		wincmd p

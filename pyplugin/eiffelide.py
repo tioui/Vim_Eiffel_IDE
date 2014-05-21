@@ -87,6 +87,8 @@ class project:
         Erronous line if any (Key 'line')
     """
 
+    _tools_regex = None
+
     def command_output(self):
         """Return the standard and error output of the compiler on the last
         compilation"""
@@ -153,15 +155,7 @@ class project:
         """True if the last compilation has generated a warning"""
         return self._has_warning
 
-    def __init__(self, a_config_file, a_target_name=None):
-        """Constructor of `Current' using `a_config_file' as config
-        file name and optionnaly `a_target_name' as the target."""
-        self.set_config_file(a_config_file)
-        self.set_target_name(a_target_name)
-        self._is_compile = True
-        self._has_executable = True
-        self._error_list = []
-        self._warning_list = []
+    def _init_error_warning_regex(self):
         l_regex = {"separator": re.compile(
             "-{35}(?:\n|\r\n?)+(.+?)(?:\n|\r\n?)+-{35}",
             re.MULTILINE | re.DOTALL
@@ -178,7 +172,36 @@ class project:
         l_regex["class"] = re.compile("^Class: (.+)$", re.MULTILINE)
         l_regex["feature"] = re.compile("^Feature: (.+)$", re.MULTILINE)
         l_regex["line"] = re.compile("^Line: ([0-9]+)$", re.MULTILINE)
+        l_regex["syntax"] = re.compile(
+            "^(Syntax error at line ([0-9]+) in class (.+))$",
+            re.MULTILINE)
         self._error_warning_regex = l_regex
+
+    def _init_tools_regex(self):
+        l_regex = {
+            "comment": re.compile("--.*$", re.MULTILINE)
+        }
+        l_regex["string"] = re.compile(
+            '("\[(([^\]%]|\n)|%(.|\n)|\][^"])*?\]")|("([^"%\n]|%.)*?")',
+            re.MULTILINE
+        )
+        l_regex["class"] = re.compile(
+            "[^0-9A-Za-z_]class[\n\r\t ]*([0-9A-Za-z_]*)",
+            re.MULTILINE
+        )
+        self._tools_regex = l_regex
+
+    def __init__(self, a_config_file, a_target_name=None):
+        """Constructor of `Current' using `a_config_file' as config
+        file name and optionnaly `a_target_name' as the target."""
+        self.set_config_file(a_config_file)
+        self.set_target_name(a_target_name)
+        self._is_compile = True
+        self._has_executable = True
+        self._error_list = []
+        self._warning_list = []
+        self._init_error_warning_regex()
+        self._init_tools_regex()
 
     def _execute_compiler(self, a_input, a_params, a_window=None,
                           a_get_stdout=True, a_get_stderr=True):
@@ -245,7 +268,7 @@ class project:
             self._is_compile = True
         if "C compilation completed" in a_data:
             self._has_executable = True
-        self._has_error = "Error" in a_data
+        self._has_error = "Error" in a_data or "Syntax error" in a_data
         self._has_warning = "Warning" in a_data or "Obsolete" in a_data
         if self.has_error() or self.has_warning():
             self._extract_errors_and_warnings(a_data)
@@ -263,6 +286,20 @@ class project:
             if "Warning code:" in l_item:
                 self._manage_an_error_or_warning(l_item, self._warning_list,
                                                  "warning")
+            if "Syntax error" in l_item:
+                self._manage_syntax_error(l_item, self._error_list)
+
+    def _manage_syntax_error(self, a_text, a_list):
+        l_result = {"group": a_text}
+        l_match_list = self._error_warning_regex["syntax"].findall(a_text)
+        if len(l_match_list) > 0:
+            l_result["code"] = ""
+            l_result["desc"] = l_match_list[0][0]
+            l_result["what_to_do"] = ""
+            l_result["class"] = l_match_list[0][2]
+            l_result["feature"] = ""
+            l_result["line"] = l_match_list[0][1]
+        a_list.append(l_result)
 
     def _manage_an_error_or_warning(self, a_text, a_list, a_mode):
         """Create a dictionnairy from a error or warning in `a_text' and
@@ -467,3 +504,14 @@ class project:
         """
         self._execute_compiler("C\nT\n" + a_class + "\n\nQ\n",
                                ["-loop"], a_window, False, True)
+
+    def class_name_from_text(self, a_text):
+        a_text_no_comment = self._tools_regex["comment"].sub("", a_text)
+        a_text_no_string = self._tools_regex["string"].sub('""',
+                                                           a_text_no_comment)
+        l_match_list = self._tools_regex["class"].findall(a_text_no_string)
+        if len(l_match_list) > 0:
+            l_class_name = l_match_list[0]
+        else:
+            l_class_name = ""
+        return l_class_name
