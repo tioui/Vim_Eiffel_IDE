@@ -23,20 +23,20 @@
 " THE SOFTWARE.
 
 " DESC: Run a compilation from scratch of the openned `eiffel_project'
-function! eiffelide#compilation#recompile()
+"function! eiffelide#compilation#recompile()
 python << endpython
-if eiffel_project:
-	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Compiling...\"")
-	l_buffer = environment.window(l_buffer_number,True)
-	eiffel_project.recompile(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Compilation output\"")
-	if not eiffel_project.has_error():
-		vim.command("call eiffelide#return_to_saved_window()")
-else:
-	print "No Vim Eiffel IDE project opened."
+#if eiffel_project:
+#	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
+#	vim.command("let b:eiffel_tools_buffer_info = \"Compiling...\"")
+#	l_buffer = environment.window(l_buffer_number,True)
+#	eiffel_project.recompile(l_buffer)
+#	vim.command("let b:eiffel_tools_buffer_info = \"Compilation output\"")
+#	if not eiffel_project.has_error():
+#		vim.command("call eiffelide#return_to_saved_window()")
+#else:
+#	print "No Vim Eiffel IDE project opened."
 endpython
-endfunction
+"endfunction
 
 " DESC: Run a 'Freezing' compilation of the openned `eiffel_project'
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology 
@@ -44,10 +44,10 @@ function! eiffelide#compilation#freeze()
 python << endpython
 if eiffel_project:
 	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Freezing...\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Freezing...\"")
 	l_buffer = environment.window(l_buffer_number,True)
 	eiffel_project.freeze(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Freeze output\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Freeze output\"")
 	if not eiffel_project.has_error():
 		vim.command("call eiffelide#return_to_saved_window()")
 else:
@@ -61,10 +61,10 @@ function! eiffelide#compilation#melt()
 python << endpython
 if eiffel_project:
 	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Melting...\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Melting...\"")
 	l_buffer = environment.window(l_buffer_number,True)
 	eiffel_project.melt(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Melt output\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Melt output\"")
 	if not eiffel_project.has_error():
 		vim.command("call eiffelide#return_to_saved_window()")
 else:
@@ -77,10 +77,10 @@ function! eiffelide#compilation#finalize()
 python << endpython
 if eiffel_project:
 	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Finalizing...\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Finalizing...\"")
 	l_buffer = environment.window(l_buffer_number,True)
 	eiffel_project.finalize(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Finalize output\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Finalize output\"")
 	if not eiffel_project.has_error():
 		vim.command("call eiffelide#return_to_saved_window()")
 else:
@@ -94,10 +94,10 @@ function! eiffelide#compilation#quick_melt()
 python << endpython
 if eiffel_project:
 	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Quick melting...\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Quick melting...\"")
 	l_buffer = environment.window(l_buffer_number,True)
 	eiffel_project.quick_melt(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Quick melt output\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Quick melt output\"")
 	if not eiffel_project.has_error():
 		vim.command("call eiffelide#return_to_saved_window()")
 else:
@@ -113,10 +113,10 @@ function! eiffelide#compilation#quick_melt_no_focus()
 python << endpython
 if eiffel_project:
 	l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-	vim.command("let b:eiffel_ide_buffer_info = \"Compiling...\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Compiling...\"")
 	l_buffer = environment.window(l_buffer_number,True)
 	eiffel_project.quick_melt(l_buffer)
-	vim.command("let b:eiffel_ide_buffer_info = \"Compilation output\"")
+	vim.command("let b:eiffel_tools_buffer_info = \"Compilation output\"")
 	vim.command("call eiffelide#return_to_saved_window()")
 else:
 	print "No Vim Eiffel IDE project opened."

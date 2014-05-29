@@ -26,8 +26,8 @@ python << endpython
 
 def get_class_from_buffer():
 	if vim.eval("bufname('%')") ==\
-			vim.eval("g:eiffel_ide_buffer_name"):
-		l_class = vim.eval("b:eiffel_ide_buffer_class")
+			vim.eval("g:eiffel_tools_buffer_name"):
+		l_class = vim.eval("b:eiffel_tools_buffer_class")
 	else:
 		l_buffer_text = "\n".join(vim.current.buffer)
 		l_class = eiffel_project.class_name_from_text(l_buffer_text)
@@ -51,14 +51,14 @@ def class_execute(a_name, a_routine):
 			l_class = get_class_from_buffer()
 	if l_class:
 		l_buffer_number = vim.eval("eiffelide#open_tools_window()")
-		vim.command("let b:eiffel_ide_buffer_info = \"Getting " +
+		vim.command("let b:eiffel_tools_buffer_info = \"Getting " +
 					a_name.lower() + " of " + l_class + "\"")
 		vim.command("setlocal filetype=eiffel")
 		l_buffer = environment.window(l_buffer_number, False)
 		a_routine(l_class, l_buffer)
-		vim.command("let b:eiffel_ide_buffer_info = \"" + a_name + " of " +
+		vim.command("let b:eiffel_tools_buffer_info = \"" + a_name + " of " +
 					l_class + "\"")
-		vim.command("let b:eiffel_ide_buffer_class = \"" + l_class + "\"")
+		vim.command("let b:eiffel_tools_buffer_class = \"" + l_class + "\"")
 	else:
 		print "Class name not valid"
 endpython

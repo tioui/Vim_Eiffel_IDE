@@ -118,4 +118,5 @@ function! eiffelide#tests#execute()
 	call Valide_informations("EiffelClassText")
 	ECText GC_INFO
 	call Valide_informations("ECText")
+	echo "Tests done."
 endfunction

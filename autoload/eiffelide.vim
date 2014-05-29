@@ -34,77 +34,93 @@ if !exists("g:eiffel_plugin_root")
 endif
 
 " DESC: Redefine to change the Eiffel IDE Tools buffer name
-if !exists("g:eiffel_ide_buffer_name")
-    let g:eiffel_ide_buffer_name = "__eiffel_IDE_tools__"
+if !exists("g:eiffel_tools_buffer_name")
+    let g:eiffel_tools_buffer_name = "__eiffel_IDE_tools__"
 endif
 
 " DESC: Redefine to change the default Eiffel IDE tools window height or width.
-if !exists("g:eiffel_ide_tools_window_dimension")
-    let g:eiffel_ide_tools_window_dimension = 10
+if !exists("g:eiffel_tools_window_dimension")
+    let g:eiffel_tools_window_dimension = 10
 endif
 
 " DESC: Redefine to put the Eiffel IDE tools above (or left) of the current window
-" SEE: `g:eiffel_ide_tools_window_vertical'
-if !exists("g:eiffel_ide_tools_window_leftabove")
-    let g:eiffel_ide_tools_window_leftabove= 0
+" SEE: `g:eiffel_tools_window_vertical'
+if !exists("g:eiffel_tools_window_leftabove")
+    let g:eiffel_tools_window_leftabove= 0
 endif
 
 " DESC: Redefine to put the Eiffel IDE tools à the right (or left) or the
 " current window
-" SEE: `g:eiffel_ide_tools_window_leftabove'
-if !exists("g:eiffel_ide_tools_window_vertical")
-    let g:eiffel_ide_tools_window_vertical = 0
+" SEE: `g:eiffel_tools_window_leftabove'
+if !exists("g:eiffel_tools_window_vertical")
+    let g:eiffel_tools_window_vertical = 0
 endif
 
 " DESC: Redefine to put the Eiffel IDE tools à the right (or left) or the
 " current window
-" SEE: `g:eiffel_ide_tools_window_leftabove'
-if !exists("g:eiffel_ide_tools_window_statusline")
+" SEE: `g:eiffel_tools_window_leftabove'
+if !exists("g:eiffel_tools_window_statusline")
 	let status_line = "%f%m%r%h%w%q%=[%l,%v][%p%%]"
 	if &statusline !=# ''
 		let status_line = &statusline
 	endif
-	let status_line = substitute(status_line,"%f","%{exists('b:eiffel_ide_buffer_info')?(b:eiffel_ide_buffer_info):bufname('%')}","")
-	let status_line = substitute(status_line,"%F","%{exists('b:eiffel_ide_buffer_info')?(b:eiffel_ide_buffer_info):fnamemodify(bufname('%'), ':p')}","")
-    let g:eiffel_ide_tools_window_statusline = status_line
+	let status_line = substitute(status_line,"%f","%{exists('b:eiffel_tools_buffer_info')?(b:eiffel_tools_buffer_info):bufname('%')}","")
+	let status_line = substitute(status_line,"%F","%{exists('b:eiffel_tools_buffer_info')?(b:eiffel_tools_buffer_info):fnamemodify(bufname('%'), ':p')}","")
+    let g:eiffel_tools_window_statusline = status_line
 endif
 
-let &statusline = g:eiffel_ide_tools_window_statusline
+let &statusline = g:eiffel_tools_window_statusline
+
+
+
+
+" DESC: Python environment initialisation
+python import sys, vim
+
+python sys.path.insert(0, vim.eval('g:eiffel_plugin_root')+"/pyplugin")
+
+python import eiffelproject, environment, eiffelide, eiffelcompilation
+
+" DESC: The Eiffel Project python object
+" SEE: `project' class in pyplugin/eiffelide.py 
+python eiffel_project = None
+
+
 
 
 " ========================== Compilation commands============================
 
 " DESC: Command shortcuts for a simple speedy compilation
-command! EiffelCompile call eiffelide#compilation#quick_melt_no_focus()
+command! EiffelCompile python eiffelcompilation.quick_melt_no_focus(eiffel_project)
 
 command! ECompile EiffelCompile 
 
 command! EC EiffelCompile 
 
 " DESC: Command shortcuts for a 'Recompile from scratch' compilation
-command! EiffelRecompile call eiffelide#compilation#recompile()
+command! EiffelRecompile python eiffelcompilation.recompile(eiffel_project)
 
 command! ERecompile EiffelRecompile 
 
 " DESC: Command shortcuts for a 'Finalize' compilation.
-command! EiffelFinalize call eiffelide#compilation#finalize()
+command! EiffelFinalize python eiffelcompilation.finalize(eiffel_project)
 
 command! EFinalize EiffelFinalize 
 
 " DESC: Command shortcuts for a 'Freeze' compilation.
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-command! EiffelFreeze call eiffelide#compilation#freeze()
+command! EiffelFreeze python eiffelcompilation.freeze(eiffel_project)
 
 command! EFreeze EiffelFreeze 
 
 " DESC: Command shortcut for a 'Melting' compilation
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-command! EiffelMelt call eiffelide#compilation#melt()
+command! EiffelMelt python eiffelcompilation.melt(eiffel_project)
 
 command! EMelt EiffelMelt
 
 " DESC: Command shortcut for a 'Quick Melting' compilation
-command! EiffelQuickMelt call eiffelide#compilation#quick_melt()
+command! EiffelQuickMelt python eiffelcompilation.quick_melt(eiffel_project)
 
 command! EQuickMelt EiffelQuickMelt
 
@@ -217,83 +233,76 @@ command! ERun EiffelRun
 
 " ============================ Common routines ============================
 
-" DESC: Use the `g:saved_window_number' value to go to preceding window
+" DESC: Use the `g:eiffel_saved_window_number' value to go to preceding window
 " SEE: `eiffelide#open_tools_window()'
 function! eiffelide#return_to_saved_window()
-    if exists("g:saved_window_number")
-	execute g:saved_window_number . " wincmd w"
+    if exists("g:eiffel_saved_window_number")
+	execute g:eiffel_saved_window_number . " wincmd w"
     endif
 endfunction
 
 " DESC: If it does not exist, create the Eiffel IDE tools buffer, show it in
 " a window, save the number of the current selected window in
-" `g:saved_window_number' and return the Eiffel IDE tools buffer number.
+" `g:eiffel_saved_window_number' and return the Eiffel IDE tools buffer number.
 " SEE: `eiffelide#return_to_saved_window()'
 function! eiffelide#open_tools_window()
-    if g:eiffel_ide_tools_window_vertical
+    if g:eiffel_tools_window_vertical
 		let l:vertical = "vertical"
     else
 		let l:vertical = ""
     endif
-    if g:eiffel_ide_tools_window_leftabove
+    if g:eiffel_tools_window_leftabove
 		let l:position = "leftabove"
     else
 		let l:position = "rightbelow"
     endif
-    if bufnr(g:eiffel_ide_buffer_name) < 0
-        execute l:position . " " . l:vertical . " " . g:eiffel_ide_tools_window_dimension . " new " . g:eiffel_ide_buffer_name
+    if bufnr(g:eiffel_tools_buffer_name) < 0
+        execute l:position . " " . l:vertical . " " . g:eiffel_tools_window_dimension . " new " . g:eiffel_tools_buffer_name
         setlocal buftype=nofile
         setlocal bufhidden=hide
         setlocal noswapfile
-		let b:eiffel_ide_buffer_class = ""
-		let b:eiffel_ide_buffer_info = "Eiffel IDE Information"
+		let b:eiffel_tools_buffer_class = ""
+		let b:eiffel_tools_buffer_info = "Eiffel IDE Information"
 		redraw
 		wincmd p
-		let g:saved_window_number = bufwinnr('%')
+		let g:eiffel_saved_window_number = bufwinnr('%')
 		wincmd p
     else
-		if bufwinnr(g:eiffel_ide_buffer_name) < 0
-			execute l:position . " " . l:vertical . " " . g:eiffel_ide_tools_window_dimension . " split " . g:eiffel_ide_buffer_name
+		if bufwinnr(g:eiffel_tools_buffer_name) < 0
+			execute l:position . " " . l:vertical . " " . g:eiffel_tools_window_dimension . " split " . g:eiffel_tools_buffer_name
 			redraw
 			wincmd p
-			let g:saved_window_number = bufwinnr('%')
+			let g:eiffel_saved_window_number = bufwinnr('%')
 			wincmd p
 		else
-			let g:saved_window_number = bufwinnr('%')
-			execute bufwinnr(g:eiffel_ide_buffer_name) . " wincmd w"
+			let g:eiffel_saved_window_number = bufwinnr('%')
+			execute bufwinnr(g:eiffel_tools_buffer_name) . " wincmd w"
 		endif
     endif
 	setlocal filetype=
-    return bufnr(g:eiffel_ide_buffer_name)
+    return bufnr(g:eiffel_tools_buffer_name)
 endfunction
-
-" DESC: Python environment initialisation
-python import sys, vim
-
-python sys.path.insert(0, vim.eval('g:eiffel_plugin_root')+"/pyplugin")
-
-python import eiffelide, environment
-
-" DESC: The Eiffel Project python object
-" SEE: `project' class in pyplugin/eiffelide.py 
-python eiffel_project = None
 
 " DESC: Open an Eiffel Project. The first optionnal argument is the Eiffel 
 " project (.ecf) file. The second optionnal argument is the project target.
 " SEE: `eiffel_project'
 function! eiffelide#open(...)
     if a:0 ># 0
-	let config_file = fnamemodify(a:1,':p')
+		if a:1 ==# "%"
+			let config_file = fnamemodify(bufname("%"), ':p')
+		else
+			let config_file = fnamemodify(a:1,':p')
+		endif
     else
-	let config_file = fnamemodify(bufname("%"), ':p')
+		let config_file = fnamemodify(bufname("%"), ':p')
     endif
     echom "Opening Vim Eiffel IDE."
     if a:0 ># 1
-	python eiffel_project = eiffelide.project(vim.eval('config_file'),vim.eval('a:2'))
+		python eiffel_project = eiffelproject.project(vim.eval('config_file'),vim.eval('a:2'))
     else
-	python eiffel_project = eiffelide.project(vim.eval('config_file'))
+		python eiffel_project = eiffelproject.project(vim.eval('config_file'))
     endif
-    call eiffelide#compilation#quick_melt()
+	EiffelQuickMelt
 endfunction
 
 " DESC: Open an Eiffel Project. The first optionnal argument is the Eiffel 

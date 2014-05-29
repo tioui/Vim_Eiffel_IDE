@@ -31,60 +31,105 @@ import vim
 import string
 
 
+def evaluate(a_instruction):
+    """Evaluate the Vim instruction `a_instruction' and retuen a string
+    containing the result"""
+    return vim.eval(a_instruction)
+
+
+def execute(a_command):
+    """Execute the Vim command `a_command'"""
+    vim.command(a_command)
+
+
+def is_prefixed_variable_exists(a_prefix, a_variable_name):
+    """Is the Vim variable named `a_variable_name' prefixed with `a_prefix' has
+    been define."""
+    return int(evaluate(
+        "exists(\"" + a_prefix + ":" + a_variable_name + "\")"
+    ))
+
+
+def get_prefixed_variable(a_prefix, a_variable_name):
+    """Return the Vim variable named `a_variable_name' and prefixed with
+    `a_prefix'."""
+    return evaluate(a_prefix + ":" + a_variable_name)
+
+
+def set_prefixed_variable(a_prefix, a_variable_name, a_value):
+    """Assign the value `a_value' to the vim variable
+    `a_variable_name' prefixed with `a_prefix'."""
+    if a_value is None or str(a_value) == "":
+        execute("let " + a_prefix + ":" + a_variable_name + " = \"\"")
+    else:
+        execute(
+            "let " + a_prefix + ":" + a_variable_name + " = \"" +\
+            str(a_value) + "\""
+        )
+
+
+def is_global_variable_exists(a_variable_name):
+    """Is the Vim global variable named `a_variable_name' has been define."""
+    return is_prefixed_variable_exists("g", a_variable_name)
+
+
 def get_global_variable(a_variable_name):
     """Return the Vim global variable named `a_variable_name'."""
-    return vim.eval("g:" + a_variable_name)
+    return get_prefixed_variable("g", a_variable_name)
 
 
 def set_global_variable(a_variable_name, a_value):
     """Assign the value `a_value' to the vim global variable
     `a_variable_name'."""
-    if a_value is None or str(a_value) == "":
-        vim.command("let g:" + a_variable_name + " = \"\"")
-    else:
-        vim.command("let g:" + a_variable_name + " = " + str(a_value))
+    set_prefixed_variable("g", a_variable_name, a_value)
+
+
+def is_argument_variable_exists(a_variable_name):
+    """Is the Vim argument variable named `a_variable_name' has been define."""
+    return is_prefixed_variable_exists("a", a_variable_name)
 
 
 def get_argument_variable(a_variable_name):
     """Return the Vim local argument variable named `a_variable_name'."""
-    return vim.eval("a:" + a_variable_name)
+    return get_prefixed_variable("g", a_variable_name)
 
 
 def set_argument_variable(a_variable_name, a_value):
     """Assign the value `a_value' to the vim local argument variable
     `a_variable_name'."""
-    if a_value is None or str(a_value) == "":
-        vim.command("let a:" + a_variable_name + " = \"\"")
-    else:
-        vim.command("let a:" + a_variable_name + " = " + str(a_value))
+    set_prefixed_variable("a", a_variable_name, a_value)
+
+
+def is_script_variable_exists(a_variable_name):
+    """Is the Vim script variable named `a_variable_name' has been define."""
+    return is_prefixed_variable_exists("s", a_variable_name)
 
 
 def get_script_variable(a_variable_name):
     """Return the Vim script variable named `a_variable_name'."""
-    return vim.eval("s:" + a_variable_name)
+    return get_prefixed_variable("s", a_variable_name)
 
 
 def set_script_variable(a_variable_name, a_value):
     """Assign the value `a_value' to the vim script variable
     `a_variable_name'."""
-    if a_value is None or str(a_value) == "":
-        vim.command("let s:" + a_variable_name + " = \"\"")
-    else:
-        vim.command("let s:" + a_variable_name + " = " + str(a_value))
+    set_prefixed_variable("s", a_variable_name, a_value)
+
+
+def is_buffer_variable_exists(a_variable_name):
+    """Is the Vim buffer variable named `a_variable_name' has been define."""
+    return is_prefixed_variable_exists("b", a_variable_name)
 
 
 def get_buffer_variable(a_variable_name):
     """Return the Vim buffer variable named `a_variable_name'."""
-    return vim.eval("b:" + a_variable_name)
+    return get_prefixed_variable("b", a_variable_name)
 
 
 def set_buffer_variable(a_variable_name, a_value):
     """Assign the value `a_value' to the vim buffer variable
     `a_variable_name'."""
-    if a_value is None or str(a_value) == "":
-        vim.command("let b:" + a_variable_name + " = \"\"")
-    else:
-        vim.command("let b:" + a_variable_name + " = " + str(a_value))
+    set_prefixed_variable("b", a_variable_name, a_value)
 
 
 def word_under_the_cursor():
