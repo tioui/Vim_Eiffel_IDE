@@ -227,61 +227,29 @@ command! -nargs=* ECText call eiffelide#class#text(<f-args>)
 " ============================ Others commands ==============================
 
 " DESC: Run and Debug
-command! EiffelRun call eiffelide#run()
+command! EiffelRun python eiffelide.run_project(eiffel_project)
 
 command! ERun EiffelRun
 
 " ============================ Common routines ============================
 
-" DESC: Use the `g:eiffel_saved_window_number' value to go to preceding window
+
+" DESC: Use the `g:saved_window_number' value to go to preceding window
 " SEE: `eiffelide#open_tools_window()'
+" NOTE: To be remove, do not use
 function! eiffelide#return_to_saved_window()
-    if exists("g:eiffel_saved_window_number")
-	execute g:eiffel_saved_window_number . " wincmd w"
-    endif
+	python eiffelide.select_saved_window()
 endfunction
 
 " DESC: If it does not exist, create the Eiffel IDE tools buffer, show it in
 " a window, save the number of the current selected window in
-" `g:eiffel_saved_window_number' and return the Eiffel IDE tools buffer number.
+" `g:saved_window_number' and return the Eiffel IDE tools buffer number.
 " SEE: `eiffelide#return_to_saved_window()'
 function! eiffelide#open_tools_window()
-    if g:eiffel_tools_window_vertical
-		let l:vertical = "vertical"
-    else
-		let l:vertical = ""
-    endif
-    if g:eiffel_tools_window_leftabove
-		let l:position = "leftabove"
-    else
-		let l:position = "rightbelow"
-    endif
-    if bufnr(g:eiffel_tools_buffer_name) < 0
-        execute l:position . " " . l:vertical . " " . g:eiffel_tools_window_dimension . " new " . g:eiffel_tools_buffer_name
-        setlocal buftype=nofile
-        setlocal bufhidden=hide
-        setlocal noswapfile
-		let b:eiffel_tools_buffer_class = ""
-		let b:eiffel_tools_buffer_info = "Eiffel IDE Information"
-		redraw
-		wincmd p
-		let g:eiffel_saved_window_number = bufwinnr('%')
-		wincmd p
-    else
-		if bufwinnr(g:eiffel_tools_buffer_name) < 0
-			execute l:position . " " . l:vertical . " " . g:eiffel_tools_window_dimension . " split " . g:eiffel_tools_buffer_name
-			redraw
-			wincmd p
-			let g:eiffel_saved_window_number = bufwinnr('%')
-			wincmd p
-		else
-			let g:eiffel_saved_window_number = bufwinnr('%')
-			execute bufwinnr(g:eiffel_tools_buffer_name) . " wincmd w"
-		endif
-    endif
-	setlocal filetype=
-    return bufnr(g:eiffel_tools_buffer_name)
+	python eiffelide.save_current_window_and_open_tools_window()
+	python vim.command("return '" + str(eiffelide.get_tools_buffer_number()) + "'")
 endfunction
+
 
 " DESC: Open an Eiffel Project. The first optionnal argument is the Eiffel 
 " project (.ecf) file. The second optionnal argument is the project target.
@@ -348,13 +316,17 @@ else:
 endpython
 endfunction
 
-" DESC: Launch the Debug and Run program to test project
-function! eiffelide#run()
+" DESC: Return True if the last compilation was a success.
+function! eiffelide#is_success()
+	let result = 0
 python << endpython
 if eiffel_project:
-	vim.command("!" + eiffel_project.run_command())
+	if eiffel_project.has_error():
+		vim.command("let result = 0")
+	else:
+		vim.command("let result = 1")
 else:
 	print "No Vim Eiffel IDE project opened."
 endpython
+	return result
 endfunction
-

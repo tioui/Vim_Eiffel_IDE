@@ -1,5 +1,5 @@
 function! Valide_compilation(type)
-	if !eiffelide#compilation#is_success()
+	if !eiffelide#is_success()
 		echoerr "The compilation " . type . " has fail!"
 	endif
 endfunction

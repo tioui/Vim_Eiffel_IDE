@@ -80,7 +80,6 @@ def save_current_window_and_open_existing_tools_window(a_buffer_name,
     )
     to_execute = position_flag + " " + vertical_flag + " " + dimension + " " +\
         command + " " + a_buffer_name
-    print(to_execute)
     environment.execute(to_execute)
     environment.execute("redraw")
     environment.execute("wincmd p")
@@ -153,7 +152,7 @@ def set_tools_window_text(a_text):
 def run_project(a_project):
     """Run the executable of the Eiffel Project `a_project'."""
     if a_project:
-        vim.command("!" + eiffel_project.run_command())
+        environment.execute("!" + a_project.run_command())
     else:
         print("No Vim Eiffel IDE project opened.")
 
