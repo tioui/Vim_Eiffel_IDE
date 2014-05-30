@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import environment
-import eiffelide
+import environment_vim as environment
+import eiffel_ide
 
 
 def get_class_from_buffer(a_project):
@@ -58,7 +58,7 @@ def class_execute(a_project, a_name, a_routine, a_class_name=None):
         if not l_class:
             l_class = get_class_from_buffer(a_project)
     if l_class:
-        eiffelide.launch_process(a_project,
+        eiffel_ide.launch_process(a_project,
                                  lambda window: a_routine(l_class, window),
                                  "Getting " + a_name.lower() + " of " +
                                  l_class, a_name + " of " + l_class, False,

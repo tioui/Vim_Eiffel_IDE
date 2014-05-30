@@ -79,11 +79,11 @@ python import sys, vim
 
 python sys.path.insert(0, vim.eval('g:eiffel_plugin_root')+"/pyplugin")
 
-python import eiffelproject, environment, eiffelide, eiffelcompilation, eiffelclass
+python import eiffel_project, eiffel_ide, eiffel_compilation, eiffel_class
 
 " DESC: The Eiffel Project python object
-" SEE: `project' class in pyplugin/eiffelide.py 
-python eiffel_project = None
+" SEE: `project' class in pyplugin/eiffel_ide.py 
+python i_eiffel_project = None
 
 
 
@@ -91,36 +91,36 @@ python eiffel_project = None
 " ========================== Compilation commands============================
 
 " DESC: Command shortcuts for a simple speedy compilation
-command! EiffelCompile python eiffelcompilation.quick_melt_no_focus(eiffel_project)
+command! EiffelCompile python eiffel_compilation.quick_melt_no_focus(i_eiffel_project)
 
 command! ECompile EiffelCompile 
 
 command! EC EiffelCompile 
 
 " DESC: Command shortcuts for a 'Recompile from scratch' compilation
-command! EiffelRecompile python eiffelcompilation.recompile(eiffel_project)
+command! EiffelRecompile python eiffel_compilation.recompile(i_eiffel_project)
 
 command! ERecompile EiffelRecompile 
 
 " DESC: Command shortcuts for a 'Finalize' compilation.
-command! EiffelFinalize python eiffelcompilation.finalize(eiffel_project)
+command! EiffelFinalize python eiffel_compilation.finalize(i_eiffel_project)
 
 command! EFinalize EiffelFinalize 
 
 " DESC: Command shortcuts for a 'Freeze' compilation.
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-command! EiffelFreeze python eiffelcompilation.freeze(eiffel_project)
+command! EiffelFreeze python eiffel_compilation.freeze(i_eiffel_project)
 
 command! EFreeze EiffelFreeze 
 
 " DESC: Command shortcut for a 'Melting' compilation
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-command! EiffelMelt python eiffelcompilation.melt(eiffel_project)
+command! EiffelMelt python eiffel_compilation.melt(i_eiffel_project)
 
 command! EMelt EiffelMelt
 
 " DESC: Command shortcut for a 'Quick Melting' compilation
-command! EiffelQuickMelt python eiffelcompilation.quick_melt(eiffel_project)
+command! EiffelQuickMelt python eiffel_compilation.quick_melt(i_eiffel_project)
 
 command! EQuickMelt EiffelQuickMelt
 
@@ -136,98 +136,98 @@ command! ETarget EiffelTarget
 " ====================== Class informations commands ========================
 
 " DESC: Class Flat View
-command! -nargs=* EiffelClassFlat python eiffelclass.flat(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassFlat python eiffel_class.flat(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECFlat python eiffelclass.flat(eiffel_project,<f-args>)
+command! -nargs=* ECFlat python eiffel_class.flat(i_eiffel_project,<f-args>)
 
 " DESC: Class Ancestors
-command! -nargs=* EiffelClassAncestors python eiffelclass.ancestors(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassAncestors python eiffel_class.ancestors(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECAncestors python eiffelclass.ancestors(eiffel_project,<f-args>)
+command! -nargs=* ECAncestors python eiffel_class.ancestors(i_eiffel_project,<f-args>)
 
 " DESC: Class Attributes
-command! -nargs=* EiffelClassAttributes python eiffelclass.attributes(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassAttributes python eiffel_class.attributes(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECAttributes python eiffelclass.attributes(eiffel_project,<f-args>)
+command! -nargs=* ECAttributes python eiffel_class.attributes(i_eiffel_project,<f-args>)
 
 " DESC: Class Clients
-command! -nargs=* EiffelClassClients python eiffelclass.clients(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassClients python eiffel_class.clients(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECClients python eiffelclass.clients(eiffel_project,<f-args>)
+command! -nargs=* ECClients python eiffel_class.clients(i_eiffel_project,<f-args>)
 
 " DESC: Class Deferred features
-command! -nargs=* EiffelClassDeferred python eiffelclass.deferred(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassDeferred python eiffel_class.deferred(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECDeferred python eiffelclass.deferred(eiffel_project,<f-args>)
+command! -nargs=* ECDeferred python eiffel_class.deferred(i_eiffel_project,<f-args>)
 
 " DESC: Class Descendants
-command! -nargs=* EiffelClassDescendants python eiffelclass.descendants(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassDescendants python eiffel_class.descendants(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECDescendants python eiffelclass.descendants(eiffel_project,<f-args>)
+command! -nargs=* ECDescendants python eiffel_class.descendants(i_eiffel_project,<f-args>)
 
 " DESC: Class Exported features
-command! -nargs=* EiffelClassExported python eiffelclass.exported(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassExported python eiffel_class.exported(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECExported python eiffelclass.exported(eiffel_project,<f-args>)
+command! -nargs=* ECExported python eiffel_class.exported(i_eiffel_project,<f-args>)
 
 " DESC: Class External features
-command! -nargs=* EiffelClassExternals python eiffelclass.externals(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassExternals python eiffel_class.externals(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECExternals python eiffelclass.externals(eiffel_project,<f-args>)
+command! -nargs=* ECExternals python eiffel_class.externals(i_eiffel_project,<f-args>)
 
 " DESC: Class Flat contract view
-command! -nargs=* EiffelClassFlatShort python eiffelclass.flatshort(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassFlatShort python eiffel_class.flatshort(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECFlatShort python eiffelclass.flatshort(eiffel_project,<f-args>)
+command! -nargs=* ECFlatShort python eiffel_class.flatshort(i_eiffel_project,<f-args>)
 
-command! -nargs=* EiffelClassFlatContract python eiffelclass.flatshort(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassFlatContract python eiffel_class.flatshort(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECFlatContract python eiffelclass.flatshort(eiffel_project,<f-args>)
+command! -nargs=* ECFlatContract python eiffel_class.flatshort(i_eiffel_project,<f-args>)
 
 " DESC: Class Once features
-command! -nargs=* EiffelClassOnce python eiffelclass.once(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassOnce python eiffel_class.once(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECOnce python eiffelclass.once(eiffel_project,<f-args>)
+command! -nargs=* ECOnce python eiffel_class.once(i_eiffel_project,<f-args>)
 
 " DESC: Class Invariants
-command! -nargs=* EiffelClassInvariants python eiffelclass.invariants(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassInvariants python eiffel_class.invariants(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECInvariants python eiffelclass.invariants(eiffel_project,<f-args>)
+command! -nargs=* ECInvariants python eiffel_class.invariants(i_eiffel_project,<f-args>)
 
 " DESC: Class Routines
-command! -nargs=* EiffelClassRoutines python eiffelclass.routines(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassRoutines python eiffel_class.routines(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECRoutines python eiffelclass.routines(eiffel_project,<f-args>)
+command! -nargs=* ECRoutines python eiffel_class.routines(i_eiffel_project,<f-args>)
 
 " DESC: Class Creators
-command! -nargs=* EiffelClassCreators python eiffelclass.creators(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassCreators python eiffel_class.creators(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECCreators python eiffelclass.creators(eiffel_project,<f-args>)
+command! -nargs=* ECCreators python eiffel_class.creators(i_eiffel_project,<f-args>)
 
 " DESC: Class Short View
-command! -nargs=* EiffelClassShort python eiffelclass.short(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassShort python eiffel_class.short(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECShort python eiffelclass.short(eiffel_project,<f-args>)
+command! -nargs=* ECShort python eiffel_class.short(i_eiffel_project,<f-args>)
 
-command! -nargs=* EiffelClassContract python eiffelclass.short(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassContract python eiffel_class.short(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECContract python eiffelclass.short(eiffel_project,<f-args>)
+command! -nargs=* ECContract python eiffel_class.short(i_eiffel_project,<f-args>)
 
 " DESC: Class Suppliers
-command! -nargs=* EiffelClassSuppliers python eiffelclass.suppliers(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassSuppliers python eiffel_class.suppliers(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECSuppliers python eiffelclass.suppliers(eiffel_project,<f-args>)
+command! -nargs=* ECSuppliers python eiffel_class.suppliers(i_eiffel_project,<f-args>)
 
 " DESC: Class Text
-command! -nargs=* EiffelClassText python eiffelclass.text(eiffel_project,<f-args>)
+command! -nargs=* EiffelClassText python eiffel_class.text(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECText python eiffelclass.text(eiffel_project,<f-args>)
+command! -nargs=* ECText python eiffel_class.text(i_eiffel_project,<f-args>)
 
 
 " ============================ Others commands ==============================
 
 " DESC: Run and Debug
-command! EiffelRun python eiffelide.run_project(eiffel_project)
+command! EiffelRun python eiffel_ide.run_project(i_eiffel_project)
 
 command! ERun EiffelRun
 
@@ -238,7 +238,7 @@ command! ERun EiffelRun
 " SEE: `eiffelide#open_tools_window()'
 " NOTE: To be remove, do not use
 function! eiffelide#return_to_saved_window()
-	python eiffelide.select_saved_window()
+	python eiffel_ide.select_saved_window()
 endfunction
 
 " DESC: If it does not exist, create the Eiffel IDE tools buffer, show it in
@@ -246,14 +246,14 @@ endfunction
 " `g:saved_window_number' and return the Eiffel IDE tools buffer number.
 " SEE: `eiffelide#return_to_saved_window()'
 function! eiffelide#open_tools_window()
-	python eiffelide.save_current_window_and_open_tools_window()
-	python vim.command("return '" + str(eiffelide.get_tools_buffer_number()) + "'")
+	python eiffel_ide.save_current_window_and_open_tools_window()
+	python vim.command("return '" + str(eiffel_ide.get_tools_buffer_number()) + "'")
 endfunction
 
 
 " DESC: Open an Eiffel Project. The first optionnal argument is the Eiffel 
 " project (.ecf) file. The second optionnal argument is the project target.
-" SEE: `eiffel_project'
+" SEE: `i_eiffel_project'
 function! eiffelide#open(...)
     if a:0 ># 0
 		if a:1 ==# "%"
@@ -266,36 +266,36 @@ function! eiffelide#open(...)
     endif
     echom "Opening Vim Eiffel IDE."
     if a:0 ># 1
-		python eiffel_project = eiffelproject.project(vim.eval('config_file'),vim.eval('a:2'))
+		python i_eiffel_project = eiffel_project.project(vim.eval('config_file'),vim.eval('a:2'))
     else
-		python eiffel_project = eiffelproject.project(vim.eval('config_file'))
+		python i_eiffel_project = eiffel_project.project(vim.eval('config_file'))
     endif
 	EiffelQuickMelt
 endfunction
 
 " DESC: Open an Eiffel Project. The first optionnal argument is the Eiffel 
 " project (.ecf) file. The second optionnal argument is the project target.
-" SEE: `eiffelide#open()' and `eiffel_project'
+" SEE: `eiffelide#open()' and `i_eiffel_project'
 function! eiffelide#open_target(target)
     call eiffelide#open(fnamemodify(bufname("%"), ':p'), a:target)
 endfunction
 
-" DESC: Return the config file name of the openned `eiffel_project'
+" DESC: Return the config file name of the openned `i_eiffel_project'
 function! eiffelide#config_file()
 python << endpython
-if eiffel_project:
-    vim.command("return '" + eiffel_project.config_file() + "'")
+if i_eiffel_project:
+    vim.command("return '" + i_eiffel_project.config_file() + "'")
 else:
     print "No Vim Eiffel IDE project opened."
 endpython
 endfunction
 
-" DESC: Return the target name of the openned `eiffel_project' (if any).
+" DESC: Return the target name of the openned `i_eiffel_project' (if any).
 function! eiffelide#target_name()
 python << endpython
-if eiffel_project:
-    if eiffel_project.target_name():
-	vim.command("return '" + eiffel_project.target_name() + "'")
+if i_eiffel_project:
+    if i_eiffel_project.target_name():
+	vim.command("return '" + i_eiffel_project.target_name() + "'")
     else:
 	vim.command("return ''")
 else:
@@ -303,12 +303,12 @@ else:
 endpython
 endfunction
 
-" DESC: Return the project path of the openned `eiffel_project' (if any).
+" DESC: Return the project path of the openned `i_eiffel_project' (if any).
 function! eiffelide#project_path()
 python << endpython
-if eiffel_project:
-    if eiffel_project.config_file_path():
-	vim.command("return '" + eiffel_project.config_file_path() + "'")
+if i_eiffel_project:
+    if i_eiffel_project.config_file_path():
+	vim.command("return '" + i_eiffel_project.config_file_path() + "'")
     else:
 	vim.command("return ''")
 else:
@@ -320,8 +320,8 @@ endfunction
 function! eiffelide#is_compilation_success()
 	let result = 0
 python << endpython
-if eiffel_project:
-	if eiffel_project.has_error():
+if i_eiffel_project:
+	if i_eiffel_project.has_error():
 		vim.command("let result = 0")
 	else:
 		vim.command("let result = 1")

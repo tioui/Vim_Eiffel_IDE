@@ -22,7 +22,7 @@
 
 """Common routines for the Vim Eiffel IDE."""
 
-import environment
+import environment_vim as environment
 
 
 def save_current_window():

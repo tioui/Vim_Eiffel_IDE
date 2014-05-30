@@ -20,16 +20,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import eiffelide
+import eiffel_ide
 
 
 def recompile(a_project):
     """
     Run a compilation from scratch of the openned `a_project'
     """
-    eiffelide.launch_process(a_project,
-                             lambda window: a_project.recompile(window),
-                             "Compiling...", "Compilation output", True)
+    eiffel_ide.launch_process(a_project,
+                              lambda window: a_project.recompile(window),
+                              "Compiling...", "Compilation output", True)
 
 
 def freeze(a_project):
@@ -37,9 +37,9 @@ def freeze(a_project):
     Run a 'Freezing' compilation of the openned `a_project'
     See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
     """
-    eiffelide.launch_process(a_project,
-                             lambda window: a_project.freeze(window),
-                             "Freezing...", "Freezing output", True)
+    eiffel_ide.launch_process(a_project,
+                              lambda window: a_project.freeze(window),
+                              "Freezing...", "Freezing output", True)
 
 
 def melt(a_project):
@@ -47,18 +47,18 @@ def melt(a_project):
     Run a 'Melting' compilation of the openned `a_project'
     See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
     """
-    eiffelide.launch_process(a_project,
-                             lambda window: a_project.melt(window),
-                             "Melting...", "Melting output", True)
+    eiffel_ide.launch_process(a_project,
+                              lambda window: a_project.melt(window),
+                              "Melting...", "Melting output", True)
 
 
 def finalize(a_project):
     """
     Run a 'Finilize' compilation of the openned `a_project'
     """
-    eiffelide.launch_process(a_project,
-                             lambda window: a_project.finalize(window),
-                             "Freezing...", "Freezing output", True)
+    eiffel_ide.launch_process(a_project,
+                              lambda window: a_project.finalize(window),
+                              "Freezing...", "Freezing output", True)
 
 
 def quick_melt(a_project):
@@ -66,9 +66,9 @@ def quick_melt(a_project):
     Run a 'Quick Melting' compilation of the openned `a_project'
     See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
     """
-    eiffelide.launch_process(a_project,
-                             lambda window: a_project.quick_melt(window),
-                             "Quick Melting...", "Quick Melting output", True)
+    eiffel_ide.launch_process(a_project,
+                              lambda window: a_project.quick_melt(window),
+                              "Quick Melting...", "Quick Melting output", True)
 
 
 def quick_melt_no_focus(a_project):
@@ -77,6 +77,6 @@ def quick_melt_no_focus(a_project):
     there is error, do not put the focus in the Eiffel IDE tools window.
     See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
     """
-    eiffelide.launch_process(a_project,
-                             lambda window: a_project.quick_melt(window),
-                             "Quick Melting...", "Quick Meting output", False)
+    eiffel_ide.launch_process(a_project,
+                              lambda window: a_project.quick_melt(window),
+                              "Quick Melting...", "Quick Meting output", False)

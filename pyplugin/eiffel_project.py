@@ -31,7 +31,7 @@ import os
 import time
 import re
 
-import environment
+import environment_vim as environment
 import tools
 import async_subprocess.async_subprocess as async_subprocess
 
