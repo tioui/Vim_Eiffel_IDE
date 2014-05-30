@@ -247,7 +247,7 @@ feature -- Measurement
 	max: like item
 			-- Maximum item
 		require -- from COMPARABLE_STRUCT
-			min_max_available
+				min_max_available
 		require else
 			is_sorted: sorted
 		do
@@ -265,7 +265,7 @@ feature -- Measurement
 	min: like item
 			-- Minimum item
 		require -- from COMPARABLE_STRUCT
-			min_max_available
+				min_max_available
 		require else
 			is_sorted: sorted
 		do
@@ -279,7 +279,7 @@ feature -- Measurement
 		do
 			Result := not is_empty
 		ensure -- from COMPARABLE_STRUCT
-			Result implies not is_empty
+				Result implies not is_empty
 		end
 	
 feature -- Comparison
@@ -508,7 +508,7 @@ feature -- Status setting
 		do
 			object_comparison := True
 		ensure -- from CONTAINER
-			object_comparison
+				object_comparison
 		end
 
 	compare_references

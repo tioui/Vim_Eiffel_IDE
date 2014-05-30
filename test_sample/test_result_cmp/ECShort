@@ -30,8 +30,8 @@ note
 					into 1 byte, it uses the letter `u' followed by the hexadecimal value of the 2-byte sequence,
 					otherwise it simply uses the 1-byte hexadecimal representation.
 	]"
-	date: "$Date: 2013-08-19 02:12:03 -0700 (Mon, 19 Aug 2013) $"
-	revision: "$Revision: 92884 $"
+	date: "$Date: 2014-04-29 14:26:38 -0700 (Tue, 29 Apr 2014) $"
+	revision: "$Revision: 94920 $"
 
 expanded class interface
 	UTF_CONVERTER
@@ -46,6 +46,45 @@ feature -- Access
 			-- UTF-8 encoding: 0xEF 0xBF 0xBD
 			-- Binary UTF-8 encoding: 11101111 10111111 10111101
 			-- UTF-16 encoding: 0xFFFD
+	
+feature -- Measurement
+
+	utf_16_bytes_count (s: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER_32): INTEGER_32
+			-- Number of bytes necessary at the very least to encode in UTF-16 `s.substring (start_pos, end_pos)'.
+			-- Note that this feature can be used for both escaped and non-escaped string.
+			-- In the case of escaped strings, the result will be possibly higher than really needed.
+			-- It does not include the terminating null character.
+		require
+			start_position_big_enough: start_pos >= 1
+			end_position_big_enough: start_pos <= end_pos + 1
+			end_pos_small_enough: end_pos <= s.count
+
+	utf_16_characters_count_form_pointer (m: MANAGED_POINTER; start_pos, end_pos: INTEGER_32): INTEGER_32
+			-- Number of characters of the UTF-16 encoded `m' starting at `start_pos' in `m' up to `end_pos - 1'.
+			-- It does not include the terminating null character.
+		require
+			start_position_big_enough: start_pos >= 0
+			end_position: start_pos <= end_pos + 2
+			end_pos_small_enought: end_pos < m.count
+			even_start_position: start_pos \\ 2 = 0
+			even_end_position: end_pos \\ 2 = 0
+
+	utf_8_bytes_count (s: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER_32): INTEGER_32
+			-- Number of bytes necessary to encode in UTF-8 `s.substring (start_pos, end_pos)'.
+			-- Note that this feature can be used for both escaped and non-escaped string.
+			-- In the case of escaped strings, the result will be possibly higher than really needed.
+			-- It does not include the terminating null character.
+		require
+			start_position_big_enough: start_pos >= 1
+			end_position_big_enough: start_pos <= end_pos + 1
+			end_pos_small_enough: end_pos <= s.count
+
+	utf_8_to_string_32_count (s: SPECIAL [CHARACTER_8]; start_pos, end_pos: INTEGER_32): INTEGER_32
+			-- Count of characters corresponding to UTF-8 sequence `s'.
+		require
+			start_position_big_enough: start_pos >= 0
+			end_position_big_enough: start_pos <= end_pos + 1
+			end_pos_small_enough: end_pos < s.count
 	
 feature -- Status report
 
@@ -79,35 +118,6 @@ feature -- Byte Order Mark (BOM)
 	Utf_8_bom_to_string_8: STRING_8 = "ï»¿"
 			-- UTF-8 BOM sequence.
 	
-feature -- Helpers
-
-	utf_16_bytes_count (s: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER_32): INTEGER_32
-			-- Number of bytes necessary at the very least to encode in UTF-16 `s.substring (start_pos, end_pos)'.
-			-- Note that this feature can be used for both escaped and non-escaped string.
-			-- In the case of escaped strings, the result will be possibly higher than really needed.
-			-- It does not include the space for the terminating null character.
-		require
-			start_position_big_enough: start_pos >= 1
-			end_position_big_enough: start_pos <= end_pos + 1
-			end_pos_small_enough: end_pos <= s.count
-
-	utf_8_bytes_count (s: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER_32): INTEGER_32
-			-- Number of bytes necessary at the very least to encode in UTF-8 `s.substring (start_pos, end_pos)'.
-			-- Note that this feature can be used for both escaped and non-escaped string.
-			-- In the case of escaped strings, the result will be possibly higher than really needed.
-			-- It does not include the space for the terminating null character.
-		require
-			start_position_big_enough: start_pos >= 1
-			end_position_big_enough: start_pos <= end_pos + 1
-			end_pos_small_enough: end_pos <= s.count
-
-	utf_8_to_string_32_count (s: SPECIAL [CHARACTER_8]; start_pos, end_pos: INTEGER_32): INTEGER_32
-			-- Count of characters corresponding to UTF-8 sequence `s'.
-		require
-			start_position_big_enough: start_pos >= 0
-			end_position_big_enough: start_pos <= end_pos + 1
-			end_pos_small_enough: end_pos < s.count
-	
 feature -- UTF-16 to UTF-32
 
 	utf_16_0_pointer_into_escaped_string_32 (p: MANAGED_POINTER; a_result: STRING_32)
@@ -118,10 +128,10 @@ feature -- UTF-16 to UTF-32
 			valid_count: p.count \\ 2 = 0
 		ensure
 			roundtrip: attached escaped_utf_32_string_to_utf_16le_string_8 (a_result.substring (old a_result.count + 1, a_result.count)) as l_utf and then across
-				l_utf.new_cursor.incremented (1) as l_str
-			all
-				(l_utf.code (l_str.cursor_index) | (l_utf.code (l_str.cursor_index + 1) |<< 8)) = p.read_natural_16 (l_str.cursor_index - 1).to_natural_32
-			end
+					l_utf.new_cursor.incremented (1) as l_str
+				all
+					(l_utf.code (l_str.cursor_index) | (l_utf.code (l_str.cursor_index + 1) |<< 8)) = p.read_natural_16 (l_str.cursor_index - 1).to_natural_32
+				end
 
 	utf_16_0_pointer_into_string_32 (p: MANAGED_POINTER; a_result: STRING_32)
 			-- Copy STRING_32 object corresponding to UTF-16 sequence `p' which is zero-terminated
@@ -131,10 +141,10 @@ feature -- UTF-16 to UTF-32
 			valid_count: p.count \\ 2 = 0
 		ensure
 			roundtrip: is_valid_utf_16_subpointer (p, 0, p.count // 2, True) implies across
-				string_32_to_utf_16 (a_result.substring (old a_result.count + 1, a_result.count)) as l_spec
-			all
-				l_spec.item = p.read_natural_16 (l_spec.target_index * 2)
-			end
+					string_32_to_utf_16 (a_result.substring (old a_result.count + 1, a_result.count)) as l_spec
+				all
+					l_spec.item = p.read_natural_16 (l_spec.target_index * 2)
+				end
 
 	utf_16_0_pointer_to_escaped_string_32 (p: MANAGED_POINTER): STRING_32
 			-- STRING_32 object corresponding to UTF-16 sequence `p' which is zero-terminated,
@@ -144,10 +154,10 @@ feature -- UTF-16 to UTF-32
 			valid_count: p.count \\ 2 = 0
 		ensure
 			roundtrip: attached escaped_utf_32_string_to_utf_16le_string_8 (Result) as l_utf and then across
-				l_utf.new_cursor.incremented (1) as l_str
-			all
-				(l_utf.code (l_str.cursor_index) | (l_utf.code (l_str.cursor_index + 1) |<< 8)) = p.read_natural_16 (l_str.cursor_index - 1).to_natural_32
-			end
+					l_utf.new_cursor.incremented (1) as l_str
+				all
+					(l_utf.code (l_str.cursor_index) | (l_utf.code (l_str.cursor_index + 1) |<< 8)) = p.read_natural_16 (l_str.cursor_index - 1).to_natural_32
+				end
 
 	utf_16_0_pointer_to_string_32 (p: MANAGED_POINTER): STRING_32
 			-- STRING_32 object corresponding to UTF-16 sequence `p' which is zero-terminated.
@@ -156,10 +166,10 @@ feature -- UTF-16 to UTF-32
 			valid_count: p.count \\ 2 = 0
 		ensure
 			roundtrip: is_valid_utf_16_subpointer (p, 0, p.count // 2, True) implies across
-				string_32_to_utf_16 (Result) as l_spec
-			all
-				l_spec.item = p.read_natural_16 (l_spec.cursor_index * 2)
-			end
+					string_32_to_utf_16 (Result) as l_spec
+				all
+					l_spec.item = p.read_natural_16 (l_spec.cursor_index * 2)
+				end
 
 	utf_16_0_subpointer_into_escaped_string_32 (p: MANAGED_POINTER; start_pos, end_pos: INTEGER_32; a_stop_at_null: BOOLEAN; a_result: STRING_32)
 			-- Copy STRING_32 object corresponding to UTF-16 sequence `p' between code units `start_pos' and
@@ -172,10 +182,10 @@ feature -- UTF-16 to UTF-32
 			end_pos_small_enough: end_pos < p.count // 2
 		ensure
 			roundtrip: attached escaped_utf_32_string_to_utf_16le_string_8 (a_result.substring (old a_result.count + 1, a_result.count)) as l_utf and then across
-				l_utf.new_cursor.incremented (1) as l_str
-			all
-				(l_utf.code (l_str.cursor_index) | (l_utf.code (l_str.cursor_index + 1) |<< 8)) = p.read_natural_16 (start_pos * 2 + l_str.cursor_index - 1).to_natural_32
-			end
+					l_utf.new_cursor.incremented (1) as l_str
+				all
+					(l_utf.code (l_str.cursor_index) | (l_utf.code (l_str.cursor_index + 1) |<< 8)) = p.read_natural_16 (start_pos * 2 + l_str.cursor_index - 1).to_natural_32
+				end
 
 	utf_16_0_subpointer_into_string_32 (p: MANAGED_POINTER; start_pos, end_pos: INTEGER_32; a_stop_at_null: BOOLEAN; a_result: STRING_32)
 			-- Copy STRING_32 object corresponding to UTF-16 sequence `p' between code units `start_pos' and
@@ -187,10 +197,10 @@ feature -- UTF-16 to UTF-32
 			end_pos_small_enough: end_pos < p.count // 2
 		ensure
 			roundtrip: is_valid_utf_16_subpointer (p, start_pos, end_pos, a_stop_at_null) implies across
-				string_32_to_utf_16 (a_result.substring (old a_result.count + 1, a_result.count)) as l_spec
-			all
-				l_spec.item = p.read_natural_16 (l_spec.target_index * 2)
-			end
+					string_32_to_utf_16 (a_result.substring (old a_result.count + 1, a_result.count)) as l_spec
+				all
+					l_spec.item = p.read_natural_16 (l_spec.target_index * 2)
+				end
 
 	utf_16_0_subpointer_to_escaped_string_32 (p: MANAGED_POINTER; start_pos, end_pos: INTEGER_32; a_stop_at_null: BOOLEAN): STRING_32
 			-- STRING_32 object corresponding to UTF-16 sequence `p' between code units `start_pos' and
@@ -203,10 +213,10 @@ feature -- UTF-16 to UTF-32
 			end_pos_small_enough: end_pos < p.count // 2
 		ensure
 			roundtrip: attached escaped_utf_32_string_to_utf_16le_string_8 (Result) as l_utf and then across
-				l_utf.new_cursor.incremented (1) as l_str
-			all
-				(l_utf.code (l_str.cursor_index) | (l_utf.code (l_str.cursor_index + 1) |<< 8)) = p.read_natural_16 (start_pos * 2 + l_str.cursor_index - 1).to_natural_32
-			end
+					l_utf.new_cursor.incremented (1) as l_str
+				all
+					(l_utf.code (l_str.cursor_index) | (l_utf.code (l_str.cursor_index + 1) |<< 8)) = p.read_natural_16 (start_pos * 2 + l_str.cursor_index - 1).to_natural_32
+				end
 
 	utf_16_0_subpointer_to_string_32 (p: MANAGED_POINTER; start_pos, end_pos: INTEGER_32; a_stop_at_null: BOOLEAN): STRING_32
 			-- STRING_32 object corresponding to UTF-16 sequence `p' between code units `start_pos' and
@@ -218,10 +228,10 @@ feature -- UTF-16 to UTF-32
 			end_pos_small_enough: end_pos < p.count // 2
 		ensure
 			roundtrip: is_valid_utf_16_subpointer (p, start_pos, end_pos, a_stop_at_null) implies across
-				string_32_to_utf_16 (Result) as l_spec
-			all
-				l_spec.item = p.read_natural_16 (l_spec.target_index * 2)
-			end
+					string_32_to_utf_16 (Result) as l_spec
+				all
+					l_spec.item = p.read_natural_16 (l_spec.target_index * 2)
+				end
 
 	utf_16_into_string_32 (s: SPECIAL [NATURAL_16]; a_result: STRING_32)
 			-- Copy STRING_32 object corresponding to UTF-16 sequence `s'
@@ -316,11 +326,11 @@ feature -- UTF-32 to UTF-16
 			end_position_big_enough: start_pos <= end_pos + 1
 			end_pos_small_enough: end_pos <= s.count
 			even_p_offset: (p_offset \\ 2) = 0
-			valid_p_offset: p_offset < p.count
+			p_offset_non_negative: p_offset >= 0
 		ensure
 			p_count_may_increase: p.count >= old p.count
 			roundtrip: a_new_upper /= Void implies utf_16_0_subpointer_to_escaped_string_32 (p, p_offset // 2, (a_new_upper.item // 2) - 1, False).same_string_general (s.substring (start_pos, end_pos))
-			roundtrip: (a_new_upper = Void and then s.substring (start_pos, end_pos).has ('%U'.to_character_32)) implies utf_16_0_subpointer_to_escaped_string_32 (p, p_offset // 2, (p.count // 2) - 1, True).same_string_general (s.substring (start_pos, end_pos))
+			roundtrip: (a_new_upper = Void and then not s.substring (start_pos, end_pos).has ('%U'.to_character_32)) implies utf_16_0_subpointer_to_escaped_string_32 (p, p_offset // 2, (p.count // 2) - 1, True).same_string_general (s.substring (start_pos, end_pos))
 
 	string_32_into_utf_16_0_pointer (s: READABLE_STRING_32; p: MANAGED_POINTER; p_offset: INTEGER_32; a_new_upper: detachable CELL [INTEGER_32])
 			-- Write UTF-16 sequence corresponding to `s' with terminating zero
@@ -330,7 +340,7 @@ feature -- UTF-32 to UTF-16
 			-- The sequence is zero-terminated.
 		require
 			even_p_offset: (p_offset \\ 2) = 0
-			valid_p_offset: p_offset < p.count
+			p_offset_non_negative: p_offset >= 0
 		ensure
 			roundtrip: a_new_upper /= Void implies utf_16_0_subpointer_to_string_32 (p, p_offset // 2, (a_new_upper.item // 2) - 1, False).same_string (s)
 			roundtrip: (a_new_upper = Void and then not s.has ('%U'.to_character_32)) implies utf_16_0_subpointer_to_string_32 (p, p_offset // 2, (p.count // 2) - 1, True).same_string (s)
@@ -343,7 +353,7 @@ feature -- UTF-32 to UTF-16
 			-- The sequence is not zero-terminated.
 		require
 			even_p_offset: (p_offset \\ 2) = 0
-			valid_p_offset: p_offset < p.count
+			p_offset_non_negative: p_offset >= 0
 		ensure
 			roundtrip: a_new_upper /= Void implies utf_16_0_subpointer_to_string_32 (p, p_offset // 2, (a_new_upper.item // 2) - 1, False).same_string (s)
 			roundtrip: (a_new_upper = Void and then not s.has ('%U'.to_character_32)) implies utf_16_0_subpointer_to_string_32 (p, p_offset // 2, (p.count // 2) - 1, True).same_string (s)
@@ -353,19 +363,19 @@ feature -- UTF-32 to UTF-16
 			-- The sequence is not zero-terminated.
 		ensure
 			roundtrip: attached utf_32_string_to_utf_16le_string_8 (s) as l_ref and then across
-				Result as l_spec
-			all
-				l_spec.item.to_natural_32 = (l_ref.code (l_spec.cursor_index * 2 - 1) | (l_ref.code (l_spec.cursor_index * 2) |<< 16))
-			end
+					Result as l_spec
+				all
+					l_spec.item.to_natural_32 = (l_ref.code (l_spec.cursor_index * 2 - 1) | (l_ref.code (l_spec.cursor_index * 2) |<< 16))
+				end
 
 	string_32_to_utf_16_0 (s: READABLE_STRING_32): SPECIAL [NATURAL_16]
 			-- UTF-16 sequence corresponding to `s' with terminating zero.
 		ensure
 			roundtrip: attached utf_32_string_to_utf_16le_string_8 (s) as l_ref and then across
-				Result.resized_area_with_default (0.to_natural_16, Result.count - 1) as l_spec
-			all
-				l_spec.item.to_natural_32 = (l_ref.code (l_spec.cursor_index * 2 - 1) | (l_ref.code (l_spec.cursor_index * 2) |<< 8))
-			end
+					Result.resized_area_with_default (0.to_natural_16, Result.count - 1) as l_spec
+				all
+					l_spec.item.to_natural_32 = (l_ref.code (l_spec.cursor_index * 2 - 1) | (l_ref.code (l_spec.cursor_index * 2) |<< 8))
+				end
 
 	utf_32_string_into_utf_16le_string_8 (s: READABLE_STRING_GENERAL; a_result: STRING_8)
 			-- Copy UTF-16LE sequence corresponding to `s' interpreted as a UTF-32 sequence
@@ -378,20 +388,20 @@ feature -- UTF-32 to UTF-16
 			-- The sequence is not zero-terminated.
 		ensure
 			roundtrip: attached utf_32_string_to_utf_16le_string_8 (s) as l_ref and then across
-				Result as l_spec
-			all
-				l_spec.item.to_natural_32 = (l_ref.code (l_spec.cursor_index * 2 - 1) | (l_ref.code (l_spec.cursor_index * 2) |<< 8))
-			end
+					Result as l_spec
+				all
+					l_spec.item.to_natural_32 = (l_ref.code (l_spec.cursor_index * 2 - 1) | (l_ref.code (l_spec.cursor_index * 2) |<< 8))
+				end
 
 	utf_32_string_to_utf_16_0 (s: READABLE_STRING_GENERAL): SPECIAL [NATURAL_16]
 			-- UTF-16 sequence corresponding to `s', interpreted as a UTF-32 sequence,
 			-- with terminating zero.
 		ensure
 			roundtrip: attached utf_32_string_to_utf_16le_string_8 (s) as l_ref and then across
-				Result.resized_area_with_default (0.to_natural_16, Result.count - 1) as l_spec
-			all
-				l_spec.item.to_natural_32 = (l_ref.code (l_spec.cursor_index * 2 - 1) | (l_ref.code (l_spec.cursor_index * 2) |<< 8))
-			end
+					Result.resized_area_with_default (0.to_natural_16, Result.count - 1) as l_spec
+				all
+					l_spec.item.to_natural_32 = (l_ref.code (l_spec.cursor_index * 2 - 1) | (l_ref.code (l_spec.cursor_index * 2) |<< 8))
+				end
 
 	utf_32_string_to_utf_16le_string_8 (s: READABLE_STRING_GENERAL): STRING_8
 			-- UTF-16LE sequence corresponding to `s' interpreted as a UTF-32 sequence
@@ -411,7 +421,7 @@ feature -- UTF-32 to UTF-16
 			end_position_big_enough: start_pos <= end_pos + 1
 			end_pos_small_enough: end_pos <= s.count
 			even_p_offset: (p_offset \\ 2) = 0
-			valid_p_offset: p_offset < p.count
+			p_offset_non_negative: p_offset >= 0
 		ensure
 			p_count_may_increase: p.count >= old p.count
 			roundtrip: a_new_upper /= Void implies utf_16_0_subpointer_to_string_32 (p, p_offset // 2, (a_new_upper.item // 2) - 1, False).same_string_general (s)
@@ -430,7 +440,7 @@ feature -- UTF-32 to UTF-16
 			end_position_big_enough: start_pos <= end_pos + 1
 			end_pos_small_enough: end_pos <= s.count
 			even_p_offset: (p_offset \\ 2) = 0
-			valid_p_offset: p_offset < p.count
+			p_offset_non_negative: p_offset >= 0
 		ensure
 			p_count_may_increase: p.count >= old p.count
 			roundtrip: a_new_upper /= Void implies utf_16_0_subpointer_to_string_32 (p, p_offset // 2, (a_new_upper.item // 2) - 1, False).same_string_general (s)
@@ -475,7 +485,7 @@ feature -- UTF-32 to UTF-8
 			start_position_big_enough: start_pos >= 1
 			end_position_big_enough: start_pos <= end_pos + 1
 			end_pos_small_enough: end_pos <= s.count
-			valid_p_offset: p_offset < p.count
+			p_offset_non_negative: p_offset >= 0
 		ensure
 			roundtrip: a_new_upper /= Void implies utf_8_0_subpointer_to_escaped_string_32 (p, p_offset, a_new_upper.item - 1, False).same_string_general (s.substring (start_pos, end_pos))
 			roundtrip: (a_new_upper = Void and then not s.substring (start_pos, end_pos).has ('%U'.to_character_32)) implies utf_8_0_subpointer_to_escaped_string_32 (p, p_offset, p.count, True).same_string_general (s.substring (start_pos, end_pos))
@@ -487,7 +497,7 @@ feature -- UTF-32 to UTF-8
 			-- is written to `a_new_upper'.
 			-- The sequence is zero-terminated.
 		require
-			valid_p_offset: p_offset < p.count
+			p_offset_non_negative: p_offset >= 0
 		ensure
 			roundtrip: a_new_upper /= Void implies utf_8_0_subpointer_to_escaped_string_32 (p, p_offset, a_new_upper.item - 1, False).same_string (s)
 			roundtrip: (a_new_upper = Void and then not s.has ('%U'.to_character_32)) implies utf_8_0_subpointer_to_escaped_string_32 (p, p_offset, p.count, True).same_string_general (s)
@@ -510,7 +520,7 @@ feature -- UTF-32 to UTF-8
 			-- is written to `a_new_upper'.
 			-- The sequence is zero-terminated.
 		require
-			valid_p_offset: p_offset < p.count
+			p_offset_non_negative: p_offset >= 0
 		ensure
 			roundtrip: a_new_upper /= Void implies utf_8_0_subpointer_to_escaped_string_32 (p, p_offset, a_new_upper.item - 1, False).same_string_general (s)
 			roundtrip: (a_new_upper = Void and then not s.has ('%U'.to_character_32)) implies utf_8_0_subpointer_to_escaped_string_32 (p, p_offset, p.count, True).same_string_general (s)
@@ -526,20 +536,20 @@ feature -- UTF-32 to UTF-8
 			-- The sequence is not zero-terminated.
 		ensure
 			roundtrip: attached utf_32_string_to_utf_8_string_8 (s) as l_ref and then across
-				Result as l_spec
-			all
-				l_spec.item.to_natural_32 = l_ref.code (l_spec.cursor_index)
-			end
+					Result as l_spec
+				all
+					l_spec.item.to_natural_32 = l_ref.code (l_spec.cursor_index)
+				end
 
 	utf_32_string_to_utf_8_0 (s: READABLE_STRING_GENERAL): SPECIAL [NATURAL_8]
 			-- UTF-8 sequence corresponding to `s', interpreted as a UTF-32 sequence.
 			-- The sequence is zero-terminated.
 		ensure
 			roundtrip: attached utf_32_string_to_utf_8_string_8 (s) as l_ref and then across
-				Result as l_spec
-			all
-				l_spec.item.to_natural_32 = l_ref.code (l_spec.cursor_index)
-			end
+					Result as l_spec
+				all
+					l_spec.item.to_natural_32 = l_ref.code (l_spec.cursor_index)
+				end
 
 	utf_32_string_to_utf_8_string_8 (s: READABLE_STRING_GENERAL): STRING_8
 			-- UTF-8 sequence corresponding to `s' interpreted as a UTF-32 sequence.
@@ -565,20 +575,20 @@ feature -- UTF-8 to UTF-32
 			-- where invalid UTF-8 sequences are escaped, appended into `a_result'.
 		ensure
 			roundtrip: attached escaped_utf_32_string_to_utf_8_string_8 (a_result.substring (old a_result.count + 1, a_result.count)) as l_str and then across
-				l_str as l_char
-			all
-				l_char.item = p.read_natural_8 (l_char.cursor_index - 1).to_character_8
-			end
+					l_str as l_char
+				all
+					l_char.item = p.read_natural_8 (l_char.cursor_index - 1).to_character_8
+				end
 
 	utf_8_0_pointer_to_escaped_string_32 (p: MANAGED_POINTER): STRING_32
 			-- STRING_32 object corresponding to UTF-8 sequence `p' which is zero-terminated,
 			-- where invalid UTF-8 sequences are escaped.
 		ensure
 			roundtrip: attached escaped_utf_32_string_to_utf_8_string_8 (Result) as l_str and then across
-				l_str as l_char
-			all
-				l_char.item = p.read_natural_8 (l_char.cursor_index - 1).to_character_8
-			end
+					l_str as l_char
+				all
+					l_char.item = p.read_natural_8 (l_char.cursor_index - 1).to_character_8
+				end
 
 	utf_8_0_subpointer_into_escaped_string_32 (p: MANAGED_POINTER; start_pos, end_pos: INTEGER_32; a_stop_at_null: BOOLEAN; a_result: STRING_32)
 			-- Copy STRING_32 object corresponding to UTF-8 sequence `p' between indexes `start_pos' and
@@ -590,10 +600,10 @@ feature -- UTF-8 to UTF-32
 			end_pos_small_enough: end_pos < p.count
 		ensure
 			roundtrip: attached escaped_utf_32_string_to_utf_8_string_8 (a_result.substring (old a_result.count + 1, a_result.count)) as l_str and then across
-				l_str as l_char
-			all
-				l_char.item = p.read_natural_8 (start_pos + l_char.cursor_index - 1).to_character_8
-			end
+					l_str as l_char
+				all
+					l_char.item = p.read_natural_8 (start_pos + l_char.cursor_index - 1).to_character_8
+				end
 
 	utf_8_0_subpointer_to_escaped_string_32 (p: MANAGED_POINTER; start_pos, end_pos: INTEGER_32; a_stop_at_null: BOOLEAN): STRING_32
 			-- STRING_32 object corresponding to UTF-8 sequence `p' between indexes `start_pos' and
@@ -605,10 +615,10 @@ feature -- UTF-8 to UTF-32
 			end_pos_small_enough: end_pos < p.count
 		ensure
 			roundtrip: attached escaped_utf_32_string_to_utf_8_string_8 (Result) as l_str and then across
-				l_str as l_char
-			all
-				l_char.item = p.read_natural_8 (start_pos + l_char.cursor_index - 1).to_character_8
-			end
+					l_str as l_char
+				all
+					l_char.item = p.read_natural_8 (start_pos + l_char.cursor_index - 1).to_character_8
+				end
 
 	utf_8_string_8_into_escaped_string_32 (s: READABLE_STRING_8; a_result: STRING_32)
 			-- Copy STRING_32 corresponding to UTF-8 sequence `s', where invalid UTF-8 sequences are escaped,
@@ -632,7 +642,7 @@ feature -- UTF-8 to UTF-32
 			roundtrip: is_valid_utf_8_string_8 (s) implies utf_32_string_to_utf_8_string_8 (Result).same_string (s)
 	
 note
-	copyright: "Copyright (c) 1984-2013, Eiffel Software and others"
+	copyright: "Copyright (c) 1984-2014, Eiffel Software and others"
 	license: "Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
 	source: "[
 		Eiffel Software

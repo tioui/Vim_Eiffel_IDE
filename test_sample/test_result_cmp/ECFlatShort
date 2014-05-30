@@ -973,10 +973,10 @@ feature -- Creation
 		ensure -- from REFLECTOR
 			dynamic_type_set: attached Result implies Result.generating_type.type_id = type_id
 			values_set: attached Result implies across
-				1 |..| Result.count as k
-			all
-				Result.item (k.item) = values [k.item - 1]
-			end
+					1 |..| Result.count as k
+				all
+					Result.item (k.item) = values [k.item - 1]
+				end
 
 	new_tuple_from_tuple (type_id: INTEGER_32; source: TUPLE): detachable TUPLE
 			-- New instance of a tuple of type `type_id' filled with values fom `source' if all value types are suitable.
@@ -989,10 +989,10 @@ feature -- Creation
 			dynamic_type_set: attached Result implies Result.generating_type.type_id = type_id
 			object_comparison_set: attached Result implies Result.object_comparison = source.object_comparison
 			values_set: attached Result implies across
-				1 |..| Result.count as k
-			all
-				Result.item (k.item) = source [k.item]
-			end
+					1 |..| Result.count as k
+				all
+					Result.item (k.item) = source [k.item]
+				end
 
 	type_of (object: detachable ANY): TYPE [detachable ANY]
 			-- Associated TYPE instance of `object'.

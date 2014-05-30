@@ -20,50 +20,63 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-import environment
 import eiffelide
 
 
-def launch_comilation(a_project, a_routine, a_work_text,
-                      a_done_text, a_focus=True):
-    if a_project:
-        eiffelide.save_current_window_and_open_tools_window()
-        eiffelide.set_tools_window_text(a_work_text)
-        tools_buffer_number = eiffelide.get_tools_buffer_number()
-        tools_buffer = environment.window(tools_buffer_number, True)
-        a_routine(tools_buffer)
-        eiffelide.set_tools_window_text(a_done_text)
-        if not a_project.has_error() or not a_focus:
-            eiffelide.select_saved_window()
-    else:
-        print("No Vim Eiffel IDE project opener")
-
-
 def recompile(a_project):
-    launch_comilation(a_project, lambda window: a_project.recompile(window),
-                      "Compiling...", "Compilation output")
+    """
+    Run a compilation from scratch of the openned `a_project'
+    """
+    eiffelide.launch_process(a_project,
+                             lambda window: a_project.recompile(window),
+                             "Compiling...", "Compilation output", True)
 
 
 def freeze(a_project):
-    launch_comilation(a_project, lambda window: a_project.freeze(window),
-                      "Freezing...", "Freezing output")
+    """
+    Run a 'Freezing' compilation of the openned `a_project'
+    See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
+    """
+    eiffelide.launch_process(a_project,
+                             lambda window: a_project.freeze(window),
+                             "Freezing...", "Freezing output", True)
 
 
 def melt(a_project):
-    launch_comilation(a_project, lambda window: a_project.melt(window),
-                      "Melting...", "Melting output")
+    """
+    Run a 'Melting' compilation of the openned `a_project'
+    See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
+    """
+    eiffelide.launch_process(a_project,
+                             lambda window: a_project.melt(window),
+                             "Melting...", "Melting output", True)
 
 
 def finalize(a_project):
-    launch_comilation(a_project, lambda window: a_project.finalize(window),
-                      "Freezing...", "Freezing output")
+    """
+    Run a 'Finilize' compilation of the openned `a_project'
+    """
+    eiffelide.launch_process(a_project,
+                             lambda window: a_project.finalize(window),
+                             "Freezing...", "Freezing output", True)
 
 
 def quick_melt(a_project):
-    launch_comilation(a_project, lambda window: a_project.quick_melt(window),
-                      "Quick Melting...", "Quick Melting output")
+    """
+    Run a 'Quick Melting' compilation of the openned `a_project'
+    See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
+    """
+    eiffelide.launch_process(a_project,
+                             lambda window: a_project.quick_melt(window),
+                             "Quick Melting...", "Quick Melting output", True)
 
 
 def quick_melt_no_focus(a_project):
-    launch_comilation(a_project, lambda window: a_project.quick_melt(window),
-                      "Quick Melting...", "Quick Meting output", False)
+    """
+    Run a 'Quick Melting' compilation of the openned `a_project' and even if
+    there is error, do not put the focus in the Eiffel IDE tools window.
+    See: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
+    """
+    eiffelide.launch_process(a_project,
+                             lambda window: a_project.quick_melt(window),
+                             "Quick Melting...", "Quick Meting output", False)

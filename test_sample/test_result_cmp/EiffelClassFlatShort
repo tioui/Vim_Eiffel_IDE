@@ -200,7 +200,7 @@ feature -- Iteration
 	act
 			-- Do one action at the current step of iteration.
 		require
-			not after
+				not after
 
 	repeat
 			-- Repeat act until after.

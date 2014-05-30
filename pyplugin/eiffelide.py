@@ -157,6 +157,21 @@ def run_project(a_project):
         print("No Vim Eiffel IDE project opened.")
 
 
+def launch_process(a_project, a_routine, a_work_text, a_done_text,
+                   a_focus_on_error=False, a_always_focus=False):
+    if a_project:
+        save_current_window_and_open_tools_window()
+        set_tools_window_text(a_work_text)
+        tools_buffer_number = get_tools_buffer_number()
+        tools_buffer = environment.window(tools_buffer_number, True)
+        a_routine(tools_buffer)
+        set_tools_window_text(a_done_text)
+        if not(a_always_focus or (a_focus_on_error and a_project.has_error())):
+            select_saved_window()
+    else:
+        print("No Eiffel project opened")
+
+
 def test_argv(*arguments):
     text = ""
     for i in arguments:

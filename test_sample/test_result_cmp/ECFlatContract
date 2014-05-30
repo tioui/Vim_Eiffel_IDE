@@ -193,7 +193,7 @@ feature -- Status setting
 		require -- from CONTAINER
 			changeable_comparison_criterion: changeable_comparison_criterion
 		ensure -- from CONTAINER
-			object_comparison
+				object_comparison
 
 	compare_references
 			-- Ensure that future search operations will use `='

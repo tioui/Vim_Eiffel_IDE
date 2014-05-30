@@ -79,7 +79,7 @@ python import sys, vim
 
 python sys.path.insert(0, vim.eval('g:eiffel_plugin_root')+"/pyplugin")
 
-python import eiffelproject, environment, eiffelide, eiffelcompilation
+python import eiffelproject, environment, eiffelide, eiffelcompilation, eiffelclass
 
 " DESC: The Eiffel Project python object
 " SEE: `project' class in pyplugin/eiffelide.py 
@@ -136,92 +136,92 @@ command! ETarget EiffelTarget
 " ====================== Class informations commands ========================
 
 " DESC: Class Flat View
-command! -nargs=* EiffelClassFlat call eiffelide#class#flat(<f-args>)
+command! -nargs=* EiffelClassFlat python eiffelclass.flat(eiffel_project,<f-args>)
 
-command! -nargs=* ECFlat call eiffelide#class#flat(<f-args>)
+command! -nargs=* ECFlat python eiffelclass.flat(eiffel_project,<f-args>)
 
 " DESC: Class Ancestors
-command! -nargs=* EiffelClassAncestors call eiffelide#class#ancestors(<f-args>)
+command! -nargs=* EiffelClassAncestors python eiffelclass.ancestors(eiffel_project,<f-args>)
 
-command! -nargs=* ECAncestors call eiffelide#class#ancestors(<f-args>)
+command! -nargs=* ECAncestors python eiffelclass.ancestors(eiffel_project,<f-args>)
 
 " DESC: Class Attributes
-command! -nargs=* EiffelClassAttributes call eiffelide#class#attributes(<f-args>)
+command! -nargs=* EiffelClassAttributes python eiffelclass.attributes(eiffel_project,<f-args>)
 
-command! -nargs=* ECAttributes call eiffelide#class#attributes(<f-args>)
+command! -nargs=* ECAttributes python eiffelclass.attributes(eiffel_project,<f-args>)
 
 " DESC: Class Clients
-command! -nargs=* EiffelClassClients call eiffelide#class#clients(<f-args>)
+command! -nargs=* EiffelClassClients python eiffelclass.clients(eiffel_project,<f-args>)
 
-command! -nargs=* ECClients call eiffelide#class#clients(<f-args>)
+command! -nargs=* ECClients python eiffelclass.clients(eiffel_project,<f-args>)
 
 " DESC: Class Deferred features
-command! -nargs=* EiffelClassDeferred call eiffelide#class#deferred(<f-args>)
+command! -nargs=* EiffelClassDeferred python eiffelclass.deferred(eiffel_project,<f-args>)
 
-command! -nargs=* ECDeferred call eiffelide#class#deferred(<f-args>)
+command! -nargs=* ECDeferred python eiffelclass.deferred(eiffel_project,<f-args>)
 
 " DESC: Class Descendants
-command! -nargs=* EiffelClassDescendants call eiffelide#class#descendants(<f-args>)
+command! -nargs=* EiffelClassDescendants python eiffelclass.descendants(eiffel_project,<f-args>)
 
-command! -nargs=* ECDescendants call eiffelide#class#descendants(<f-args>)
+command! -nargs=* ECDescendants python eiffelclass.descendants(eiffel_project,<f-args>)
 
 " DESC: Class Exported features
-command! -nargs=* EiffelClassExported call eiffelide#class#exported(<f-args>)
+command! -nargs=* EiffelClassExported python eiffelclass.exported(eiffel_project,<f-args>)
 
-command! -nargs=* ECExported call eiffelide#class#exported(<f-args>)
+command! -nargs=* ECExported python eiffelclass.exported(eiffel_project,<f-args>)
 
 " DESC: Class External features
-command! -nargs=* EiffelClassExternals call eiffelide#class#externals(<f-args>)
+command! -nargs=* EiffelClassExternals python eiffelclass.externals(eiffel_project,<f-args>)
 
-command! -nargs=* ECExternals call eiffelide#class#externals(<f-args>)
+command! -nargs=* ECExternals python eiffelclass.externals(eiffel_project,<f-args>)
 
 " DESC: Class Flat contract view
-command! -nargs=* EiffelClassFlatShort call eiffelide#class#flatshort(<f-args>)
+command! -nargs=* EiffelClassFlatShort python eiffelclass.flatshort(eiffel_project,<f-args>)
 
-command! -nargs=* ECFlatShort call eiffelide#class#flatshort(<f-args>)
+command! -nargs=* ECFlatShort python eiffelclass.flatshort(eiffel_project,<f-args>)
 
-command! -nargs=* EiffelClassFlatContract call eiffelide#class#flatshort(<f-args>)
+command! -nargs=* EiffelClassFlatContract python eiffelclass.flatshort(eiffel_project,<f-args>)
 
-command! -nargs=* ECFlatContract call eiffelide#class#flatshort(<f-args>)
+command! -nargs=* ECFlatContract python eiffelclass.flatshort(eiffel_project,<f-args>)
 
 " DESC: Class Once features
-command! -nargs=* EiffelClassOnce call eiffelide#class#once(<f-args>)
+command! -nargs=* EiffelClassOnce python eiffelclass.once(eiffel_project,<f-args>)
 
-command! -nargs=* ECOnce call eiffelide#class#once(<f-args>)
+command! -nargs=* ECOnce python eiffelclass.once(eiffel_project,<f-args>)
 
 " DESC: Class Invariants
-command! -nargs=* EiffelClassInvariants call eiffelide#class#invariants(<f-args>)
+command! -nargs=* EiffelClassInvariants python eiffelclass.invariants(eiffel_project,<f-args>)
 
-command! -nargs=* ECInvariants call eiffelide#class#invariants(<f-args>)
+command! -nargs=* ECInvariants python eiffelclass.invariants(eiffel_project,<f-args>)
 
 " DESC: Class Routines
-command! -nargs=* EiffelClassRoutines call eiffelide#class#routines(<f-args>)
+command! -nargs=* EiffelClassRoutines python eiffelclass.routines(eiffel_project,<f-args>)
 
-command! -nargs=* ECRoutines call eiffelide#class#routines(<f-args>)
+command! -nargs=* ECRoutines python eiffelclass.routines(eiffel_project,<f-args>)
 
 " DESC: Class Creators
-command! -nargs=* EiffelClassCreators call eiffelide#class#creators(<f-args>)
+command! -nargs=* EiffelClassCreators python eiffelclass.creators(eiffel_project,<f-args>)
 
-command! -nargs=* ECCreators call eiffelide#class#creators(<f-args>)
+command! -nargs=* ECCreators python eiffelclass.creators(eiffel_project,<f-args>)
 
 " DESC: Class Short View
-command! -nargs=* EiffelClassShort call eiffelide#class#short(<f-args>)
+command! -nargs=* EiffelClassShort python eiffelclass.short(eiffel_project,<f-args>)
 
-command! -nargs=* ECShort call eiffelide#class#short(<f-args>)
+command! -nargs=* ECShort python eiffelclass.short(eiffel_project,<f-args>)
 
-command! -nargs=* EiffelClassContract call eiffelide#class#short(<f-args>)
+command! -nargs=* EiffelClassContract python eiffelclass.short(eiffel_project,<f-args>)
 
-command! -nargs=* ECContract call eiffelide#class#short(<f-args>)
+command! -nargs=* ECContract python eiffelclass.short(eiffel_project,<f-args>)
 
 " DESC: Class Suppliers
-command! -nargs=* EiffelClassSuppliers call eiffelide#class#suppliers(<f-args>)
+command! -nargs=* EiffelClassSuppliers python eiffelclass.suppliers(eiffel_project,<f-args>)
 
-command! -nargs=* ECSuppliers call eiffelide#class#suppliers(<f-args>)
+command! -nargs=* ECSuppliers python eiffelclass.suppliers(eiffel_project,<f-args>)
 
 " DESC: Class Text
-command! -nargs=* EiffelClassText call eiffelide#class#text(<f-args>)
+command! -nargs=* EiffelClassText python eiffelclass.text(eiffel_project,<f-args>)
 
-command! -nargs=* ECText call eiffelide#class#text(<f-args>)
+command! -nargs=* ECText python eiffelclass.text(eiffel_project,<f-args>)
 
 
 " ============================ Others commands ==============================
@@ -317,7 +317,7 @@ endpython
 endfunction
 
 " DESC: Return True if the last compilation was a success.
-function! eiffelide#is_success()
+function! eiffelide#is_compilation_success()
 	let result = 0
 python << endpython
 if eiffel_project:
