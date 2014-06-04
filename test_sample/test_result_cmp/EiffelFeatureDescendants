@@ -1,0 +1,688 @@
+
+
+History branch #1
+-----------------
+ANY is_equal (other: [like Current] attached ANY): BOOLEAN
+	Version from class ANY
+TEST_CASE is_equal (other: [attached like Current] attached TEST_CASE): BOOLEAN
+	Version from class ANY
+SYSTEM_STRING_FACTORY is_equal (other: [attached like Current] attached SYSTEM_STRING_FACTORY): BOOLEAN
+	Version from class ANY
+SHARED_EXECUTION_ENVIRONMENT is_equal (other: [attached like Current] attached SHARED_EXECUTION_ENVIRONMENT): BOOLEAN
+	Version from class ANY
+NATIVE_ARRAY is_equal (other: [attached like Current] attached NATIVE_ARRAY [G]): BOOLEAN
+	Version from class ANY
+SED_META_MODEL is_equal (other: [attached like Current] attached SED_META_MODEL): BOOLEAN
+	Version from class ANY
+RT_DBG_EXECUTION_PARAMETERS is_equal (other: [attached like Current] attached RT_DBG_EXECUTION_PARAMETERS): BOOLEAN
+	Version from class ANY
+IDENTIFIED_CONTROLLER is_equal (other: [attached like Current] attached IDENTIFIED_CONTROLLER): BOOLEAN
+	Version from class ANY
+RT_DEBUGGER is_equal (other: [attached like Current] attached RT_DEBUGGER): BOOLEAN
+	Version from class ANY
+ASCII is_equal (other: [attached like Current] attached ASCII): BOOLEAN
+	Version from class ANY
+DECLARATOR is_equal (other: [attached like Current] attached DECLARATOR): BOOLEAN
+	Version from class ANY
+SED_TYPE_MISMATCH is_equal (other: [attached like Current] attached SED_TYPE_MISMATCH): BOOLEAN
+	Version from class ANY
+FILE_UTILITIES is_equal (other: [attached like Current] attached FILE_UTILITIES): BOOLEAN
+	Version from class ANY
+SED_ERROR is_equal (other: [attached like Current] attached SED_ERROR): BOOLEAN
+	Version from class ANY
+CHARACTER_PROPERTY is_equal (other: [attached like Current] attached CHARACTER_PROPERTY): BOOLEAN
+	Version from class ANY
+STD_FILES is_equal (other: [attached like Current] attached STD_FILES): BOOLEAN
+	Version from class ANY
+UNIX_SIGNALS is_equal (other: [attached like Current] attached UNIX_SIGNALS): BOOLEAN
+	Version from class ANY
+VERSIONABLE is_equal (other: [attached like Current] attached VERSIONABLE): BOOLEAN
+	Version from class ANY
+SED_ERROR_FACTORY is_equal (other: [attached like Current] attached SED_ERROR_FACTORY): BOOLEAN
+	Version from class ANY
+SED_VERSIONS is_equal (other: [attached like Current] attached SED_VERSIONS): BOOLEAN
+	Version from class ANY
+ISE_RUNTIME is_equal (other: [attached like Current] attached ISE_RUNTIME): BOOLEAN
+	Version from class ANY
+UTF_CONVERTER is_equal (other: [attached like Current] attached UTF_CONVERTER): BOOLEAN
+	Version from class ANY
+PROFILING_SETTING is_equal (other: [attached like Current] attached PROFILING_SETTING): BOOLEAN
+	Version from class ANY
+TRACING_SETTING is_equal (other: [attached like Current] attached TRACING_SETTING): BOOLEAN
+	Version from class ANY
+OPERATING_ENVIRONMENT is_equal (other: [attached like Current] attached OPERATING_ENVIRONMENT): BOOLEAN
+	Version from class ANY
+SYSTEM_STRING is_equal (other: [attached like Current] attached SYSTEM_STRING): BOOLEAN
+	Version from class ANY
+BASIC_ROUTINES is_equal (other: [attached like Current] attached BASIC_ROUTINES): BOOLEAN
+	Version from class ANY
+FORMAT_INTEGER is_equal (other: [attached like Current] attached FORMAT_INTEGER): BOOLEAN
+	Version from class ANY
+EXCEP_CONST is_equal (other: [attached like Current] attached EXCEP_CONST): BOOLEAN
+	Version from class ANY
+TRACING_HANDLER is_equal (other: [attached like Current] attached TRACING_HANDLER): BOOLEAN
+	Version from class ANY
+STRING_TRACING_HANDLER is_equal (other: [attached like Current] attached STRING_TRACING_HANDLER): BOOLEAN
+	Version from class ANY
+AGENT_TRACING_HANDLER is_equal (other: [attached like Current] attached AGENT_TRACING_HANDLER): BOOLEAN
+	Version from class ANY
+IDENTIFIED_ROUTINES is_equal (other: [attached like Current] attached IDENTIFIED_ROUTINES): BOOLEAN
+	Version from class ANY
+ITERATOR is_equal (other: [attached like Current] attached ITERATOR [G]): BOOLEAN
+	Version from class ANY
+LINEAR_ITERATOR is_equal (other: [attached like Current] attached LINEAR_ITERATOR [G]): BOOLEAN
+	Version from class ANY
+TWO_WAY_CHAIN_ITERATOR is_equal (other: [attached like Current] attached TWO_WAY_CHAIN_ITERATOR [G]): BOOLEAN
+	Version from class ANY
+CURSOR_TREE_ITERATOR is_equal (other: [attached like Current] attached CURSOR_TREE_ITERATOR [G]): BOOLEAN
+	Version from class ANY
+SED_ABSTRACT_OBJECTS_TABLE is_equal (other: [attached like Current] attached SED_ABSTRACT_OBJECTS_TABLE): BOOLEAN
+	Version from class ANY
+SED_STORABLE_FACILITIES is_equal (other: [attached like Current] attached SED_STORABLE_FACILITIES): BOOLEAN
+	Version from class ANY
+OBJECT_GRAPH_MARKER is_equal (other: [attached like Current] attached OBJECT_GRAPH_MARKER): BOOLEAN
+	Version from class ANY
+SED_READER_WRITER is_equal (other: [attached like Current] attached SED_READER_WRITER): BOOLEAN
+	Version from class ANY
+SED_BINARY_READER_WRITER is_equal (other: [attached like Current] attached SED_BINARY_READER_WRITER): BOOLEAN
+	Version from class ANY
+SED_MEMORY_READER_WRITER is_equal (other: [attached like Current] attached SED_MEMORY_READER_WRITER): BOOLEAN
+	Version from class ANY
+REFACTORING_HELPER is_equal (other: [attached like Current] attached REFACTORING_HELPER): BOOLEAN
+	Version from class ANY
+RT_EXTENSION_COMMON is_equal (other: [attached like Current] attached RT_EXTENSION_COMMON): BOOLEAN
+	Version from class ANY
+RT_EXTENSION_GENERAL is_equal (other: [attached like Current] attached RT_EXTENSION_GENERAL): BOOLEAN
+	Version from class ANY
+RT_EXTENSION is_equal (other: [attached like Current] attached RT_EXTENSION): BOOLEAN
+	Version from class ANY
+RT_DBG_COMMON is_equal (other: [attached like Current] attached RT_DBG_COMMON): BOOLEAN
+	Version from class ANY
+OBJECT_GRAPH_TRAVERSABLE is_equal (other: [attached like Current] attached OBJECT_GRAPH_TRAVERSABLE): BOOLEAN
+	Version from class ANY
+OBJECT_GRAPH_DEPTH_FIRST_TRAVERSABLE is_equal (other: [attached like Current] attached OBJECT_GRAPH_DEPTH_FIRST_TRAVERSABLE): BOOLEAN
+	Version from class ANY
+OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE is_equal (other: [attached like Current] attached OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE): BOOLEAN
+	Version from class ANY
+MEMORY_STRUCTURE is_equal (other: [attached like Current] attached MEMORY_STRUCTURE): BOOLEAN
+	Version from class ANY
+REFLECTOR_HELPER is_equal (other: [attached like Current] attached REFLECTOR_HELPER): BOOLEAN
+	Version from class ANY
+INTERNAL_HELPER is_equal (other: [attached like Current] attached INTERNAL_HELPER): BOOLEAN
+	Version from class ANY
+NUMERIC_INFORMATION is_equal (other: [attached like Current] attached NUMERIC_INFORMATION): BOOLEAN
+	Version from class ANY
+INTEGER_OVERFLOW_CHECKER is_equal (other: [attached like Current] attached INTEGER_OVERFLOW_CHECKER): BOOLEAN
+	Version from class ANY
+STRING_TO_NUMERIC_CONVERTOR is_equal (other: [attached like Current] attached STRING_TO_NUMERIC_CONVERTOR): BOOLEAN
+	Version from class ANY
+HEXADECIMAL_STRING_TO_INTEGER_CONVERTER is_equal (other: [attached like Current] attached HEXADECIMAL_STRING_TO_INTEGER_CONVERTER): BOOLEAN
+	Version from class ANY
+STRING_TO_REAL_CONVERTOR is_equal (other: [attached like Current] attached STRING_TO_REAL_CONVERTOR): BOOLEAN
+	Version from class ANY
+STRING_TO_INTEGER_CONVERTOR is_equal (other: [attached like Current] attached STRING_TO_INTEGER_CONVERTOR): BOOLEAN
+	Version from class ANY
+EXCEPTION_MANAGER_FACTORY is_equal (other: [attached like Current] attached EXCEPTION_MANAGER_FACTORY): BOOLEAN
+	Version from class ANY
+EXCEPTIONS is_equal (other: [attached like Current] attached EXCEPTIONS): BOOLEAN
+	Version from class ANY
+STORABLE is_equal (other: [attached like Current] attached STORABLE): BOOLEAN
+	Version from class ANY
+EXCEPTION is_equal (other: [attached like Current] attached EXCEPTION): BOOLEAN
+	Version from class ANY
+DEVELOPER_EXCEPTION is_equal (other: [attached like Current] attached DEVELOPER_EXCEPTION): BOOLEAN
+	Version from class ANY
+MACHINE_EXCEPTION is_equal (other: [attached like Current] attached MACHINE_EXCEPTION): BOOLEAN
+	Version from class ANY
+HARDWARE_EXCEPTION is_equal (other: [attached like Current] attached HARDWARE_EXCEPTION): BOOLEAN
+	Version from class ANY
+FLOATING_POINT_FAILURE is_equal (other: [attached like Current] attached FLOATING_POINT_FAILURE): BOOLEAN
+	Version from class ANY
+OPERATING_SYSTEM_EXCEPTION is_equal (other: [attached like Current] attached OPERATING_SYSTEM_EXCEPTION): BOOLEAN
+	Version from class ANY
+COM_FAILURE is_equal (other: [attached like Current] attached COM_FAILURE): BOOLEAN
+	Version from class ANY
+OPERATING_SYSTEM_FAILURE is_equal (other: [attached like Current] attached OPERATING_SYSTEM_FAILURE): BOOLEAN
+	Version from class ANY
+OPERATING_SYSTEM_SIGNAL_FAILURE is_equal (other: [attached like Current] attached OPERATING_SYSTEM_SIGNAL_FAILURE): BOOLEAN
+	Version from class ANY
+OBSOLETE_EXCEPTION is_equal (other: [attached like Current] attached OBSOLETE_EXCEPTION): BOOLEAN
+	Version from class ANY
+RESUMPTION_FAILURE is_equal (other: [attached like Current] attached RESUMPTION_FAILURE): BOOLEAN
+	Version from class ANY
+RESCUE_FAILURE is_equal (other: [attached like Current] attached RESCUE_FAILURE): BOOLEAN
+	Version from class ANY
+EXCEPTION_IN_SIGNAL_HANDLER_FAILURE is_equal (other: [attached like Current] attached EXCEPTION_IN_SIGNAL_HANDLER_FAILURE): BOOLEAN
+	Version from class ANY
+SYS_EXCEPTION is_equal (other: [attached like Current] attached SYS_EXCEPTION): BOOLEAN
+	Version from class ANY
+EIFFEL_RUNTIME_PANIC is_equal (other: [attached like Current] attached EIFFEL_RUNTIME_PANIC): BOOLEAN
+	Version from class ANY
+OLD_VIOLATION is_equal (other: [attached like Current] attached OLD_VIOLATION): BOOLEAN
+	Version from class ANY
+EIF_EXCEPTION is_equal (other: [attached like Current] attached EIF_EXCEPTION): BOOLEAN
+	Version from class ANY
+EIFFEL_RUNTIME_EXCEPTION is_equal (other: [attached like Current] attached EIFFEL_RUNTIME_EXCEPTION): BOOLEAN
+	Version from class ANY
+EXTERNAL_FAILURE is_equal (other: [attached like Current] attached EXTERNAL_FAILURE): BOOLEAN
+	Version from class ANY
+NO_MORE_MEMORY is_equal (other: [attached like Current] attached NO_MORE_MEMORY): BOOLEAN
+	Version from class ANY
+DATA_EXCEPTION is_equal (other: [attached like Current] attached DATA_EXCEPTION): BOOLEAN
+	Version from class ANY
+SERIALIZATION_FAILURE is_equal (other: [attached like Current] attached SERIALIZATION_FAILURE): BOOLEAN
+	Version from class ANY
+MISMATCH_FAILURE is_equal (other: [attached like Current] attached MISMATCH_FAILURE): BOOLEAN
+	Version from class ANY
+IO_FAILURE is_equal (other: [attached like Current] attached IO_FAILURE): BOOLEAN
+	Version from class ANY
+LANGUAGE_EXCEPTION is_equal (other: [attached like Current] attached LANGUAGE_EXCEPTION): BOOLEAN
+	Version from class ANY
+VOID_TARGET is_equal (other: [attached like Current] attached VOID_TARGET): BOOLEAN
+	Version from class ANY
+VOID_ASSIGNED_TO_EXPANDED is_equal (other: [attached like Current] attached VOID_ASSIGNED_TO_EXPANDED): BOOLEAN
+	Version from class ANY
+ROUTINE_FAILURE is_equal (other: [attached like Current] attached ROUTINE_FAILURE): BOOLEAN
+	Version from class ANY
+BAD_INSPECT_VALUE is_equal (other: [attached like Current] attached BAD_INSPECT_VALUE): BOOLEAN
+	Version from class ANY
+EIFFELSTUDIO_SPECIFIC_LANGUAGE_EXCEPTION is_equal (other: [attached like Current] attached EIFFELSTUDIO_SPECIFIC_LANGUAGE_EXCEPTION): BOOLEAN
+	Version from class ANY
+CREATE_ON_DEFERRED is_equal (other: [attached like Current] attached CREATE_ON_DEFERRED): BOOLEAN
+	Version from class ANY
+ADDRESS_APPLIED_TO_MELTED_FEATURE is_equal (other: [attached like Current] attached ADDRESS_APPLIED_TO_MELTED_FEATURE): BOOLEAN
+	Version from class ANY
+ASSERTION_VIOLATION is_equal (other: [attached like Current] attached ASSERTION_VIOLATION): BOOLEAN
+	Version from class ANY
+LOOP_INVARIANT_VIOLATION is_equal (other: [attached like Current] attached LOOP_INVARIANT_VIOLATION): BOOLEAN
+	Version from class ANY
+PRECONDITION_VIOLATION is_equal (other: [attached like Current] attached PRECONDITION_VIOLATION): BOOLEAN
+	Version from class ANY
+POSTCONDITION_VIOLATION is_equal (other: [attached like Current] attached POSTCONDITION_VIOLATION): BOOLEAN
+	Version from class ANY
+VARIANT_VIOLATION is_equal (other: [attached like Current] attached VARIANT_VIOLATION): BOOLEAN
+	Version from class ANY
+CHECK_VIOLATION is_equal (other: [attached like Current] attached CHECK_VIOLATION): BOOLEAN
+	Version from class ANY
+INVARIANT_VIOLATION is_equal (other: [attached like Current] attached INVARIANT_VIOLATION): BOOLEAN
+	Version from class ANY
+STRING_SEARCHER is_equal (other: [attached like Current] attached STRING_SEARCHER): BOOLEAN
+	Version from class ANY
+STRING_8_SEARCHER is_equal (other: [attached like Current] attached STRING_8_SEARCHER): BOOLEAN
+	Version from class ANY
+STRING_32_SEARCHER is_equal (other: [attached like Current] attached STRING_32_SEARCHER): BOOLEAN
+	Version from class ANY
+PART_COMPARABLE is_equal (other: [attached like Current] attached PART_COMPARABLE): BOOLEAN
+	Version from class ANY
+COMPARABLE is_equal (other: [like Current] attached COMPARABLE): BOOLEAN
+	Version from class COMPARABLE
+PROXY_COMPARABLE is_equal (other: [attached like Current] attached PROXY_COMPARABLE [G]): BOOLEAN
+	Version from class COMPARABLE
+SED_UTILITIES is_equal (other: [attached like Current] attached SED_UTILITIES): BOOLEAN
+	Version from class ANY
+SED_SESSION_SERIALIZER is_equal (other: [attached like Current] attached SED_SESSION_SERIALIZER): BOOLEAN
+	Version from class ANY
+SED_BASIC_SERIALIZER is_equal (other: [attached like Current] attached SED_BASIC_SERIALIZER): BOOLEAN
+	Version from class ANY
+SED_RECOVERABLE_SERIALIZER is_equal (other: [attached like Current] attached SED_RECOVERABLE_SERIALIZER): BOOLEAN
+	Version from class ANY
+SED_INDEPENDENT_SERIALIZER is_equal (other: [attached like Current] attached SED_INDEPENDENT_SERIALIZER): BOOLEAN
+	Version from class ANY
+EXCEPTION_MANAGER is_equal (other: [attached like Current] attached EXCEPTION_MANAGER): BOOLEAN
+	Version from class ANY
+ISE_EXCEPTION_MANAGER is_equal (other: [attached like Current] attached ISE_EXCEPTION_MANAGER): BOOLEAN
+	Version from class ANY
+SED_SESSION_DESERIALIZER is_equal (other: [attached like Current] attached SED_SESSION_DESERIALIZER): BOOLEAN
+	Version from class ANY
+SED_BASIC_DESERIALIZER is_equal (other: [attached like Current] attached SED_BASIC_DESERIALIZER): BOOLEAN
+	Version from class ANY
+SED_INDEPENDENT_DESERIALIZER is_equal (other: [attached like Current] attached SED_INDEPENDENT_DESERIALIZER): BOOLEAN
+	Version from class ANY
+MATH_CONST is_equal (other: [attached like Current] attached MATH_CONST): BOOLEAN
+	Version from class ANY
+SINGLE_MATH is_equal (other: [attached like Current] attached SINGLE_MATH): BOOLEAN
+	Version from class ANY
+DOUBLE_MATH is_equal (other: [attached like Current] attached DOUBLE_MATH): BOOLEAN
+	Version from class ANY
+FORMAT_DOUBLE is_equal (other: [attached like Current] attached FORMAT_DOUBLE): BOOLEAN
+	Version from class ANY
+MEM_CONST is_equal (other: [attached like Current] attached MEM_CONST): BOOLEAN
+	Version from class ANY
+MEM_INFO is_equal (other: [attached like Current] attached MEM_INFO): BOOLEAN
+	Version from class ANY
+GC_INFO is_equal (other: [attached like Current] attached GC_INFO): BOOLEAN
+	Version from class ANY
+PLATFORM is_equal (other: [attached like Current] attached PLATFORM): BOOLEAN
+	Version from class ANY
+SED_MEDIUM_READER_WRITER_1 is_equal (other: [attached like Current] attached SED_MEDIUM_READER_WRITER_1): BOOLEAN
+	Version from class ANY
+SED_MEDIUM_READER_WRITER is_equal (other: [attached like Current] attached SED_MEDIUM_READER_WRITER): BOOLEAN
+	Version from class ANY
+STRING_HANDLER is_equal (other: [attached like Current] attached STRING_HANDLER): BOOLEAN
+	Version from class ANY
+C_STRING is_equal (other: [attached like Current] attached C_STRING): BOOLEAN
+	Version from class ANY
+SUBSET_STRATEGY is_equal (other: [attached like Current] attached SUBSET_STRATEGY [G]): BOOLEAN
+	Version from class ANY
+SUBSET_STRATEGY_HASHABLE is_equal (other: [attached like Current] attached SUBSET_STRATEGY_HASHABLE [G]): BOOLEAN
+	Version from class ANY
+SUBSET_STRATEGY_GENERIC is_equal (other: [attached like Current] attached SUBSET_STRATEGY_GENERIC [G]): BOOLEAN
+	Version from class ANY
+SUBSET_STRATEGY_TREE is_equal (other: [attached like Current] attached SUBSET_STRATEGY_TREE [G]): BOOLEAN
+	Version from class ANY
+ITERATION_CURSOR is_equal (other: [attached like Current] attached ITERATION_CURSOR [G]): BOOLEAN
+	Version from class ANY
+REPEATABLE is_equal (other: [attached like Current] attached REPEATABLE): BOOLEAN
+	Version from class ANY
+TABLE_ITERATION_CURSOR is_equal (other: [attached like Current] attached TABLE_ITERATION_CURSOR [G, K]): BOOLEAN
+	Version from class ANY
+CELL is_equal (other: [attached like Current] attached CELL [G]): BOOLEAN
+	Version from class ANY
+LINKABLE is_equal (other: [attached like Current] attached LINKABLE [G]): BOOLEAN
+	Version from class ANY
+BI_LINKABLE is_equal (other: [attached like Current] attached BI_LINKABLE [G]): BOOLEAN
+	Version from class ANY
+CONTAINER is_equal (other: [attached like Current] attached CONTAINER [G]): BOOLEAN
+	Version from class ANY
+COLLECTION is_equal (other: [attached like Current] attached COLLECTION [G]): BOOLEAN
+	Version from class ANY
+SET is_equal (other: [attached like Current] attached SET [G]): BOOLEAN
+	Version from class ANY
+SUBSET is_equal (other: [attached like Current] attached SUBSET [G]): BOOLEAN
+	Version from class ANY
+TRAVERSABLE_SUBSET is_equal (other: [attached like Current] attached TRAVERSABLE_SUBSET [G]): BOOLEAN
+	Version from class ANY
+LINEAR_SUBSET is_equal (other: [attached like Current] attached LINEAR_SUBSET [G]): BOOLEAN
+	Version from class ANY
+BAG is_equal (other: [attached like Current] attached BAG [G]): BOOLEAN
+	Version from class ANY
+TABLE is_equal (other: [attached like Current] attached TABLE [G, H]): BOOLEAN
+	Version from class ANY
+ACTIVE is_equal (other: [attached like Current] attached ACTIVE [G]): BOOLEAN
+	Version from class ANY
+CURSOR_STRUCTURE is_equal (other: [attached like Current] attached CURSOR_STRUCTURE [G]): BOOLEAN
+	Version from class ANY
+BOX is_equal (other: [attached like Current] attached BOX [G]): BOOLEAN
+	Version from class ANY
+INFINITE is_equal (other: [attached like Current] attached INFINITE [G]): BOOLEAN
+	Version from class ANY
+COUNTABLE is_equal (other: [attached like Current] attached COUNTABLE [G]): BOOLEAN
+	Version from class ANY
+FINITE is_equal (other: [attached like Current] attached FINITE [G]): BOOLEAN
+	Version from class ANY
+DISPENSER is_equal (other: [attached like Current] attached DISPENSER [G]): BOOLEAN
+	Version from class ANY
+STACK is_equal (other: [attached like Current] attached STACK [G]): BOOLEAN
+	Version from class ANY
+QUEUE is_equal (other: [attached like Current] attached QUEUE [G]): BOOLEAN
+	Version from class ANY
+PRIORITY_QUEUE is_equal (other: [attached like Current] attached PRIORITY_QUEUE [G]): BOOLEAN
+	Version from class ANY
+UNBOUNDED is_equal (other: [attached like Current] attached UNBOUNDED [G]): BOOLEAN
+	Version from class ANY
+BOUNDED is_equal (other: [attached like Current] attached BOUNDED [G]): BOOLEAN
+	Version from class ANY
+FIXED is_equal (other: [attached like Current] attached FIXED [G]): BOOLEAN
+	Version from class ANY
+RESIZABLE is_equal (other: [attached like Current] attached RESIZABLE [G]): BOOLEAN
+	Version from class ANY
+HEAP_PRIORITY_QUEUE is_equal (other: [like Current] attached HEAP_PRIORITY_QUEUE [G]): BOOLEAN
+	Version from class HEAP_PRIORITY_QUEUE
+TRAVERSABLE is_equal (other: [attached like Current] attached TRAVERSABLE [G]): BOOLEAN
+	Version from class ANY
+HIERARCHICAL is_equal (other: [attached like Current] attached HIERARCHICAL [G]): BOOLEAN
+	Version from class ANY
+LINEAR is_equal (other: [attached like Current] attached LINEAR [G]): BOOLEAN
+	Version from class ANY
+CURSOR_TREE is_equal (other: [attached like Current] attached CURSOR_TREE [G]): BOOLEAN
+	Version from class ANY
+RECURSIVE_CURSOR_TREE is_equal (other: [attached like Current] attached RECURSIVE_CURSOR_TREE [G]): BOOLEAN
+	Version from class ANY
+BILINEAR is_equal (other: [attached like Current] attached BILINEAR [G]): BOOLEAN
+	Version from class ANY
+COMPARABLE_STRUCT is_equal (other: [attached like Current] attached COMPARABLE_STRUCT [G]): BOOLEAN
+	Version from class ANY
+COMPARABLE_SET is_equal (other: [attached like Current] attached COMPARABLE_SET [G]): BOOLEAN
+	Version from class ANY
+BINARY_SEARCH_TREE_SET is_equal (other: [attached like Current] attached BINARY_SEARCH_TREE_SET [G]): BOOLEAN
+	Version from class ANY
+SEQUENCE is_equal (other: [attached like Current] attached SEQUENCE [G]): BOOLEAN
+	Version from class ANY
+COUNTABLE_SEQUENCE is_equal (other: [attached like Current] attached COUNTABLE_SEQUENCE [G]): BOOLEAN
+	Version from class ANY
+RANDOM is_equal (other: [attached like Current] attached RANDOM): BOOLEAN
+	Version from class ANY
+PRIMES is_equal (other: [attached like Current] attached PRIMES): BOOLEAN
+	Version from class ANY
+FIBONACCI is_equal (other: [attached like Current] attached FIBONACCI): BOOLEAN
+	Version from class ANY
+TREE is_equal (other: [like Current] attached TREE [G]): BOOLEAN
+	Version from class TREE
+FIXED_TREE is_equal (other: [attached like Current] attached FIXED_TREE [G]): BOOLEAN
+	Version from class TREE
+BINARY_TREE is_equal (other: [attached like Current] attached BINARY_TREE [G]): BOOLEAN
+	Version from class TREE
+BINARY_SEARCH_TREE is_equal (other: [attached like Current] attached BINARY_SEARCH_TREE [G]): BOOLEAN
+	Version from class TREE
+DYNAMIC_TREE is_equal (other: [attached like Current] attached DYNAMIC_TREE [G]): BOOLEAN
+	Version from class TREE
+ARRAYED_TREE is_equal (other: [attached like Current] attached ARRAYED_TREE [G]): BOOLEAN
+	Version from class TREE
+REFLECTOR_CONSTANTS is_equal (other: [attached like Current] attached REFLECTOR_CONSTANTS): BOOLEAN
+	Version from class ANY
+REFLECTED_OBJECT is_equal (other: [attached like Current] attached REFLECTED_OBJECT): BOOLEAN
+	Version from class ANY
+REFLECTOR is_equal (other: [attached like Current] attached REFLECTOR): BOOLEAN
+	Version from class ANY
+INTERNAL is_equal (other: [attached like Current] attached INTERNAL): BOOLEAN
+	Version from class ANY
+ECMA_INTERNAL is_equal (other: [attached like Current] attached ECMA_INTERNAL): BOOLEAN
+	Version from class ANY
+REFLECTED_COPY_SEMANTICS_OBJECT is_equal (other: [attached like Current] attached REFLECTED_COPY_SEMANTICS_OBJECT): BOOLEAN
+	Version from class ANY
+REFLECTED_REFERENCE_OBJECT is_equal (other: [attached like Current] attached REFLECTED_REFERENCE_OBJECT): BOOLEAN
+	Version from class ANY
+DEBUG_OUTPUT is_equal (other: [attached like Current] attached DEBUG_OUTPUT): BOOLEAN
+	Version from class ANY
+ABSTRACT_SPECIAL is_equal (other: [attached like Current] attached ABSTRACT_SPECIAL): BOOLEAN
+	Version from class ANY
+NUMERIC is_equal (other: [attached like Current] attached NUMERIC): BOOLEAN
+	Version from class ANY
+CURSOR is_equal (other: [attached like Current] attached CURSOR): BOOLEAN
+	Version from class ANY
+MULTAR_LIST_CURSOR is_equal (other: [attached like Current] attached MULTAR_LIST_CURSOR [G]): BOOLEAN
+	Version from class ANY
+CIRCULAR_CURSOR is_equal (other: [attached like Current] attached CIRCULAR_CURSOR): BOOLEAN
+	Version from class ANY
+HASH_TABLE_CURSOR is_equal (other: [attached like Current] attached HASH_TABLE_CURSOR): BOOLEAN
+	Version from class ANY
+RECURSIVE_TREE_CURSOR is_equal (other: [attached like Current] attached RECURSIVE_TREE_CURSOR [G]): BOOLEAN
+	Version from class ANY
+ARRAYED_LIST_CURSOR is_equal (other: [attached like Current] attached ARRAYED_LIST_CURSOR): BOOLEAN
+	Version from class ANY
+LINKED_LIST_CURSOR is_equal (other: [attached like Current] attached LINKED_LIST_CURSOR [G]): BOOLEAN
+	Version from class ANY
+LINKED_TREE_CURSOR is_equal (other: [attached like Current] attached LINKED_TREE_CURSOR [G]): BOOLEAN
+	Version from class ANY
+TWO_WAY_LIST_CURSOR is_equal (other: [attached like Current] attached TWO_WAY_LIST_CURSOR [G]): BOOLEAN
+	Version from class ANY
+TWO_WAY_TREE_CURSOR is_equal (other: [attached like Current] attached TWO_WAY_TREE_CURSOR [G]): BOOLEAN
+	Version from class ANY
+ITERABLE is_equal (other: [attached like Current] attached ITERABLE [G]): BOOLEAN
+	Version from class ANY
+ARGUMENTS_32 is_equal (other: [attached like Current] attached ARGUMENTS_32): BOOLEAN
+	Version from class ANY
+STRING_ITERATION_CURSOR is_equal (other: [attached like Current] attached STRING_ITERATION_CURSOR): BOOLEAN
+	Version from class ANY
+ARGUMENTS is_equal (other: [attached like Current] attached ARGUMENTS): BOOLEAN
+	Version from class ANY
+SAMPLE is_equal (other: [attached like Current] attached SAMPLE): BOOLEAN
+	Version from class ANY
+TABLE_ITERABLE is_equal (other: [attached like Current] attached TABLE_ITERABLE [G, K]): BOOLEAN
+	Version from class ANY
+INDEXABLE_ITERATION_CURSOR is_equal (other: [attached like Current] attached INDEXABLE_ITERATION_CURSOR [G]): BOOLEAN
+	Version from class ANY
+HASH_TABLE_ITERATION_CURSOR is_equal (other: [attached like Current] attached HASH_TABLE_ITERATION_CURSOR [G, K]): BOOLEAN
+	Version from class ANY
+LINKED_LIST_ITERATION_CURSOR is_equal (other: [attached like Current] attached LINKED_LIST_ITERATION_CURSOR [G]): BOOLEAN
+	Version from class ANY
+TWO_WAY_LIST_ITERATION_CURSOR is_equal (other: [attached like Current] attached TWO_WAY_LIST_ITERATION_CURSOR [G]): BOOLEAN
+	Version from class ANY
+READABLE_INDEXABLE is_equal (other: [attached like Current] attached READABLE_INDEXABLE [G]): BOOLEAN
+	Version from class ANY
+SPECIAL is_equal (other: [attached like Current] attached SPECIAL [T]): BOOLEAN
+	Version from class ANY
+INDEXABLE is_equal (other: [attached like Current] attached INDEXABLE [G, H]): BOOLEAN
+	Version from class ANY
+SORTED_STRUCT is_equal (other: [attached like Current] attached SORTED_STRUCT [G]): BOOLEAN
+	Version from class ANY
+INTEGER_INTERVAL is_equal (other: [like Current] attached INTEGER_INTERVAL): BOOLEAN
+	Version from class INTEGER_INTERVAL
+ACTIVE_INTEGER_INTERVAL is_equal (other: [attached like Current] attached ACTIVE_INTEGER_INTERVAL): BOOLEAN
+	Version from class INTEGER_INTERVAL
+CHAIN is_equal (other: [attached like Current] attached CHAIN [G]): BOOLEAN
+	Version from class ANY
+CIRCULAR is_equal (other: [attached like Current] attached CIRCULAR [G]): BOOLEAN
+	Version from class ANY
+DYNAMIC_CHAIN is_equal (other: [attached like Current] attached DYNAMIC_CHAIN [G]): BOOLEAN
+	Version from class ANY
+DYNAMIC_CIRCULAR is_equal (other: [attached like Current] attached DYNAMIC_CIRCULAR [G]): BOOLEAN
+	Version from class ANY
+LIST is_equal (other: [like Current] attached LIST [G]): BOOLEAN
+	Version from class LIST
+ARRAYED_CIRCULAR is_equal (other: [attached like Current] attached ARRAYED_CIRCULAR [G]): BOOLEAN
+	Version from class LIST
+LINKED_CIRCULAR is_equal (other: [attached like Current] attached LINKED_CIRCULAR [G]): BOOLEAN
+	Version from class LIST
+TWO_WAY_CIRCULAR is_equal (other: [attached like Current] attached TWO_WAY_CIRCULAR [G]): BOOLEAN
+	Version from class LIST
+PART_SORTED_LIST is_equal (other: [attached like Current] attached PART_SORTED_LIST [G]): BOOLEAN
+	Version from class LIST
+SORTED_LIST is_equal (other: [attached like Current] attached SORTED_LIST [G]): BOOLEAN
+	Version from class LIST
+DYNAMIC_LIST is_equal (other: [attached like Current] attached DYNAMIC_LIST [G]): BOOLEAN
+	Version from class LIST
+MULTI_ARRAY_LIST is_equal (other: [attached like Current] attached MULTI_ARRAY_LIST [G]): BOOLEAN
+	Version from class LIST
+LINKED_LIST is_equal (other: [attached like Current] attached LINKED_LIST [G]): BOOLEAN
+	Version from class LIST
+LINKED_STACK is_equal (other: [attached like Current] attached LINKED_STACK [G]): BOOLEAN
+	Version from class LIST
+LINKED_QUEUE is_equal (other: [attached like Current] attached LINKED_QUEUE [G]): BOOLEAN
+	Version from class LIST
+LINKED_SET is_equal (other: [attached like Current] attached LINKED_SET [G]): BOOLEAN
+	Version from class LIST
+LINKED_TREE is_equal (other: [attached like Current] attached LINKED_TREE [G]): BOOLEAN
+	Version from class TREE
+TWO_WAY_LIST is_equal (other: [attached like Current] attached TWO_WAY_LIST [G]): BOOLEAN
+	Version from class LIST
+TWO_WAY_TREE is_equal (other: [attached like Current] attached TWO_WAY_TREE [G]): BOOLEAN
+	Version from class TREE
+PART_SORTED_TWO_WAY_LIST is_equal (other: [attached like Current] attached PART_SORTED_TWO_WAY_LIST [G]): BOOLEAN
+	Version from class LIST
+PART_SORTED_SET is_equal (other: [attached like Current] attached PART_SORTED_SET [G]): BOOLEAN
+	Version from class LIST
+SORTED_TWO_WAY_LIST is_equal (other: [attached like Current] attached SORTED_TWO_WAY_LIST [G]): BOOLEAN
+	Version from class LIST
+TWO_WAY_SORTED_SET is_equal (other: [attached like Current] attached TWO_WAY_SORTED_SET [G]): BOOLEAN
+	Version from class LIST
+LINKED_PRIORITY_QUEUE is_equal (other: [attached like Current] attached LINKED_PRIORITY_QUEUE [G]): BOOLEAN
+	Version from class LIST
+TO_SPECIAL is_equal (other: [attached like Current] attached TO_SPECIAL [T]): BOOLEAN
+	Version from class ANY
+ARRAY is_equal (other: [like Current] attached ARRAY [G]): BOOLEAN
+	Version from class ARRAY
+ARRAY2 is_equal (other: [attached like Current] attached ARRAY2 [G]): BOOLEAN
+	Version from class ARRAY
+DISPOSABLE is_equal (other: [attached like Current] attached DISPOSABLE): BOOLEAN
+	Version from class ANY
+WEAK_REFERENCE is_equal (other: [attached like Current] attached WEAK_REFERENCE [G]): BOOLEAN
+	Version from class ANY
+MANAGED_POINTER is_equal (other: [like Current] attached MANAGED_POINTER): BOOLEAN
+	Version from class MANAGED_POINTER
+MEMORY_STREAM is_equal (other: [like Current] attached MEMORY_STREAM): BOOLEAN
+	Version from class MEMORY_STREAM
+MEMORY is_equal (other: [attached like Current] attached MEMORY): BOOLEAN
+	Version from class ANY
+IDENTIFIED is_equal (other: [like Current] attached IDENTIFIED): BOOLEAN
+	Version from class IDENTIFIED
+IO_MEDIUM is_equal (other: [attached like Current] attached IO_MEDIUM): BOOLEAN
+	Version from class ANY
+STREAM is_equal (other: [attached like Current] attached STREAM): BOOLEAN
+	Version from class ANY
+NATIVE_STRING_HANDLER is_equal (other: [attached like Current] attached NATIVE_STRING_HANDLER): BOOLEAN
+	Version from class ANY
+NATIVE_STRING is_equal (other: [like Current] attached NATIVE_STRING): BOOLEAN
+	Version from class NATIVE_STRING
+FILE_COMPARER is_equal (other: [attached like Current] attached FILE_COMPARER): BOOLEAN
+	Version from class ANY
+DIRECTORY is_equal (other: [attached like Current] attached DIRECTORY): BOOLEAN
+	Version from class ANY
+EXECUTION_ENVIRONMENT is_equal (other: [attached like Current] attached EXECUTION_ENVIRONMENT): BOOLEAN
+	Version from class ANY
+FILE_INFO is_equal (other: [like Current] attached FILE_INFO): BOOLEAN
+	Version from class FILE_INFO
+UNIX_FILE_INFO is_equal (other: [attached like Current] attached UNIX_FILE_INFO): BOOLEAN
+	Version from class FILE_INFO
+FILE is_equal (other: [attached like Current] attached FILE): BOOLEAN
+	Version from class ANY
+RAW_FILE is_equal (other: [attached like Current] attached RAW_FILE): BOOLEAN
+	Version from class ANY
+PLAIN_TEXT_FILE is_equal (other: [attached like Current] attached PLAIN_TEXT_FILE): BOOLEAN
+	Version from class ANY
+MISMATCH_CORRECTOR is_equal (other: [attached like Current] attached MISMATCH_CORRECTOR): BOOLEAN
+	Version from class ANY
+SED_RECOVERABLE_DESERIALIZER is_equal (other: [attached like Current] attached SED_RECOVERABLE_DESERIALIZER): BOOLEAN
+	Version from class ANY
+ARRAYED_QUEUE is_equal (other: [like Current] attached ARRAYED_QUEUE [G]): BOOLEAN
+	Version from class ARRAYED_QUEUE
+BOUNDED_QUEUE is_equal (other: [attached like Current] attached BOUNDED_QUEUE [G]): BOOLEAN
+	Version from class ARRAYED_QUEUE
+HASH_TABLE is_equal (other: [like Current] attached HASH_TABLE [G, K]): BOOLEAN
+	Version from class HASH_TABLE
+STRING_TABLE is_equal (other: [like Current] attached STRING_TABLE [G]): BOOLEAN
+	Version from class STRING_TABLE
+MISMATCH_INFORMATION is_equal (other: [attached like Current] attached MISMATCH_INFORMATION): BOOLEAN
+	Version from class HASH_TABLE
+CLASS_NAME_TRANSLATIONS is_equal (other: [attached like Current] attached CLASS_NAME_TRANSLATIONS): BOOLEAN
+	Version from class HASH_TABLE
+SED_OBJECTS_TABLE is_equal (other: [attached like Current] attached SED_OBJECTS_TABLE): BOOLEAN
+	Version from class HASH_TABLE
+ARRAYED_LIST is_equal (other: [like Current] attached ARRAYED_LIST [G]): BOOLEAN
+	Version from class ARRAYED_LIST
+ARRAYED_SET is_equal (other: [attached like Current] attached ARRAYED_SET [G]): BOOLEAN
+	Version from class ARRAYED_LIST
+FIXED_LIST is_equal (other: [attached like Current] attached FIXED_LIST [G]): BOOLEAN
+	Version from class ARRAYED_LIST
+ARRAYED_STACK is_equal (other: [attached like Current] attached ARRAYED_STACK [G]): BOOLEAN
+	Version from class ARRAYED_LIST
+BOUNDED_STACK is_equal (other: [attached like Current] attached BOUNDED_STACK [G]): BOOLEAN
+	Version from class ARRAYED_LIST
+INTERACTIVE_LIST is_equal (other: [attached like Current] attached INTERACTIVE_LIST [G]): BOOLEAN
+	Version from class ARRAYED_LIST
+ACTIVE_LIST is_equal (other: [attached like Current] attached ACTIVE_LIST [G]): BOOLEAN
+	Version from class ARRAYED_LIST
+ACTION_SEQUENCE is_equal (other: [attached like Current] attached ACTION_SEQUENCE [EVENT_DATA]): BOOLEAN
+	Version from class ARRAYED_LIST
+HASHABLE is_equal (other: [attached like Current] attached HASHABLE): BOOLEAN
+	Version from class ANY
+PATH is_equal (other: [like Current] attached PATH): BOOLEAN
+	Version from class PATH
+TYPE is_equal (other: [like Current] attached TYPE [G]): BOOLEAN
+	Version from class TYPE
+TUPLE is_equal (other: [like Current] TUPLE): BOOLEAN
+	Version from class TUPLE
+INTEGER_8_REF is_equal (other: [like Current] attached INTEGER_8_REF): BOOLEAN
+	Version from class INTEGER_8_REF
+INTEGER_8 is_equal (other: [attached like Current] attached INTEGER_8): BOOLEAN
+	Version from class INTEGER_8_REF
+CHARACTER_32_REF is_equal (other: [like Current] attached CHARACTER_32_REF): BOOLEAN
+	Version from class CHARACTER_32_REF
+CHARACTER_32 is_equal (other: [attached like Current] attached CHARACTER_32): BOOLEAN
+	Version from class CHARACTER_32_REF
+CHARACTER_8_REF is_equal (other: [like Current] attached CHARACTER_8_REF): BOOLEAN
+	Version from class CHARACTER_8_REF
+CHARACTER_8 is_equal (other: [attached like Current] attached CHARACTER_8): BOOLEAN
+	Version from class CHARACTER_8_REF
+INTEGER_64_REF is_equal (other: [like Current] attached INTEGER_64_REF): BOOLEAN
+	Version from class INTEGER_64_REF
+INTEGER_64 is_equal (other: [attached like Current] attached INTEGER_64): BOOLEAN
+	Version from class INTEGER_64_REF
+BOOLEAN_REF is_equal (other: [attached like Current] attached BOOLEAN_REF): BOOLEAN
+	Version from class ANY
+BOOLEAN is_equal (other: [attached like Current] attached BOOLEAN): BOOLEAN
+	Version from class ANY
+REAL_64_REF is_equal (other: [like Current] attached REAL_64_REF): BOOLEAN
+	Version from class REAL_64_REF
+REAL_64 is_equal (other: [attached like Current] attached REAL_64): BOOLEAN
+	Version from class REAL_64_REF
+NATURAL_8_REF is_equal (other: [like Current] attached NATURAL_8_REF): BOOLEAN
+	Version from class NATURAL_8_REF
+NATURAL_8 is_equal (other: [attached like Current] attached NATURAL_8): BOOLEAN
+	Version from class NATURAL_8_REF
+REAL_32_REF is_equal (other: [like Current] attached REAL_32_REF): BOOLEAN
+	Version from class REAL_32_REF
+REAL_32 is_equal (other: [attached like Current] attached REAL_32): BOOLEAN
+	Version from class REAL_32_REF
+NATURAL_32_REF is_equal (other: [like Current] attached NATURAL_32_REF): BOOLEAN
+	Version from class NATURAL_32_REF
+NATURAL_32 is_equal (other: [attached like Current] attached NATURAL_32): BOOLEAN
+	Version from class NATURAL_32_REF
+NATURAL_16_REF is_equal (other: [like Current] attached NATURAL_16_REF): BOOLEAN
+	Version from class NATURAL_16_REF
+NATURAL_16 is_equal (other: [attached like Current] attached NATURAL_16): BOOLEAN
+	Version from class NATURAL_16_REF
+INTEGER_32_REF is_equal (other: [like Current] attached INTEGER_32_REF): BOOLEAN
+	Version from class INTEGER_32_REF
+INTEGER_32 is_equal (other: [attached like Current] attached INTEGER_32): BOOLEAN
+	Version from class INTEGER_32_REF
+INTEGER_16_REF is_equal (other: [like Current] attached INTEGER_16_REF): BOOLEAN
+	Version from class INTEGER_16_REF
+INTEGER_16 is_equal (other: [attached like Current] attached INTEGER_16): BOOLEAN
+	Version from class INTEGER_16_REF
+NATURAL_64_REF is_equal (other: [like Current] attached NATURAL_64_REF): BOOLEAN
+	Version from class NATURAL_64_REF
+NATURAL_64 is_equal (other: [attached like Current] attached NATURAL_64): BOOLEAN
+	Version from class NATURAL_64_REF
+POINTER_REF is_equal (other: [like Current] attached POINTER_REF): BOOLEAN
+	Version from class POINTER_REF
+TYPED_POINTER is_equal (other: [attached like Current] attached TYPED_POINTER [G]): BOOLEAN
+	Version from class POINTER_REF
+POINTER is_equal (other: [attached like Current] attached POINTER): BOOLEAN
+	Version from class POINTER_REF
+ROUTINE is_equal (other: [like Current] attached ROUTINE [BASE_TYPE, OPEN_ARGS]): BOOLEAN
+	Version from class ROUTINE
+PROCEDURE is_equal (other: [attached like Current] attached PROCEDURE [BASE_TYPE, OPEN_ARGS]): BOOLEAN
+	Version from class ROUTINE
+FUNCTION is_equal (other: [like Current] attached FUNCTION [BASE_TYPE, OPEN_ARGS, RESULT_TYPE]): BOOLEAN
+	Version from class FUNCTION
+PREDICATE is_equal (other: [attached like Current] attached PREDICATE [BASE_TYPE, OPEN_ARGS]): BOOLEAN
+	Version from class FUNCTION
+READABLE_STRING_GENERAL is_equal (other: [attached like Current] attached READABLE_STRING_GENERAL): BOOLEAN
+	Version from class COMPARABLE
+READABLE_STRING_8 is_equal (other: [like Current] attached READABLE_STRING_8): BOOLEAN
+	Version from class READABLE_STRING_8
+STRING_GENERAL is_equal (other: [attached like Current] attached STRING_GENERAL): BOOLEAN
+	Version from class COMPARABLE
+STRING_8 is_equal (other: [attached like Current] attached STRING_8): BOOLEAN
+	Version from class READABLE_STRING_8
+SEQ_STRING is_equal (other: [attached like Current] attached SEQ_STRING): BOOLEAN
+	Version from class READABLE_STRING_8
+PATH_NAME is_equal (other: [like Current] attached PATH_NAME): BOOLEAN
+	Version from class PATH_NAME
+DIRECTORY_NAME is_equal (other: [attached like Current] attached DIRECTORY_NAME): BOOLEAN
+	Version from class PATH_NAME
+FILE_NAME is_equal (other: [attached like Current] attached FILE_NAME): BOOLEAN
+	Version from class PATH_NAME
+READABLE_STRING_32 is_equal (other: [like Current] attached READABLE_STRING_32): BOOLEAN
+	Version from class READABLE_STRING_32
+STRING_32 is_equal (other: [attached like Current] attached STRING_32): BOOLEAN
+	Version from class READABLE_STRING_32
+IMMUTABLE_STRING_GENERAL is_equal (other: [attached like Current] attached IMMUTABLE_STRING_GENERAL): BOOLEAN
+	Version from class COMPARABLE
+IMMUTABLE_STRING_8 is_equal (other: [attached like Current] attached IMMUTABLE_STRING_8): BOOLEAN
+	Version from class READABLE_STRING_8
+IMMUTABLE_STRING_32 is_equal (other: [attached like Current] attached IMMUTABLE_STRING_32): BOOLEAN
+	Version from class READABLE_STRING_32
+CONSOLE is_equal (other: [attached like Current] attached CONSOLE): BOOLEAN
+	Version from class ANY
+BOOL_STRING is_equal (other: [like Current] attached BOOL_STRING): BOOLEAN
+	Version from class BOOL_STRING
+SED_MULTI_OBJECT_SERIALIZATION is_equal (other: [attached like Current] attached SED_MULTI_OBJECT_SERIALIZATION): BOOLEAN
+	Version from class ANY
+RT_DBG_INTERNAL is_equal (other: [attached like Current] attached RT_DBG_INTERNAL): BOOLEAN
+	Version from class ANY
+RT_DBG_CALL_RECORD is_equal (other: [attached like Current] attached RT_DBG_CALL_RECORD): BOOLEAN
+	Version from class ANY
+RT_DBG_EXECUTION_RECORDER is_equal (other: [attached like Current] attached RT_DBG_EXECUTION_RECORDER): BOOLEAN
+	Version from class ANY
+RT_DBG_VALUE_RECORD is_equal (other: [attached like Current] attached RT_DBG_VALUE_RECORD): BOOLEAN
+	Version from class ANY
+RT_DBG_LOCAL_RECORD is_equal (other: [attached like Current] attached RT_DBG_LOCAL_RECORD [G]): BOOLEAN
+	Version from class ANY
+RT_DBG_FIELD_RECORD is_equal (other: [attached like Current] attached RT_DBG_FIELD_RECORD [G]): BOOLEAN
+	Version from class ANY
+RT_DBG_ATTRIBUTE_RECORD is_equal (other: [attached like Current] attached RT_DBG_ATTRIBUTE_RECORD [G]): BOOLEAN
+	Version from class ANY
+
+

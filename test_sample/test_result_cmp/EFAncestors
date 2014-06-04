@@ -1,0 +1,14 @@
+
+
+History branch #1
+-----------------
+ANY twin: [like Current] attached ANY
+	Version from class ANY
+ITERABLE twin: [attached like Current] attached ITERABLE [G]
+	Version from class ANY
+ARGUMENTS twin: [attached like Current] attached ARGUMENTS
+	Version from class ANY
+SAMPLE twin: [attached like Current] attached SAMPLE
+	Version from class ANY
+
+

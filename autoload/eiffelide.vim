@@ -80,6 +80,7 @@ python import sys, vim
 python sys.path.insert(0, vim.eval('g:eiffel_plugin_root')+"/pyplugin")
 
 python import eiffel_project, eiffel_ide, eiffel_compilation, eiffel_class
+python import eiffel_feature
 
 " DESC: The Eiffel Project python object
 " SEE: `project' class in pyplugin/eiffel_ide.py 
@@ -222,6 +223,69 @@ command! -nargs=* ECSuppliers python eiffel_class.suppliers(i_eiffel_project,<f-
 command! -nargs=* EiffelClassText python eiffel_class.text(i_eiffel_project,<f-args>)
 
 command! -nargs=* ECText python eiffel_class.text(i_eiffel_project,<f-args>)
+
+
+" ====================== Feature informations commands =======================
+
+" DESC: Feature Ancestors
+command! -nargs=* EiffelFeatureAncestors python eiffel_feature.ancestors(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFAncestors python eiffel_feature.ancestors(i_eiffel_project,<f-args>)
+
+" DESC: Feature Callers
+command! -nargs=* EiffelFeatureCallers python eiffel_feature.callers(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFCallers python eiffel_feature.callers(i_eiffel_project,<f-args>)
+
+" DESC: Feature Creators
+command! -nargs=* EiffelFeatureCreators python eiffel_feature.creators(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFCreators python eiffel_feature.creators(i_eiffel_project,<f-args>)
+
+" DESC: Feature Assigners
+command! -nargs=* EiffelFeatureAssigners python eiffel_feature.assigners(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFAssigners python eiffel_feature.assigners(i_eiffel_project,<f-args>)
+
+" DESC: Feature Callees
+command! -nargs=* EiffelFeatureCallees python eiffel_feature.callees(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFCallees python eiffel_feature.callees(i_eiffel_project,<f-args>)
+
+" DESC: Feature Creations
+command! -nargs=* EiffelFeatureCreations python eiffel_feature.creations(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFCreations python eiffel_feature.creations(i_eiffel_project,<f-args>)
+
+" DESC: Feature Assignees
+command! -nargs=* EiffelFeatureAssignees python eiffel_feature.assignees(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFAssignees python eiffel_feature.assignees(i_eiffel_project,<f-args>)
+
+" DESC: Feature Descendants
+command! -nargs=* EiffelFeatureDescendants python eiffel_feature.descendants(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFDescendants python eiffel_feature.descendants(i_eiffel_project,<f-args>)
+
+" DESC: Feature Flat
+command! -nargs=* EiffelFeatureFlat python eiffel_feature.flat(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFFlat python eiffel_feature.flat(i_eiffel_project,<f-args>)
+
+" DESC: Feature Homonyms
+command! -nargs=* EiffelFeatureHomonyms python eiffel_feature.homonyms(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFHomonyms python eiffel_feature.homonyms(i_eiffel_project,<f-args>)
+
+" DESC: Feature Implementers
+command! -nargs=* EiffelFeatureImplementers python eiffel_feature.implementers(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFImplementers python eiffel_feature.implementers(i_eiffel_project,<f-args>)
+
+" DESC: Feature Text
+command! -nargs=* EiffelFeatureText python eiffel_feature.text(i_eiffel_project,<f-args>)
+
+command! -nargs=* EFText python eiffel_feature.text(i_eiffel_project,<f-args>)
 
 
 " ============================ Others commands ==============================

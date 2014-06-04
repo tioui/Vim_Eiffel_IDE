@@ -1,0 +1,187 @@
+
+SED_MEMORY_READER_WRITER count: INTEGER_32
+	Version from class SED_BINARY_READER_WRITER
+C_STRING count: INTEGER_32
+	Version from class C_STRING
+SET count: INTEGER_32
+	Version from class SET
+SUBSET count: INTEGER_32
+	Version from class SET
+TRAVERSABLE_SUBSET count: INTEGER_32
+	Version from class TRAVERSABLE_SUBSET
+LINEAR_SUBSET count: INTEGER_32
+	Version from class TRAVERSABLE_SUBSET
+FINITE count: INTEGER_32
+	Version from class FINITE
+DISPENSER count: INTEGER_32
+	Version from class FINITE
+STACK count: INTEGER_32
+	Version from class FINITE
+QUEUE count: INTEGER_32
+	Version from class FINITE
+PRIORITY_QUEUE count: INTEGER_32
+	Version from class FINITE
+UNBOUNDED count: INTEGER_32
+	Version from class FINITE
+BOUNDED count: INTEGER_32
+	Version from class FINITE
+FIXED count: INTEGER_32
+	Version from class FINITE
+RESIZABLE count: INTEGER_32
+	Version from class FINITE
+HEAP_PRIORITY_QUEUE count: INTEGER_32
+	Version from class HEAP_PRIORITY_QUEUE
+RECURSIVE_CURSOR_TREE count: INTEGER_32
+	Version from class RECURSIVE_CURSOR_TREE
+COMPARABLE_SET count: INTEGER_32
+	Version from class SET
+BINARY_SEARCH_TREE_SET count: INTEGER_32
+	Version from class BINARY_SEARCH_TREE_SET
+SEQUENCE count: INTEGER_32
+	Version from class FINITE
+TREE count: INTEGER_32
+	Version from class TREE
+FIXED_TREE count: INTEGER_32
+	Version from class TREE
+BINARY_TREE count: INTEGER_32
+	Version from class TREE
+BINARY_SEARCH_TREE count: INTEGER_32
+	Version from class TREE
+DYNAMIC_TREE count: INTEGER_32
+	Version from class TREE
+ARRAYED_TREE count: INTEGER_32
+	Version from class TREE
+ABSTRACT_SPECIAL count: INTEGER_32
+	Version from class ABSTRACT_SPECIAL
+SPECIAL count: INTEGER_32
+	Version from class SPECIAL
+INTEGER_INTERVAL count: INTEGER_32
+	Version from class INTEGER_INTERVAL
+ACTIVE_INTEGER_INTERVAL count: INTEGER_32
+	Version from class INTEGER_INTERVAL
+CHAIN count: INTEGER_32
+	Version from class FINITE
+CIRCULAR count: INTEGER_32
+	Version from class FINITE
+DYNAMIC_CHAIN count: INTEGER_32
+	Version from class FINITE
+DYNAMIC_CIRCULAR count: INTEGER_32
+	Version from class FINITE
+LIST count: INTEGER_32
+	Version from class FINITE
+ARRAYED_CIRCULAR count: INTEGER_32
+	Version from class ARRAYED_CIRCULAR
+LINKED_CIRCULAR count: INTEGER_32
+	Version from class LINKED_CIRCULAR
+TWO_WAY_CIRCULAR count: INTEGER_32
+	Version from class LINKED_CIRCULAR
+PART_SORTED_LIST count: INTEGER_32
+	Version from class FINITE
+SORTED_LIST count: INTEGER_32
+	Version from class FINITE
+DYNAMIC_LIST count: INTEGER_32
+	Version from class FINITE
+MULTI_ARRAY_LIST count: INTEGER_32
+	Version from class MULTI_ARRAY_LIST
+LINKED_LIST count: INTEGER_32
+	Version from class LINKED_LIST
+LINKED_STACK count: INTEGER_32
+	Version from class LINKED_LIST
+LINKED_QUEUE count: INTEGER_32
+	Version from class LINKED_LIST
+LINKED_SET count: INTEGER_32
+	Version from class LINKED_LIST
+LINKED_TREE count: INTEGER_32
+	Version from class TREE
+TWO_WAY_LIST count: INTEGER_32
+	Version from class LINKED_LIST
+TWO_WAY_TREE count: INTEGER_32
+	Version from class TREE
+PART_SORTED_TWO_WAY_LIST count: INTEGER_32
+	Version from class LINKED_LIST
+PART_SORTED_SET count: INTEGER_32
+	Version from class LINKED_LIST
+SORTED_TWO_WAY_LIST count: INTEGER_32
+	Version from class LINKED_LIST
+TWO_WAY_SORTED_SET count: INTEGER_32
+	Version from class LINKED_LIST
+LINKED_PRIORITY_QUEUE count: INTEGER_32
+	Version from class LINKED_LIST
+ARRAY count: INTEGER_32
+	Version from class ARRAY
+ARRAY2 count: INTEGER_32
+	Version from class ARRAY
+MANAGED_POINTER count: INTEGER_32
+	Version from class MANAGED_POINTER
+MEMORY_STREAM count: INTEGER_32
+	Version from class MEMORY_STREAM
+DIRECTORY count: INTEGER_32
+	Version from class DIRECTORY
+FILE count: INTEGER_32
+	Version from class FILE
+RAW_FILE count: INTEGER_32
+	Version from class FILE
+PLAIN_TEXT_FILE count: INTEGER_32
+	Version from class FILE
+ARRAYED_QUEUE count: INTEGER_32
+	Version from class ARRAYED_QUEUE
+BOUNDED_QUEUE count: INTEGER_32
+	Version from class ARRAYED_QUEUE
+HASH_TABLE count: INTEGER_32
+	Version from class HASH_TABLE
+STRING_TABLE count: INTEGER_32
+	Version from class HASH_TABLE
+MISMATCH_INFORMATION count: INTEGER_32
+	Version from class HASH_TABLE
+CLASS_NAME_TRANSLATIONS count: INTEGER_32
+	Version from class HASH_TABLE
+ARRAYED_LIST count: INTEGER_32
+	Version from class ARRAYED_LIST
+ARRAYED_SET count: INTEGER_32
+	Version from class ARRAYED_LIST
+FIXED_LIST count: INTEGER_32
+	Version from class ARRAYED_LIST
+ARRAYED_STACK count: INTEGER_32
+	Version from class ARRAYED_LIST
+BOUNDED_STACK count: INTEGER_32
+	Version from class ARRAYED_LIST
+INTERACTIVE_LIST count: INTEGER_32
+	Version from class ARRAYED_LIST
+ACTIVE_LIST count: INTEGER_32
+	Version from class ARRAYED_LIST
+ACTION_SEQUENCE count: INTEGER_32
+	Version from class ARRAYED_LIST
+TUPLE count: INTEGER_32
+	Version from class TUPLE
+READABLE_STRING_GENERAL count: INTEGER_32
+	Version from class READABLE_STRING_GENERAL
+READABLE_STRING_8 count: INTEGER_32
+	Version from class READABLE_STRING_8
+STRING_GENERAL count: INTEGER_32
+	Version from class READABLE_STRING_GENERAL
+STRING_8 count: INTEGER_32
+	Version from class READABLE_STRING_8
+SEQ_STRING count: INTEGER_32
+	Version from class READABLE_STRING_8
+PATH_NAME count: INTEGER_32
+	Version from class READABLE_STRING_8
+DIRECTORY_NAME count: INTEGER_32
+	Version from class READABLE_STRING_8
+FILE_NAME count: INTEGER_32
+	Version from class READABLE_STRING_8
+READABLE_STRING_32 count: INTEGER_32
+	Version from class READABLE_STRING_32
+STRING_32 count: INTEGER_32
+	Version from class READABLE_STRING_32
+IMMUTABLE_STRING_GENERAL count: INTEGER_32
+	Version from class READABLE_STRING_GENERAL
+IMMUTABLE_STRING_8 count: INTEGER_32
+	Version from class READABLE_STRING_8
+IMMUTABLE_STRING_32 count: INTEGER_32
+	Version from class READABLE_STRING_32
+CONSOLE Count: INTEGER_32
+	Version from class CONSOLE
+BOOL_STRING count: INTEGER_32
+	Version from class BOOL_STRING
+
+

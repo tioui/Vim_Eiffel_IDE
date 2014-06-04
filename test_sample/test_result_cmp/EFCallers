@@ -1,0 +1,6 @@
+
+extend from PATH_NAME
+	PATH_NAME
+		extend_from_array
+
+

@@ -1,0 +1,8 @@
+
+make from SED_SESSION_SERIALIZER
+	SED_SESSION_SERIALIZER
+		object_indexes
+		reflected_object
+		reflector
+
+

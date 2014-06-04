@@ -1,0 +1,13 @@
+
+
+History branch #1
+-----------------
+TABLE at alias "@" (k: H): G (version from)
+INTEGER_INTERVAL at alias "@" (i: INTEGER_32): INTEGER_32
+CHAIN at alias "@" (i: INTEGER_32): [like item] G
+ARRAY at alias "@" (i: INTEGER_32): G
+ARRAYED_LIST at alias "@" (i: INTEGER_32): [like item] G
+STRING_8 at alias "@" (i: INTEGER_32): CHARACTER_8
+STRING_32 at alias "@" (i: INTEGER_32): CHARACTER_32
+
+

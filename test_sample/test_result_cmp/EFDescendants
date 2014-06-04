@@ -1,0 +1,86 @@
+
+
+History branch #1
+-----------------
+COMPARABLE min (other: [like Current] attached COMPARABLE): [like Current] attached COMPARABLE
+	Version from class COMPARABLE
+PROXY_COMPARABLE min (other: [attached like Current] attached PROXY_COMPARABLE [G]): [attached like Current] attached PROXY_COMPARABLE [G]
+	Version from class COMPARABLE
+PATH min (other: [attached like Current] attached PATH): [attached like Current] attached PATH
+	Version from class COMPARABLE
+INTEGER_8_REF min (other: [attached like Current] attached INTEGER_8_REF): [attached like Current] attached INTEGER_8_REF
+	Version from class COMPARABLE
+INTEGER_8 min (other: [attached like Current] attached INTEGER_8): [attached like Current] attached INTEGER_8
+	Version from class COMPARABLE
+CHARACTER_32_REF min (other: [attached like Current] attached CHARACTER_32_REF): [attached like Current] attached CHARACTER_32_REF
+	Version from class COMPARABLE
+CHARACTER_32 min (other: [attached like Current] attached CHARACTER_32): [attached like Current] attached CHARACTER_32
+	Version from class COMPARABLE
+CHARACTER_8_REF min (other: [attached like Current] attached CHARACTER_8_REF): [attached like Current] attached CHARACTER_8_REF
+	Version from class COMPARABLE
+CHARACTER_8 min (other: [attached like Current] attached CHARACTER_8): [attached like Current] attached CHARACTER_8
+	Version from class COMPARABLE
+INTEGER_64_REF min (other: [attached like Current] attached INTEGER_64_REF): [attached like Current] attached INTEGER_64_REF
+	Version from class COMPARABLE
+INTEGER_64 min (other: [attached like Current] attached INTEGER_64): [attached like Current] attached INTEGER_64
+	Version from class COMPARABLE
+REAL_64_REF min (other: [attached like Current] attached REAL_64_REF): [attached like Current] attached REAL_64_REF
+	Version from class COMPARABLE
+REAL_64 min (other: [attached like Current] attached REAL_64): [attached like Current] attached REAL_64
+	Version from class COMPARABLE
+NATURAL_8_REF min (other: [attached like Current] attached NATURAL_8_REF): [attached like Current] attached NATURAL_8_REF
+	Version from class COMPARABLE
+NATURAL_8 min (other: [attached like Current] attached NATURAL_8): [attached like Current] attached NATURAL_8
+	Version from class COMPARABLE
+REAL_32_REF min (other: [attached like Current] attached REAL_32_REF): [attached like Current] attached REAL_32_REF
+	Version from class COMPARABLE
+REAL_32 min (other: [attached like Current] attached REAL_32): [attached like Current] attached REAL_32
+	Version from class COMPARABLE
+NATURAL_32_REF min (other: [attached like Current] attached NATURAL_32_REF): [attached like Current] attached NATURAL_32_REF
+	Version from class COMPARABLE
+NATURAL_32 min (other: [attached like Current] attached NATURAL_32): [attached like Current] attached NATURAL_32
+	Version from class COMPARABLE
+NATURAL_16_REF min (other: [attached like Current] attached NATURAL_16_REF): [attached like Current] attached NATURAL_16_REF
+	Version from class COMPARABLE
+NATURAL_16 min (other: [attached like Current] attached NATURAL_16): [attached like Current] attached NATURAL_16
+	Version from class COMPARABLE
+INTEGER_32_REF min (other: [attached like Current] attached INTEGER_32_REF): [attached like Current] attached INTEGER_32_REF
+	Version from class COMPARABLE
+INTEGER_32 min (other: [attached like Current] attached INTEGER_32): [attached like Current] attached INTEGER_32
+	Version from class COMPARABLE
+INTEGER_16_REF min (other: [attached like Current] attached INTEGER_16_REF): [attached like Current] attached INTEGER_16_REF
+	Version from class COMPARABLE
+INTEGER_16 min (other: [attached like Current] attached INTEGER_16): [attached like Current] attached INTEGER_16
+	Version from class COMPARABLE
+NATURAL_64_REF min (other: [attached like Current] attached NATURAL_64_REF): [attached like Current] attached NATURAL_64_REF
+	Version from class COMPARABLE
+NATURAL_64 min (other: [attached like Current] attached NATURAL_64): [attached like Current] attached NATURAL_64
+	Version from class COMPARABLE
+READABLE_STRING_GENERAL min (other: [attached like Current] attached READABLE_STRING_GENERAL): [attached like Current] attached READABLE_STRING_GENERAL
+	Version from class COMPARABLE
+READABLE_STRING_8 min (other: [attached like Current] attached READABLE_STRING_8): [attached like Current] attached READABLE_STRING_8
+	Version from class COMPARABLE
+STRING_GENERAL min (other: [attached like Current] attached STRING_GENERAL): [attached like Current] attached STRING_GENERAL
+	Version from class COMPARABLE
+STRING_8 min (other: [attached like Current] attached STRING_8): [attached like Current] attached STRING_8
+	Version from class COMPARABLE
+SEQ_STRING min (other: [attached like Current] attached SEQ_STRING): [attached like Current] attached SEQ_STRING
+	Version from class COMPARABLE
+PATH_NAME min (other: [attached like Current] attached PATH_NAME): [attached like Current] attached PATH_NAME
+	Version from class COMPARABLE
+DIRECTORY_NAME min (other: [attached like Current] attached DIRECTORY_NAME): [attached like Current] attached DIRECTORY_NAME
+	Version from class COMPARABLE
+FILE_NAME min (other: [attached like Current] attached FILE_NAME): [attached like Current] attached FILE_NAME
+	Version from class COMPARABLE
+READABLE_STRING_32 min (other: [attached like Current] attached READABLE_STRING_32): [attached like Current] attached READABLE_STRING_32
+	Version from class COMPARABLE
+STRING_32 min (other: [attached like Current] attached STRING_32): [attached like Current] attached STRING_32
+	Version from class COMPARABLE
+IMMUTABLE_STRING_GENERAL min (other: [attached like Current] attached IMMUTABLE_STRING_GENERAL): [attached like Current] attached IMMUTABLE_STRING_GENERAL
+	Version from class COMPARABLE
+IMMUTABLE_STRING_8 min (other: [attached like Current] attached IMMUTABLE_STRING_8): [attached like Current] attached IMMUTABLE_STRING_8
+	Version from class COMPARABLE
+IMMUTABLE_STRING_32 min (other: [attached like Current] attached IMMUTABLE_STRING_32): [attached like Current] attached IMMUTABLE_STRING_32
+	Version from class COMPARABLE
+
+

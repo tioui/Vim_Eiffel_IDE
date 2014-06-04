@@ -506,6 +506,9 @@ class project:
                                ["-loop"], a_window, False, True)
 
     def class_name_from_text(self, a_text):
+        """
+            The name of the class represented by `a_text'.
+        """
         a_text_no_comment = self._tools_regex["comment"].sub("", a_text)
         a_text_no_string = self._tools_regex["string"].sub('""',
                                                            a_text_no_comment)
@@ -515,3 +518,108 @@ class project:
         else:
             l_class_name = ""
         return l_class_name
+
+    def fetch_feature_ancestors(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the ancestors of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nA\n" + a_class + "\n" + a_feature +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
+
+    def fetch_feature_callers(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the callers of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nC\n" + a_class + "\n" + a_feature +
+                               "\n\nyes\nno\nno\nQ\n", ["-loop"], a_window,
+                               False, True)
+
+    def fetch_feature_assigners(self, a_class, a_feature,
+                                a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the assigners of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nC\n" + a_class + "\n" + a_feature +
+                               "\n\nyes\nyes\nQ\n", ["-loop"], a_window,
+                               False, True)
+
+    def fetch_feature_creators(self, a_class, a_feature,
+                               a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the creators that call
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nC\n" + a_class + "\n" + a_feature +
+                               "\n\nyes\nno\nyes\nQ\n", ["-loop"], a_window,
+                               False, True)
+
+    def fetch_feature_callees(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the callees of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nE\n" + a_class + "\n" + a_feature +
+                               "\n\nyes\nno\nno\nQ\n", ["-loop"], a_window,
+                               False, True)
+
+    def fetch_feature_assignees(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the assignees of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nE\n" + a_class + "\n" + a_feature +
+                               "\n\nyes\nyes\nQ\n", ["-loop"], a_window,
+                               False, True)
+
+    def fetch_feature_creation(self, a_class, a_feature,
+                               a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the creators that has been
+            called by `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nE\n" + a_class + "\n" + a_feature +
+                               "\n\nyes\nno\nyes\nQ\n", ["-loop"], a_window,
+                               False, True)
+
+    def fetch_feature_descendants(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the descendants of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nD\n" + a_class + "\n" + a_feature +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
+
+    def fetch_feature_flat(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the flat of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nF\n" + a_class + "\n" + a_feature +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
+
+    def fetch_feature_homonyms(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the homonyms of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nO\n" + a_class + "\n" + a_feature +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
+
+    def fetch_feature_implementers(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the implementers of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nI\n" + a_class + "\n" + a_feature +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
+
+    def fetch_feature_text(self, a_class, a_feature, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the text of
+            `a_feature' of `a_class'.
+        """
+        self._execute_compiler("F\nT\n" + a_class + "\n" + a_feature +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)

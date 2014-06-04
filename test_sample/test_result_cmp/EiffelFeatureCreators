@@ -1,0 +1,18 @@
+
+area from TO_SPECIAL
+	TO_SPECIAL
+		make_empty_area
+		make_filled_area
+area from ARRAY
+	ARRAY
+		discard_items
+		make_from_cil
+area_v2 from ARRAYED_LIST
+	ARRAYED_LIST
+		correct_mismatch
+		make
+area_v2 from BOUNDED_STACK
+	BOUNDED_STACK
+		correct_mismatch
+
+

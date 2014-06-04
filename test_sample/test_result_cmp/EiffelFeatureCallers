@@ -1,0 +1,38 @@
+
+make from STRING_32
+	ARGUMENTS_32
+		Command_line
+	COM_FAILURE
+		error_message
+	EXCEPTION
+		description
+	EXECUTION_ENVIRONMENT
+		put
+	FILE_UTILITIES
+		compact_path
+	NATIVE_STRING
+		substring
+	READABLE_STRING_GENERAL
+		as_string_32
+		to_string_32
+	SED_MULTI_OBJECT_SERIALIZATION
+		serialize
+	STRING_32
+		make_from_cil
+		make_from_string_general
+		new_string
+		remake
+	UTF_CONVERTER
+		utf_16_0_pointer_to_escaped_string_32
+		utf_16_0_pointer_to_string_32
+		utf_16_0_subpointer_to_escaped_string_32
+		utf_16_0_subpointer_to_string_32
+		utf_16_to_string_32
+		utf_16le_string_8_to_escaped_string_32
+		utf_16le_string_8_to_string_32
+		utf_8_0_pointer_to_escaped_string_32
+		utf_8_0_subpointer_to_escaped_string_32
+		utf_8_string_8_to_escaped_string_32
+		utf_8_string_8_to_string_32
+
+

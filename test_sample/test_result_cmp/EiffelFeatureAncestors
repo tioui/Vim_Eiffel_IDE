@@ -1,0 +1,42 @@
+
+
+History branch #1
+-----------------
+ANY out: STRING_8
+	Version from class ANY
+CONTAINER out: STRING_8
+	Version from class ANY
+COLLECTION out: STRING_8
+	Version from class ANY
+BAG out: STRING_8
+	Version from class ANY
+TABLE out: STRING_8
+	Version from class ANY
+ACTIVE out: STRING_8
+	Version from class ANY
+CURSOR_STRUCTURE out: STRING_8
+	Version from class ANY
+BOX out: STRING_8
+	Version from class ANY
+FINITE out: STRING_8
+	Version from class ANY
+TRAVERSABLE out: STRING_8
+	Version from class ANY
+LINEAR out: STRING_8
+	Version from class ANY
+BILINEAR out: STRING_8
+	Version from class ANY
+SEQUENCE out: STRING_8
+	Version from class ANY
+ITERABLE out: STRING_8
+	Version from class ANY
+READABLE_INDEXABLE out: STRING_8
+	Version from class ANY
+INDEXABLE out: STRING_8
+	Version from class ANY
+CHAIN out: STRING_8
+	Version from class ANY
+LIST out: STRING_8
+	Version from class ANY
+
+

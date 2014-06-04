@@ -59,11 +59,11 @@ def class_execute(a_project, a_name, a_routine, a_class_name=None):
             l_class = get_class_from_buffer(a_project)
     if l_class:
         eiffel_ide.launch_process(a_project,
-                                 lambda window: a_routine(l_class, window),
-                                 "Getting " + a_name.lower() + " of " +
-                                 l_class, a_name + " of " + l_class, False,
-                                 True)
-    environment.execute("setlocal filetype=eiffel")
+                                  lambda window: a_routine(l_class, window),
+                                  "Getting " + a_name.lower() + " of class " +
+                                  l_class, a_name + " of class " + l_class,
+                                  False, True)
+        environment.execute("setlocal filetype=eiffel")
 
 
 def flat(a_project, *arguments):

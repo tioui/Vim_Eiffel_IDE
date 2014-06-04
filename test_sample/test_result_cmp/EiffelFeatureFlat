@@ -1,0 +1,16 @@
+
+
+	close
+			-- Close file.
+		require -- from IO_MEDIUM
+			medium_is_open: not is_closed
+		do
+			file_close (file_pointer)
+			mode := Closed_file
+			file_pointer := default_pointer
+			descriptor_available := False
+		ensure then
+			is_closed: is_closed
+		end
+
+

@@ -1,0 +1,20 @@
+
+
+	read_stream_thread_aware (nb_char: INTEGER)
+			-- <Precursor>
+		local
+			new_count: INTEGER
+			l_buffer: like read_data_buffer
+			l_str: like last_string
+		do
+			l_str := last_string
+			l_buffer := read_data_buffer
+			l_buffer.set_count (nb_char)
+			new_count := console_readstream (file_pointer, l_buffer.item, nb_char)
+			l_buffer.set_count (new_count)
+			l_str.grow (new_count)
+			l_str.set_count (new_count)
+			l_buffer.read_string_into (l_str)
+		end
+
+

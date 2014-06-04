@@ -1,0 +1,7 @@
+
+apply from PROCEDURE
+	PROCEDURE
+		call alias "()"
+		operands
+
+

@@ -1,0 +1,6 @@
+
+seed from RANDOM
+	RANDOM
+		set_seed
+
+

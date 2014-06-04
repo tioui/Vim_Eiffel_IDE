@@ -112,6 +112,7 @@ def save_current_window_and_select_tools_window(a_tools_window_number):
 
 
 def get_tools_buffer_number():
+    """ Get the buffer number of the eiffel tools buffer."""
     name = environment.get_global_variable("eiffel_tools_buffer_name")
     return int(environment.evaluate("bufnr(\"" + name + "\")"))
 
@@ -159,6 +160,20 @@ def run_project(a_project):
 
 def launch_process(a_project, a_routine, a_work_text, a_done_text,
                    a_focus_on_error=False, a_always_focus=False):
+    """
+        Standard launch for eiffel tools buffer management. It create/show
+        the eiffel tools buffer in a window, launch `a_routine' with the
+        eiffel tools buffer window, and get the focus back to the working
+        window (if needed).
+
+        `a_project' The currently opened Eiffel projectto see the success of
+                    a_routine.
+        `a_routine' The routine to launch.
+        `a_work_text' Text to help the user to know what is happening
+        `a_done_text' Text to print in the status bar when finish
+        `a_focus_on_error' The Eiffel tools window must be focus if error
+        `a_always_focus' Always focus the Eiffel tools window on exit.
+    """
     if a_project:
         save_current_window_and_open_tools_window()
         set_tools_window_text(a_work_text)
