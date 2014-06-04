@@ -153,7 +153,12 @@ def set_tools_window_text(a_text):
 def run_project(a_project):
     """Run the executable of the Eiffel Project `a_project'."""
     if a_project:
-        environment.execute("!" + a_project.run_command())
+        prefix = None
+        if environment.is_global_variable_exists("eiffel_run_prefix"):
+            prefix = environment.get_global_variable("eiffel_run_prefix")
+        if not prefix:
+            prefix = "!"
+        environment.execute(prefix + a_project.run_command())
     else:
         print("No Vim Eiffel IDE project opened.")
 

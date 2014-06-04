@@ -160,18 +160,94 @@ the current source code. (a project must be open)
 ***
 
 
+* Get the Ancestors of a feature (a project must be open)
+
+***
+	:EiffelFeatureAncestors [CLASS_NAME] [feature_name]
+	:EFAncestors [CLASS_NAME] [feature_name]
+***
+
+* Get all callers of a feature (a project must be open)
+
+***
+	:EiffelFeatureCallers [CLASS_NAME] [feature_name]
+	:EFCallers [CLASS_NAME] [feature_name]
+***
+
+* Get creators that call a feature (a project must be open)
+
+***
+	:EiffelFeatureCreators [CLASS_NAME] [feature_name]
+	:EFCreators [CLASS_NAME] [feature_name]
+***
+
+* Get assigners of a feature (a project must be open)
+
+***
+	:EiffelFeatureAssigners [CLASS_NAME] [feature_name]
+	:EFAssigners [CLASS_NAME] [feature_name]
+***
+
+* Get all callees of a feature (a project must be open)
+
+***
+	:EiffelFeatureCallees [CLASS_NAME] [feature_name]
+	:EFCallees [CLASS_NAME] [feature_name]
+***
+
+* Get all creations of a feature (a project must be open)
+
+***
+	:EiffelFeatureCreations [CLASS_NAME] [feature_name]
+	:EFCreations [CLASS_NAME] [feature_name]
+***
+
+* Get assignees of a feature (a project must be open)
+
+***
+	:EiffelFeatureAssignees [CLASS_NAME] [feature_name]
+	:EFAssignees [CLASS_NAME] [feature_name]
+***
+
+* Get descendants version of a feature (a project must be open)
+
+***
+	:EiffelFeatureDescendants [CLASS_NAME] [feature_name]
+	:EFDescendants [CLASS_NAME] [feature_name]
+***
+
+* Get the flat view of a feature (a project must be open)
+
+***
+	:EiffelFeatureFlat [CLASS_NAME] [feature_name]
+	:EFFlat [CLASS_NAME] [feature_name]
+***
+
+* Get homonyms of a feature (a project must be open)
+
+***
+	:EiffelFeatureHomonyms [CLASS_NAME] [feature_name]
+	:EFHomonyms [CLASS_NAME] [feature_name]
+***
+
+* Get implementers of a feature (a project must be open)
+
+***
+	:EiffelFeatureImplementers [CLASS_NAME] [feature_name]
+	:EFImplementers [CLASS_NAME] [feature_name]
+***
+
+* Get the text view of a feature (a project must be open)
+
+***
+	:EiffelFeatureText [CLASS_NAME] [feature_name]
+	:EFText [CLASS_NAME] [feature_name]
+***
+
+
 ToDo
 ----
 
-* Feature informations
-    * Ancestors
-    * Callers
-    * Callees
-    * Descendants
-    * Flat view
-    * Homonyms
-    * Implementers
-    * Text view
 * Cluster informations
     * Classes in alphabetic order
     * Cluster hierarchy
@@ -183,6 +259,7 @@ ToDo
     * Error and warning flags in code buffer.
     * Autocompletion
     * Tests (autotest, statistics, etc.)
+	* Breakpoint in the environment
 
 
 Eiffel related

@@ -56,6 +56,13 @@ if !exists("g:eiffel_tools_window_vertical")
     let g:eiffel_tools_window_vertical = 0
 endif
 
+" DESC: Prefix to use the run command. If you want to run it in another
+" terminal in or in a Conque window or the default, directly in vim (!)
+if !exists("g:eiffel_run_prefix")
+    let g:eiffel_run_prefix = "!"
+endif
+
+
 " DESC: Redefine to put the Eiffel IDE tools à the right (or left) or the
 " current window
 " SEE: `g:eiffel_tools_window_leftabove'
