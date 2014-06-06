@@ -45,6 +45,25 @@ def get_feature_under_the_cursor(a_project):
             environment.word_under_the_cursor())
 
 
+def set_feature_class_and_info(a_info_name, a_class_name, a_feature_name):
+    """
+        Set the `a_info_name' for the tools buffer information type and the
+        `a_class_name' as the tools buffer class name and `a_feature_name' as
+        the tools buffer feature name.
+    """
+    eiffel_class.set_class_and_info(a_info_name, a_class_name)
+    environment.set_buffer_variable("eiffel_tools_buffer_feature",
+                                    a_feature_name)
+
+
+def unset_feature_class_and_info():
+    """
+        Remove the tools buffer information type, class name and feature name.
+    """
+    eiffel_class.unset_class_and_info()
+    environment.set_buffer_variable("eiffel_tools_buffer_feature", None)
+
+
 def feature_execute(a_project, a_name, a_routine, a_class_name=None,
                     a_feature_name=None):
     """Tool routine for all feature information functionnalities
@@ -82,7 +101,10 @@ def feature_execute(a_project, a_name, a_routine, a_class_name=None,
                                   " of feature " + l_feature + " of class " +
                                   l_class, a_name + " of feature " +
                                   l_feature + " of class " + l_class, False,
-                                  True)
+                                  True,
+                                  lambda: set_feature_class_and_info(
+                                      a_name, l_class, l_feature
+                                  ))
         environment.execute("setlocal filetype=eiffel")
 
 

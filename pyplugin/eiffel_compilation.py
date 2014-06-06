@@ -21,6 +21,7 @@
 # THE SOFTWARE.
 
 import eiffel_ide
+import eiffel_feature
 
 
 def recompile(a_project):
@@ -29,7 +30,9 @@ def recompile(a_project):
     """
     eiffel_ide.launch_process(a_project,
                               lambda window: a_project.recompile(window),
-                              "Compiling...", "Compilation output", True)
+                              "Compiling...", "Compilation output", True,
+                              False, lambda:
+                              eiffel_feature.unset_feature_class_and_info())
 
 
 def freeze(a_project):
@@ -39,7 +42,9 @@ def freeze(a_project):
     """
     eiffel_ide.launch_process(a_project,
                               lambda window: a_project.freeze(window),
-                              "Freezing...", "Freezing output", True)
+                              "Freezing...", "Freezing output", True,
+                              False, lambda:
+                              eiffel_feature.unset_feature_class_and_info())
 
 
 def melt(a_project):
@@ -49,7 +54,9 @@ def melt(a_project):
     """
     eiffel_ide.launch_process(a_project,
                               lambda window: a_project.melt(window),
-                              "Melting...", "Melting output", True)
+                              "Melting...", "Melting output", True,
+                              False, lambda:
+                              eiffel_feature.unset_feature_class_and_info())
 
 
 def finalize(a_project):
@@ -58,7 +65,9 @@ def finalize(a_project):
     """
     eiffel_ide.launch_process(a_project,
                               lambda window: a_project.finalize(window),
-                              "Freezing...", "Freezing output", True)
+                              "Freezing...", "Freezing output", True,
+                              False, lambda:
+                              eiffel_feature.unset_feature_class_and_info())
 
 
 def quick_melt(a_project):
@@ -68,7 +77,9 @@ def quick_melt(a_project):
     """
     eiffel_ide.launch_process(a_project,
                               lambda window: a_project.quick_melt(window),
-                              "Quick Melting...", "Quick Melting output", True)
+                              "Quick Melting...", "Quick Melting output", True,
+                              False, lambda:
+                              eiffel_feature.unset_feature_class_and_info())
 
 
 def quick_melt_no_focus(a_project):
@@ -79,4 +90,6 @@ def quick_melt_no_focus(a_project):
     """
     eiffel_ide.launch_process(a_project,
                               lambda window: a_project.quick_melt(window),
-                              "Quick Melting...", "Quick Meting output", False)
+                              "Quick Melting...", "Quick Meting output", False,
+                              False, lambda:
+                              eiffel_feature.unset_feature_class_and_info())

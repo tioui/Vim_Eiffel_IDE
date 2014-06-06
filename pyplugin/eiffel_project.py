@@ -93,14 +93,14 @@ class project:
         """Return the standard and error output of the compiler on the last
         compilation"""
         result = ""
-        if self.compilation_output:
-            result = self.compilation_output
+        if self._command_output:
+            result = self._command_output
         return result
 
     def show_command_output(self, a_window):
         """Print the last compiler standard and error output in the
         `a_window'"""
-        a_window.set_text(self.compilation_output)
+        a_window.set_text(self._command_output)
 
     def _ec_path(self):
         """Return the file path of the EiffelStudio compiler."""
@@ -623,3 +623,14 @@ class project:
         """
         self._execute_compiler("F\nT\n" + a_class + "\n" + a_feature +
                                "\n\nQ\n", ["-loop"], a_window, False, True)
+
+    def file_path_from_class_name(self, a_class_name):
+        """
+            Return the complete path of the class `a_class_name'.
+        """
+        temp = self._command_output
+        self._execute_compiler("C\nW\n" + a_class_name + "\n\nQ\n",
+                               ["-loop"], None, False, True)
+        result = self._command_output
+        self._command_output = temp
+        return result

@@ -31,12 +31,32 @@ def get_class_from_buffer(a_project):
     a_project is the current openned eiffel project.
     """
     if environment.evaluate("bufname('%')") ==\
-            environment.evaluate("g:eiffel_tools_buffer_name"):
-        l_class = environment.evaluate("b:eiffel_tools_buffer_class")
+            environment.get_global_variable("eiffel_tools_buffer_name"):
+        l_class =\
+            environment.get_buffer_variable("eiffel_tools_buffer_class")
     else:
         l_buffer_text = environment.buffer_to_text()
         l_class = a_project.class_name_from_text(l_buffer_text)
     return l_class
+
+
+def set_class_and_info(a_info_name, a_class_name):
+    """
+        Set the `a_info_name' for the tools buffer information type and the
+        `a_class_name' as the tools buffer class name.
+    """
+    environment.set_buffer_variable("eiffel_tools_buffer_info_type",
+                                    a_info_name)
+    environment.set_buffer_variable("eiffel_tools_buffer_class",
+                                    a_class_name)
+
+
+def unset_class_and_info():
+    """
+        Remove the tools buffer information type and class name.
+    """
+    environment.set_buffer_variable("eiffel_tools_buffer_info_type", None)
+    environment.set_buffer_variable("eiffel_tools_buffer_class", None)
 
 
 def class_execute(a_project, a_name, a_routine, a_class_name=None):
@@ -62,7 +82,8 @@ def class_execute(a_project, a_name, a_routine, a_class_name=None):
                                   lambda window: a_routine(l_class, window),
                                   "Getting " + a_name.lower() + " of class " +
                                   l_class, a_name + " of class " + l_class,
-                                  False, True)
+                                  False, True,
+                                  lambda: set_class_and_info(a_name, l_class))
         environment.execute("setlocal filetype=eiffel")
 
 
@@ -366,3 +387,65 @@ def text(a_project, *arguments):
                   lambda a_class, a_buffer:
                       a_project.fetch_class_text(a_class, a_buffer),
                   l_class_name)
+
+
+def _edit_command_and_flag(is_split, is_vertical, is_tab, force_edit):
+    """
+        Return the command and flags to use in the `edit' procedure.
+
+        is_split:       The command must execute a split window
+        is_vertical:    if `is_split' is set, the vertical `flags' will be set
+        is_tab:         If `is_split' is not set, command must execute a new
+                        tab
+        force_edit:     if `is_split' and `is_tab' are not set, command must
+                        overrite the current window content event if it is
+                        modified.
+
+        Return:         a tuple containing the appropriete command and flags.
+    """
+    flags = ""
+    if is_split:
+        command = "split"
+        if is_vertical:
+            flags = "vertical"
+    elif is_tab:
+        command = "tabedit"
+    else:
+        command = "edit"
+        if force_edit:
+            command = command + "!"
+    return (command, flags)
+
+
+def edit(a_project, is_split=False, is_vertical=False, is_tab=False,
+         force_edit=False, *argument):
+    """
+        Open the class in an editing window.
+
+        a_project:      The currently open Eiffel project.
+        is_split:       Open in another split window
+        is_vertical:    if `is_split' is set, use a vertical split
+        is_tab:         if `is_split' is not set, open window in a new tab
+        force_edit:     if `is_split' and `is_tab' is not set, must overrite
+                        the current window content event if it is modified.
+        argument:       Optionnaly the class_name to edit. If not set, use
+                        the word under the cursor.
+    """
+    has_error = False
+    if argument:
+        class_name = argument[0]
+    else:
+        class_name = environment.word_under_the_cursor()
+    if class_name:
+        class_path = a_project.file_path_from_class_name(class_name)
+    else:
+        class_path = None
+    if class_path:
+        (command, flags) = _edit_command_and_flag(is_split, is_vertical,
+                                                  is_tab, force_edit)
+        if not is_split and not is_tab and not force_edit:
+            if int(environment.get_option("modified")):
+                print("No write since last change (add F to override)")
+                has_error = True
+        if not has_error:
+            environment.execute(flags + " " + command + " " + class_path)

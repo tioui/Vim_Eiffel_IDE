@@ -42,6 +42,24 @@ def execute(a_command):
     vim.command(a_command)
 
 
+def is_option_exists(a_option_name):
+    """Is the Vim option named `a_option_name' is define."""
+    return int(evaluate("exists(\"&" + a_option_name + "\")"))
+
+
+def get_option(a_option_name):
+    """Return the value of the Vim option named `a_option_name' ."""
+    return evaluate("&" + a_option_name)
+
+
+def set_option(a_option_name, a_value):
+    """Assign the value `a_value' to the vim option `a_option_name'."""
+    if a_value is None or str(a_value) == "":
+        execute("let &" + a_option_name + " = \"\"")
+    else:
+        execute("let &" + a_option_name + " = \"" + str(a_value) + "\"")
+
+
 def is_prefixed_variable_exists(a_prefix, a_variable_name):
     """Is the Vim variable named `a_variable_name' prefixed with `a_prefix' has
     been define."""
@@ -59,11 +77,12 @@ def get_prefixed_variable(a_prefix, a_variable_name):
 def set_prefixed_variable(a_prefix, a_variable_name, a_value):
     """Assign the value `a_value' to the vim variable
     `a_variable_name' prefixed with `a_prefix'."""
-    if a_value is None or str(a_value) == "":
-        execute("let " + a_prefix + ":" + a_variable_name + " = \"\"")
+    if a_value is None:
+        if is_prefixed_variable_exists(a_prefix, a_variable_name):
+            execute("unlet " + a_prefix + ":" + a_variable_name)
     else:
         execute(
-            "let " + a_prefix + ":" + a_variable_name + " = \"" +\
+            "let " + a_prefix + ":" + a_variable_name + " = \"" +
             str(a_value) + "\""
         )
 
@@ -161,11 +180,23 @@ def word_under_the_cursor():
 
 
 def buffer_to_text(a_number=None):
+    """Get the text contained in a buffer.
+
+        a_number:   The number index of the buffer (if None, use the current
+                    buffer.
+
+        Return:     The text of the buffer (each line separate by a \n
+    """
     if a_number:
         l_buffer = vim.buffers[int(a_number)]
     else:
         l_buffer = vim.current.buffer
     return "\n".join(l_buffer)
+
+
+def show_error(message):
+    """Print a Vim error `message'."""
+    execute("echoerr \"" + message + "\"")
 
 
 class window:

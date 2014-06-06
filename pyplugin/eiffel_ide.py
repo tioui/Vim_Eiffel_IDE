@@ -164,7 +164,8 @@ def run_project(a_project):
 
 
 def launch_process(a_project, a_routine, a_work_text, a_done_text,
-                   a_focus_on_error=False, a_always_focus=False):
+                   a_focus_on_error=False, a_always_focus=False,
+                   post_routine=None):
     """
         Standard launch for eiffel tools buffer management. It create/show
         the eiffel tools buffer in a window, launch `a_routine' with the
@@ -185,6 +186,8 @@ def launch_process(a_project, a_routine, a_work_text, a_done_text,
         tools_buffer_number = get_tools_buffer_number()
         tools_buffer = environment.window(tools_buffer_number, True)
         a_routine(tools_buffer)
+        if post_routine:
+            post_routine()
         set_tools_window_text(a_done_text)
         if not(a_always_focus or (a_focus_on_error and a_project.has_error())):
             select_saved_window()

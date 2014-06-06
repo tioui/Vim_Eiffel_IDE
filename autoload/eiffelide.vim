@@ -231,6 +231,31 @@ command! -nargs=* EiffelClassText python eiffel_class.text(i_eiffel_project,<f-a
 
 command! -nargs=* ECText python eiffel_class.text(i_eiffel_project,<f-args>)
 
+" DESC: Edit class
+command! -nargs=* EiffelClassEdit python eiffel_class.edit(i_eiffel_project, False, False, False, False, <f-args>)
+
+command! -nargs=* ECEdit python eiffel_class.edit(i_eiffel_project, False, False, False, False, <f-args>)
+
+" DESC: Edit class force close
+command! -nargs=* EiffelClassEditF python eiffel_class.edit(i_eiffel_project, False, False, False, True, <f-args>)
+
+command! -nargs=* ECEditF python eiffel_class.edit(i_eiffel_project, False, False, False, True, <f-args>)
+
+" DESC: Edit class in new window (split)
+command! -nargs=* EiffelClassEditSplit python eiffel_class.edit(i_eiffel_project, True, False, False, False, <f-args>)
+
+command! -nargs=* ECEditSp python eiffel_class.edit(i_eiffel_project, True, False, False, False, <f-args>)
+
+" DESC: Edit class in new window (vertical split)
+command! -nargs=* EiffelClassEditVSplit python eiffel_class.edit(i_eiffel_project, True, True, False, False, <f-args>)
+
+command! -nargs=* ECEditVSp python eiffel_class.edit(i_eiffel_project, True, True, False, False, <f-args>)
+
+" DESC: Edit class in a new tab
+command! -nargs=* EiffelClassEditTab python eiffel_class.edit(i_eiffel_project, False, False, True, False, <f-args>)
+
+command! -nargs=* ECEditTab python eiffel_class.edit(i_eiffel_project, False, False, True, False, <f-args>)
+
 
 " ====================== Feature informations commands =======================
 
@@ -401,3 +426,4 @@ else:
 endpython
 	return result
 endfunction
+
