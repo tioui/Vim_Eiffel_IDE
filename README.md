@@ -62,11 +62,9 @@ the current source code. (a project must be open)
 ***
 	:EiffelClassEdit [CLASS_NAME]
 	:ECEdit [CLASS_NAME]
-***
 
 Not that if the buffer in the current window has been modified, the command will fail. If you want to force to override use those command:
 
-***
 	:EiffelClassEditF [CLASS_NAME]
 	:ECEditF [CLASS_NAME]
 ***
