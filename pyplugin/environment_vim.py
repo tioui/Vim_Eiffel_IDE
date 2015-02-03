@@ -151,13 +151,46 @@ def set_buffer_variable(a_variable_name, a_value):
     set_prefixed_variable("b", a_variable_name, a_value)
 
 
-def word_under_the_cursor():
-    non_splittable_characters = string.ascii_letters + string.digits + "_"
+def get_cursor_row():
+    """The current row position of the Vim cursor (starting at 0)"""
     row, col = vim.current.window.cursor
-    row = row - 1
+    return row - 1
+
+
+def get_cursor_column():
+    """The current column position of the Vim cursor(starting at 0)"""
+    row, col = vim.current.window.cursor
+    return col
+
+
+def text_list():
+    """List of the text of each row"""
+    return vim.current.buffer
+
+
+def text_of_cursor_row():
+    """The text of the row containing the cursor"""
+    return vim.current.buffer[get_cursor_row()]
+
+
+def previous_non_white_character_in_row(row, col):
+    """
+        The position of the previous character (before the position `col)
+        in the `row' that is not a whitespace character (space and tab)
+    """
+    white_character = (" ", "\t")
+    index_col = col
+    while index_col >= 0 and\
+            vim.current.buffer[row][index_col] in white_character:
+        index_col = index_col - 1
+    return index_col
+
+
+def start_column_of_word(row, col):
+    """The starting column position of the word at position (`row',`col')"""
+    non_splittable_characters = string.ascii_letters + string.digits + "_"
     start = col
-    end = col + 1
-    result = ""
+    result = start
     if len(vim.current.buffer) > row and\
             len(vim.current.buffer[row]) > col and\
             vim.current.buffer[row][col] in non_splittable_characters:
@@ -165,17 +198,48 @@ def word_under_the_cursor():
             while start > -1 and\
                     vim.current.buffer[row][start] in\
                     non_splittable_characters:
-                result = vim.current.buffer[row][start] + result
                 start = start - 1
+            result = start + 1
         except:
-            pass
-        try:
-            while end < len(vim.current.buffer[row]) and\
-                    vim.current.buffer[row][end] in non_splittable_characters:
-                result = result + vim.current.buffer[row][end]
-                end = end + 1
-        except:
-            pass
+            result = -1
+    else:
+        result = -1
+    return result
+
+
+def end_column_of_word(row, col):
+    """The ending column position of the word at position (`row',`col')"""
+    non_splittable_characters = string.ascii_letters + string.digits + "_"
+    end = col
+    result = end
+    if len(vim.current.buffer) > row and\
+            len(vim.current.buffer[row]) > col:
+        if vim.current.buffer[row][col] in non_splittable_characters:
+            try:
+                while end < len(vim.current.buffer[row]) and\
+                        vim.current.buffer[row][end] in\
+                        non_splittable_characters:
+                    end = end + 1
+                result = end - 1
+            except:
+                result = -2
+    else:
+        result = -2
+    return result
+
+
+def word_under_the_cursor():
+    """ The complete word under the current Vim cursor."""
+    row, col = vim.current.window.cursor
+    row = row - 1
+    result = ""
+    if len(vim.current.buffer) > row and\
+            len(vim.current.buffer[row]) > col:
+        start = start_column_of_word(row, col)
+        if start > -1:
+            end = end_column_of_word(row, col)
+            if end > start:
+                result = vim.current.buffer[row][start:end + 1]
     return result
 
 

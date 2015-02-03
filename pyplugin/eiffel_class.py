@@ -22,6 +22,7 @@
 
 import environment_vim as environment
 import eiffel_ide
+import string
 
 
 def get_class_from_buffer(a_project):
@@ -449,3 +450,278 @@ def edit(a_project, is_split=False, is_vertical=False, is_tab=False,
                 has_error = True
         if not has_error:
             environment.execute(flags + " " + command + " " + class_path)
+
+
+def complete_start():
+    """ Get the first character of the class/feature name under the cursor."""
+    result = -3
+    col = environment.get_cursor_column()
+    row = environment.get_cursor_row()
+    if col != 0:
+        start = environment.start_column_of_word(row, col - 1)
+        if start < 0:
+            result = col
+        else:
+            result = start
+    else:
+        result = 0
+    return result
+
+
+def match_list_feature(a_list, a_base):
+    """
+        Every element of `a_list' that start with the same character of
+        `a_base'.
+    """
+    result = []
+    for element in a_list:
+        if a_base.upper() == element[0][:len(a_base)].upper():
+            result.append(element[0])
+    return result
+
+
+def match_list_class(a_list, a_base):
+    """
+        Every element of `a_list' that start with the same character of
+        `a_base'.
+    """
+    result = []
+    for element in a_list:
+        if a_base.upper() == element[:len(a_base)].upper():
+            result.append(element)
+    return result
+
+
+def get_local_variable(a_project):
+    """
+        A list of local variables declared in the previous local section.
+    """
+    do_regex = a_project.get_tools_regex("extract_do_keywork")
+    local_regex = a_project.get_tools_regex("extract_local_keywork")
+    variable_regex = a_project.get_tools_regex("extract_local_variable")
+    text_list = environment.text_list()
+    i = environment.get_cursor_row()
+    do_row = -1
+    l_result = []
+    while do_row < 0 and i >= 0:
+        if do_regex.search(text_list[i]):
+            do_row = i
+        i = i - 1
+        while i >= 0 and not local_regex.search(text_list[i]):
+            l_find = variable_regex.findall(text_list[i])
+            if l_find:
+                l_result.append(l_find[0])
+            i = i - 1
+    return l_result
+
+
+def complete_class_match(a_project, a_base):
+    """
+        A Vim compatible list of the classes of `a_project' that start with
+        the characters in `a_base'
+    """
+    matches = match_list_class(a_project.class_list(), a_base)
+    result = "["
+    is_first = True
+    for match in matches:
+        if is_first:
+            result = result + "\"" + match + "\""
+            is_first = False
+        else:
+            result = result + ",\"" + match + "\""
+    result = result + "]"
+    return result
+
+
+def is_cursor_on_client_call():
+    """True if the cursor is on a client type call"""
+    l_start = complete_start() - 1
+    row = environment.get_cursor_row()
+    l_previous_white = environment.previous_non_white_character_in_row(row,
+                                                                       l_start)
+    result = False
+    if l_previous_white >= 0:
+        result = environment.text_list()[row][l_previous_white] == "."
+    return result
+
+
+def get_associated_bracket_position(a_row, a_col):
+    """
+        The openning position of the bracket closing at position
+        (`a_row',`a_col')
+    """
+    l_text = environment.text_list()[a_row]
+    l_character = l_text[a_col]
+    l_result = a_col
+    if l_character in ("(", "[", "{"):
+        l_incrementation = 1
+        l_search = (")", "]", "}")[("(", "[", "{").index(l_character)]
+    elif l_character in (")", "]", "}"):
+        l_incrementation = -1
+        l_search = ("(", "[", "{")[(")", "]", "}").index(l_character)]
+    else:
+        l_incrementation = 0
+    if l_incrementation != 0:
+        l_result = l_result + l_incrementation
+        while l_result >= 0 and l_result < len(l_text) and\
+                l_text[l_result] != l_search:
+            if l_text[l_result] == l_character:
+                l_result = get_associated_bracket_position(a_row, l_result)
+            l_result = l_result + l_incrementation
+    if l_result > len(l_text):
+        l_result = 0
+    return l_result
+
+
+def create_row_object_stack():
+    """Extract every stacking object in a client call"""
+    l_row = environment.get_cursor_row()
+    non_splittable_characters = string.ascii_letters + string.digits + "_"
+    l_col = complete_start() - 1
+    l_col = environment.previous_non_white_character_in_row(l_row, l_col)
+    l_text = environment.text_of_cursor_row()
+    l_result = []
+    while l_col > 0 and\
+            l_text[l_col] == ".":
+        l_col = l_col - 1
+        l_col = environment.previous_non_white_character_in_row(l_row, l_col)
+        while l_col >= 0 and l_text[l_col] in (")", "]"):
+            l_col = get_associated_bracket_position(l_row, l_col)
+            if l_col < 0:
+                l_result = []
+            l_col = environment.previous_non_white_character_in_row(l_row,
+                                                                    l_col - 1)
+        if l_col >= 0 and l_text[l_col] in non_splittable_characters:
+            l_new_col = environment.start_column_of_word(l_row, l_col)
+            if l_text[l_new_col] in string.digits:
+                l_result = []
+                l_col = -1
+            else:
+                l_result.append(l_text[l_new_col:l_col+1])
+                l_col = l_new_col
+                l_col = environment.previous_non_white_character_in_row(
+                    l_row, l_col - 1)
+        else:
+            l_col = -1
+    return l_result
+
+
+def retreive_value_from_pair(a_key, a_pair_list):
+    """
+        Retreive the value (`a_pair_list[i][1]') assoiate with
+        the key (`a_pair_list[i][0]') in the list of pair ``a_pair_list'.
+    """
+    l_result = None
+    i = 0
+    while i >= 0 and a_pair_list[i][0] != a_key:
+        i = i + 1
+    if i >= 0:
+        l_result = a_pair_list[i][1]
+    return l_result
+
+
+def index_of_key_in_pair(a_key, a_pair_list):
+    """
+        Retreive the index i where `a_pair_list[i][0]' is equal to `a_key`.
+    """
+    i = len(a_pair_list) - 1
+    while i >= 0 and a_pair_list[i][0] != a_key:
+        i = i - 1
+    return i
+
+
+def translate_generics_to_class(a_class_generics, a_object_generics,
+                                a_class_name):
+    """
+        Retreive the class name associate to the generic `a_class_name'.
+        The Generics of the class is `a_class_generics' and the classes
+        associate to the generics are in `a_object_generics'.
+    """
+    l_object_generics = a_object_generics.replace(" ", "").\
+        replace("\t", "").split(",")
+    l_result = None
+    i = 0
+    print(l_object_generics)
+    print(a_class_generics)
+    while i < len(a_class_generics) and a_class_generics[i] != a_class_name:
+        i = i + 1
+    l_result = None
+    if i < len(l_object_generics):
+        l_result = l_object_generics[i]
+    return l_result
+
+
+def features_of_client_call(a_project):
+    """
+        Retreive the features of the current cursor context. The cursor
+        context must be a client call.
+    """
+    l_features = a_project.feature_list(get_class_from_buffer(a_project))
+    l_features.extend(get_local_variable(a_project))
+    l_features.extend(get_local_variable(a_project))
+    l_stack = create_row_object_stack()
+    l_old_class = None
+    l_class = None
+    l_generics = None
+    l_index = -1
+    i = len(l_stack) - 1
+    l_abort = False
+    while i >= 0 and not l_abort:
+        print(l_stack[i])
+        l_index = index_of_key_in_pair(l_stack[i], l_features)
+        if l_index >= 0:
+            print(l_features[l_index])
+            l_old_class = l_class
+            l_class = l_features[l_index][1]
+            print(l_class)
+            l_old_generics = l_generics
+            l_generics = l_features[l_index][2]
+            if l_class:
+                l_features = a_project.exported_feature_list(l_class)
+                if not l_features and l_old_class and l_old_generics:
+                    l_class_generics = a_project.class_generic(l_old_class)
+                    if l_class_generics:
+                        l_new_class =\
+                            translate_generics_to_class(l_class_generics,
+                                                        l_old_generics,
+                                                        l_class)
+                        if l_new_class:
+                            l_class = l_new_class
+                            l_features =\
+                                a_project.exported_feature_list(l_class)
+            else:
+                l_features = []
+                l_abort = True
+        else:
+            print(l_features)
+            l_features = []
+            l_abort = True
+        i = i - 1
+    return l_features
+
+
+def complete_feature_match(a_project, a_base):
+    """
+        A Vim compatible list of the feature of `a_project' that match
+        `a_base' in the current code context
+    """
+    matches = []
+    if is_cursor_on_client_call():
+        l_list = features_of_client_call(a_project)
+        if l_list:
+            matches = match_list_feature(l_list, a_base)
+    else:
+        l_list = a_project.feature_list(get_class_from_buffer(a_project))
+        l_list.extend(get_local_variable(a_project))
+        matches = match_list_feature(l_list, a_base)
+    matches.sort(key=lambda mbr: mbr.lower())
+    result = "["
+    is_first = True
+    for match in matches:
+        if is_first:
+            result = result + "\"" + match + "\""
+            is_first = False
+        else:
+            result = result + ",\"" + match + "\""
+    result = result + "]"
+    return result

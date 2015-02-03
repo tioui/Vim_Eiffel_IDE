@@ -78,6 +78,13 @@ endif
 
 let &statusline = g:eiffel_tools_window_statusline
 
+" Initialize the Omnicomplete system
+let g:eiffel_complete_is_class = 0
+execute "set omnifunc=eiffelide#CompleteEiffel"
+autocmd CompleteDone * call eiffelide#EndCompletion()
+" To map a shortcut for Class completion, use the following line
+" (just change the <C-G>)
+inoremap <C-G> <esc>:call eiffelide#StartClassCompletion()<cr>
 
 
 
@@ -427,3 +434,55 @@ endpython
 	return result
 endfunction
 
+
+" DESC: Used to activate completion for classes
+function! eiffelide#StartClassCompletion()
+	let g:eiffel_complete_is_class = 1
+	call feedkeys("a\<c-x>\<c-o>") 
+endfunction
+
+" DESC: Used to activate completion for classes
+function! eiffelide#EndCompletion()
+	if g:eiffel_complete_is_class
+		let g:eiffel_complete_is_class = 0
+	endif
+endfunction
+
+
+" DESC: Used for Auto-Completion system. See `:help complete-function'
+function! eiffelide#CompleteEiffel(findstart, base)
+	echom a:base
+	if g:eiffel_complete_is_class
+		let result = eiffelide#CompleteClass(a:findstart, a:base)
+	else
+		let result = eiffelide#CompleteFeature(a:findstart, a:base)
+	endif
+	return result
+endfunction
+
+" DESC: Used for Auto-Completion system for classes. See `:help complete-function'
+function! eiffelide#CompleteClass(findstart, base)
+	if a:findstart
+		python vim.command("let result = " +  str(eiffel_class.complete_start()))
+	else
+python << endpython
+if i_eiffel_project:
+	vim.command("let result = " +  eiffel_class.complete_class_match(i_eiffel_project,vim.eval('a:base')))
+endpython
+	endif
+	return result
+endfunction
+
+
+" DESC: Used for Auto-Completion system for features. See `:help complete-function'
+function! eiffelide#CompleteFeature(findstart, base)
+	if a:findstart
+		python vim.command("let result = " +  str(eiffel_class.complete_start()))
+	else
+python << endpython
+if i_eiffel_project:
+	vim.command("let result = " +  eiffel_class.complete_feature_match(i_eiffel_project,vim.eval('a:base')))
+endpython
+	endif
+	return result
+endfunction

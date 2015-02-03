@@ -89,6 +89,9 @@ class project:
 
     _tools_regex = None
 
+    def get_tools_regex(self, a_name):
+        return self._tools_regex[a_name]
+
     def command_output(self):
         """Return the standard and error output of the compiler on the last
         compilation"""
@@ -178,6 +181,11 @@ class project:
         self._error_warning_regex = l_regex
 
     def _init_tools_regex(self):
+        """
+            Every regex used to extract data from compiler output
+            that is not used for error and warning
+            (see: `_init_error_warning_regex')
+        """
         l_regex = {
             "comment": re.compile("--.*$", re.MULTILINE)
         }
@@ -186,9 +194,30 @@ class project:
             re.MULTILINE
         )
         l_regex["class"] = re.compile(
-            "[^0-9A-Za-z_]class[\n\r\t ]*([0-9A-Za-z_]*)",
+            "\Wclass[\n\r\t ]*(\w*)",
             re.MULTILINE
         )
+        l_regex["extract_class_line"] = re.compile("\t[^(\n\t]*\n")
+        l_regex["extract_class"] = re.compile("[a-zA-Z_]\w*")
+        l_regex["extract_feature"] =\
+            re.compile("\t([_a-zA-Z]\w*)(?:[ \t]+alias[ \t]*\".*\")?[ \t]*" +
+                       "(?:\(.*\))?[ \t]*(?::[ \t]*(?:\[.*\])?[ \t]*" +
+                       "(?:(?:attached)|(?:detachable))?[ \t]*([_a-zA-Z]\w*)" +
+                       "[ \t]*(?:\[[ \t]*(?:\[[ \t]*.*[ \t]*\][ \t]*)?(.*)" +
+                       "[ \t]*\])?)?[ \t]*(?:(?:--).*)?\n")
+        l_regex["extract_do_keywork"] =\
+            re.compile("^[ \t]*(do)((([ \t])|(--)).*)?$")
+        l_regex["extract_local_keywork"] =\
+            re.compile("^[ \t]*(local)((([ \t])|(--)).*)?$")
+        l_regex["extract_local_variable"] =\
+            re.compile("^[ \t]*([_a-zA-Z]\w*)[ \t]*" +
+                       "(?::[ \t]*([_a-zA-Z]\w*)[ \t]*" +
+                       "(?:\[[ \t]*(?:\[[ \t]*.*[ \t]*\][ \t]*)?" +
+                       "(.*)[ \t]*\])?)[ \t]*(?:(?:--).*)?$")
+        l_regex["extract_generics_clause"] = re.compile(
+            "\n(?:deferred )?class.*\n\t(?:[a-zA-Z_]\w*) \[(.*)\].*",
+            re.MULTILINE)
+        l_regex["extract_generics"] = re.compile("([a-zA-Z_]\w*)[^,$]*")
         self._tools_regex = l_regex
 
     def __init__(self, a_config_file, a_target_name=None):
@@ -382,133 +411,134 @@ class project:
             Fetch and optionnaly print on `a_window' the flat view
             of `a_class'.
         """
-        self._execute_compiler("C\nF\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nF\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_ancestors(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the ancestors
             of `a_class'.
         """
-        self._execute_compiler("C\nA\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nA\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_attributes(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the attributes
             of `a_class'.
         """
-        self._execute_compiler("C\nB\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nB\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_clients(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the clients
             of `a_class'.
         """
-        self._execute_compiler("C\nC\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nC\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_deferred(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the deferred feature
             of `a_class'.
         """
-        self._execute_compiler("C\nE\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nE\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_descendants(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the descendants
             of `a_class'.
         """
-        self._execute_compiler("C\nD\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nD\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_exported(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the exported features
             of `a_class'.
         """
-        self._execute_compiler("C\nP\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nP\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_externals(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the external features
             of `a_class'.
         """
-        self._execute_compiler("C\nX\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nX\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_flatshort(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the flat contract view
             of `a_class'.
         """
-        self._execute_compiler("C\nI\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nI\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_once(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the once features
             of `a_class'.
         """
-        self._execute_compiler("C\nO\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nO\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_invariants(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the invariants
             of `a_class'.
         """
-        self._execute_compiler("C\nK\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nK\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_routines(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the routines
             of `a_class'.
         """
-        self._execute_compiler("C\nR\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nR\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_creators(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the creators
             of `a_class'.
         """
-        self._execute_compiler("C\nN\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nN\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_short(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the contracts
             of `a_class'.
         """
-        self._execute_compiler("C\nS\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nS\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_suppliers(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the suppliers
             of `a_class'.
         """
-        self._execute_compiler("C\nU\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nU\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_text(self, a_class, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the source code text
             of `a_class'.
         """
-        self._execute_compiler("C\nT\n" + a_class + "\n\nQ\n",
-                               ["-loop"], a_window, False, True)
+        self._execute_compiler("C\nT\n" + self.convert_class_name(a_class) +
+                               "\n\nQ\n", ["-loop"], a_window, False, True)
 
     def class_name_from_text(self, a_text):
         """
             The name of the class represented by `a_text'.
         """
+        temp = self._command_output
         a_text_no_comment = self._tools_regex["comment"].sub("", a_text)
         a_text_no_string = self._tools_regex["string"].sub('""',
                                                            a_text_no_comment)
@@ -517,24 +547,82 @@ class project:
             l_class_name = l_match_list[0]
         else:
             l_class_name = ""
+        self._command_output = temp
         return l_class_name
+
+    def class_list(self):
+        """ The list of every class in the system."""
+        temp = self._command_output
+        self._execute_compiler("S\nL\nQ\n", ["-loop"], None, False, True)
+        l_temp_list = self._tools_regex["extract_class_line"].findall(
+            self.command_output())
+        result = [self._tools_regex["extract_class"].findall(element)[0] for
+                  element in l_temp_list]
+        result.sort()
+        self._command_output = temp
+        return result
+
+    def convert_class_name(self, a_class):
+        l_result = a_class
+        if a_class == "INTEGER":
+            l_result = "INTEGER_32"
+        elif a_class == "STRING":
+            l_result = "STRING_8"
+        elif a_class == "NATURAL":
+            l_result = "NATURAL_32"
+        return l_result
+
+    def exported_feature_list(self, a_class):
+        """The list of every exported features of a class"""
+        temp = self._command_output
+        self.fetch_class_exported(self.convert_class_name(a_class))
+        l_temp_list = self._tools_regex["extract_feature"].findall(
+            self.command_output())
+        self._command_output = temp
+        return l_temp_list
+
+    def feature_list(self, a_class):
+        """The list of every features of a class"""
+        temp = self._command_output
+        self.fetch_class_attributes(self.convert_class_name(a_class))
+        l_temp_list = self._tools_regex["extract_feature"].findall(
+            self.command_output())
+        self.fetch_class_routines(self.convert_class_name(a_class))
+        l_temp_list.extend(self._tools_regex["extract_feature"].findall(
+            self.command_output()))
+        self._command_output = temp
+        return l_temp_list
+
+    def class_generic(self, a_class):
+        """The generic associate with `a_class'"""
+        temp = self._command_output
+        self.fetch_class_short(self.convert_class_name(a_class))
+        l_generics_clause = self._tools_regex["extract_generics_clause"].\
+            search(self.command_output())
+        l_result = []
+        if l_generics_clause:
+            l_result = self._tools_regex["extract_generics"].findall(
+                l_generics_clause.group(1))
+        self._command_output = temp
+        return l_result
 
     def fetch_feature_ancestors(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the ancestors of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nA\n" + a_class + "\n" + a_feature +
-                               "\n\nQ\n", ["-loop"], a_window, False, True)
+        self._execute_compiler("F\nA\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nQ\n", ["-loop"],
+                               a_window, False, True)
 
     def fetch_feature_callers(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the callers of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nC\n" + a_class + "\n" + a_feature +
-                               "\n\nyes\nno\nno\nQ\n", ["-loop"], a_window,
-                               False, True)
+        self._execute_compiler("F\nC\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nyes\nno\nno\nQ\n",
+                               ["-loop"], a_window, False, True)
 
     def fetch_feature_assigners(self, a_class, a_feature,
                                 a_window=None):
@@ -542,9 +630,9 @@ class project:
             Fetch and optionnaly print on `a_window' the assigners of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nC\n" + a_class + "\n" + a_feature +
-                               "\n\nyes\nyes\nQ\n", ["-loop"], a_window,
-                               False, True)
+        self._execute_compiler("F\nC\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nyes\nyes\nQ\n",
+                               ["-loop"], a_window, False, True)
 
     def fetch_feature_creators(self, a_class, a_feature,
                                a_window=None):
@@ -552,27 +640,27 @@ class project:
             Fetch and optionnaly print on `a_window' the creators that call
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nC\n" + a_class + "\n" + a_feature +
-                               "\n\nyes\nno\nyes\nQ\n", ["-loop"], a_window,
-                               False, True)
+        self._execute_compiler("F\nC\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nyes\nno\nyes\nQ\n",
+                               ["-loop"], a_window, False, True)
 
     def fetch_feature_callees(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the callees of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nE\n" + a_class + "\n" + a_feature +
-                               "\n\nyes\nno\nno\nQ\n", ["-loop"], a_window,
-                               False, True)
+        self._execute_compiler("F\nE\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nyes\nno\nno\nQ\n",
+                               ["-loop"], a_window, False, True)
 
     def fetch_feature_assignees(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the assignees of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nE\n" + a_class + "\n" + a_feature +
-                               "\n\nyes\nyes\nQ\n", ["-loop"], a_window,
-                               False, True)
+        self._execute_compiler("F\nE\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nyes\nyes\nQ\n",
+                               ["-loop"], a_window, False, True)
 
     def fetch_feature_creation(self, a_class, a_feature,
                                a_window=None):
@@ -580,57 +668,62 @@ class project:
             Fetch and optionnaly print on `a_window' the creators that has been
             called by `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nE\n" + a_class + "\n" + a_feature +
-                               "\n\nyes\nno\nyes\nQ\n", ["-loop"], a_window,
-                               False, True)
+        self._execute_compiler("F\nE\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nyes\nno\nyes\nQ\n",
+                               ["-loop"], a_window, False, True)
 
     def fetch_feature_descendants(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the descendants of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nD\n" + a_class + "\n" + a_feature +
-                               "\n\nQ\n", ["-loop"], a_window, False, True)
+        self._execute_compiler("F\nD\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nQ\n", ["-loop"],
+                               a_window, False, True)
 
     def fetch_feature_flat(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the flat of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nF\n" + a_class + "\n" + a_feature +
-                               "\n\nQ\n", ["-loop"], a_window, False, True)
+        self._execute_compiler("F\nF\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nQ\n", ["-loop"],
+                               a_window, False, True)
 
     def fetch_feature_homonyms(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the homonyms of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nO\n" + a_class + "\n" + a_feature +
-                               "\n\nQ\n", ["-loop"], a_window, False, True)
+        self._execute_compiler("F\nO\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nQ\n", ["-loop"],
+                               a_window, False, True)
 
     def fetch_feature_implementers(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the implementers of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nI\n" + a_class + "\n" + a_feature +
-                               "\n\nQ\n", ["-loop"], a_window, False, True)
+        self._execute_compiler("F\nI\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nQ\n", ["-loop"],
+                               a_window, False, True)
 
     def fetch_feature_text(self, a_class, a_feature, a_window=None):
         """
             Fetch and optionnaly print on `a_window' the text of
             `a_feature' of `a_class'.
         """
-        self._execute_compiler("F\nT\n" + a_class + "\n" + a_feature +
-                               "\n\nQ\n", ["-loop"], a_window, False, True)
+        self._execute_compiler("F\nT\n" + self.convert_class_name(a_class) +
+                               "\n" + a_feature + "\n\nQ\n", ["-loop"],
+                               a_window, False, True)
 
     def file_path_from_class_name(self, a_class_name):
         """
             Return the complete path of the class `a_class_name'.
         """
         temp = self._command_output
-        self._execute_compiler("C\nW\n" + a_class_name + "\n\nQ\n",
-                               ["-loop"], None, False, True)
+        self._execute_compiler("C\nW\n" + self.convert_class_name(a_class_name)
+                               + "\n\nQ\n", ["-loop"], None, False, True)
         result = self._command_output
         self._command_output = temp
         return result
