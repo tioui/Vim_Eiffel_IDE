@@ -151,180 +151,180 @@ command! ETarget EiffelTarget
 " ====================== Class informations commands ========================
 
 " DESC: Class Flat View
-command! -nargs=* EiffelClassFlat python eiffel_class.flat(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassFlat python eiffel_class.flat(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECFlat python eiffel_class.flat(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECFlat python eiffel_class.flat(i_eiffel_project,<f-args>)
 
 " DESC: Class Ancestors
-command! -nargs=* EiffelClassAncestors python eiffel_class.ancestors(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassAncestors python eiffel_class.ancestors(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECAncestors python eiffel_class.ancestors(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECAncestors python eiffel_class.ancestors(i_eiffel_project,<f-args>)
 
 " DESC: Class Attributes
-command! -nargs=* EiffelClassAttributes python eiffel_class.attributes(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassAttributes python eiffel_class.attributes(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECAttributes python eiffel_class.attributes(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECAttributes python eiffel_class.attributes(i_eiffel_project,<f-args>)
 
 " DESC: Class Clients
-command! -nargs=* EiffelClassClients python eiffel_class.clients(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassClients python eiffel_class.clients(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECClients python eiffel_class.clients(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECClients python eiffel_class.clients(i_eiffel_project,<f-args>)
 
 " DESC: Class Deferred features
-command! -nargs=* EiffelClassDeferred python eiffel_class.deferred(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassDeferred python eiffel_class.deferred(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECDeferred python eiffel_class.deferred(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECDeferred python eiffel_class.deferred(i_eiffel_project,<f-args>)
 
 " DESC: Class Descendants
-command! -nargs=* EiffelClassDescendants python eiffel_class.descendants(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassDescendants python eiffel_class.descendants(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECDescendants python eiffel_class.descendants(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECDescendants python eiffel_class.descendants(i_eiffel_project,<f-args>)
 
 " DESC: Class Exported features
-command! -nargs=* EiffelClassExported python eiffel_class.exported(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassExported python eiffel_class.exported(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECExported python eiffel_class.exported(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECExported python eiffel_class.exported(i_eiffel_project,<f-args>)
 
 " DESC: Class External features
-command! -nargs=* EiffelClassExternals python eiffel_class.externals(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassExternals python eiffel_class.externals(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECExternals python eiffel_class.externals(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECExternals python eiffel_class.externals(i_eiffel_project,<f-args>)
 
 " DESC: Class Flat contract view
-command! -nargs=* EiffelClassFlatShort python eiffel_class.flatshort(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassFlatShort python eiffel_class.flatshort(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECFlatShort python eiffel_class.flatshort(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECFlatShort python eiffel_class.flatshort(i_eiffel_project,<f-args>)
 
-command! -nargs=* EiffelClassFlatContract python eiffel_class.flatshort(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassFlatContract python eiffel_class.flatshort(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECFlatContract python eiffel_class.flatshort(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECFlatContract python eiffel_class.flatshort(i_eiffel_project,<f-args>)
 
 " DESC: Class Once features
-command! -nargs=* EiffelClassOnce python eiffel_class.once(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassOnce python eiffel_class.once(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECOnce python eiffel_class.once(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECOnce python eiffel_class.once(i_eiffel_project,<f-args>)
 
 " DESC: Class Invariants
-command! -nargs=* EiffelClassInvariants python eiffel_class.invariants(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassInvariants python eiffel_class.invariants(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECInvariants python eiffel_class.invariants(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECInvariants python eiffel_class.invariants(i_eiffel_project,<f-args>)
 
 " DESC: Class Routines
-command! -nargs=* EiffelClassRoutines python eiffel_class.routines(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassRoutines python eiffel_class.routines(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECRoutines python eiffel_class.routines(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECRoutines python eiffel_class.routines(i_eiffel_project,<f-args>)
 
 " DESC: Class Creators
-command! -nargs=* EiffelClassCreators python eiffel_class.creators(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassCreators python eiffel_class.creators(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECCreators python eiffel_class.creators(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECCreators python eiffel_class.creators(i_eiffel_project,<f-args>)
 
 " DESC: Class Short View
-command! -nargs=* EiffelClassShort python eiffel_class.short(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassShort python eiffel_class.short(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECShort python eiffel_class.short(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECShort python eiffel_class.short(i_eiffel_project,<f-args>)
 
-command! -nargs=* EiffelClassContract python eiffel_class.short(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassContract python eiffel_class.short(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECContract python eiffel_class.short(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECContract python eiffel_class.short(i_eiffel_project,<f-args>)
 
 " DESC: Class Suppliers
-command! -nargs=* EiffelClassSuppliers python eiffel_class.suppliers(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassSuppliers python eiffel_class.suppliers(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECSuppliers python eiffel_class.suppliers(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECSuppliers python eiffel_class.suppliers(i_eiffel_project,<f-args>)
 
 " DESC: Class Text
-command! -nargs=* EiffelClassText python eiffel_class.text(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassText python eiffel_class.text(i_eiffel_project,<f-args>)
 
-command! -nargs=* ECText python eiffel_class.text(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECText python eiffel_class.text(i_eiffel_project,<f-args>)
 
 " DESC: Edit class
-command! -nargs=* EiffelClassEdit python eiffel_class.edit(i_eiffel_project, False, False, False, False, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassEdit python eiffel_class.edit(i_eiffel_project, False, False, False, False, <f-args>)
 
-command! -nargs=* ECEdit python eiffel_class.edit(i_eiffel_project, False, False, False, False, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECEdit python eiffel_class.edit(i_eiffel_project, False, False, False, False, <f-args>)
 
 " DESC: Edit class force close
-command! -nargs=* EiffelClassEditF python eiffel_class.edit(i_eiffel_project, False, False, False, True, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassEditF python eiffel_class.edit(i_eiffel_project, False, False, False, True, <f-args>)
 
-command! -nargs=* ECEditF python eiffel_class.edit(i_eiffel_project, False, False, False, True, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECEditF python eiffel_class.edit(i_eiffel_project, False, False, False, True, <f-args>)
 
 " DESC: Edit class in new window (split)
-command! -nargs=* EiffelClassEditSplit python eiffel_class.edit(i_eiffel_project, True, False, False, False, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassEditSplit python eiffel_class.edit(i_eiffel_project, True, False, False, False, <f-args>)
 
-command! -nargs=* ECEditSp python eiffel_class.edit(i_eiffel_project, True, False, False, False, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECEditSp python eiffel_class.edit(i_eiffel_project, True, False, False, False, <f-args>)
 
 " DESC: Edit class in new window (vertical split)
-command! -nargs=* EiffelClassEditVSplit python eiffel_class.edit(i_eiffel_project, True, True, False, False, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassEditVSplit python eiffel_class.edit(i_eiffel_project, True, True, False, False, <f-args>)
 
-command! -nargs=* ECEditVSp python eiffel_class.edit(i_eiffel_project, True, True, False, False, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECEditVSp python eiffel_class.edit(i_eiffel_project, True, True, False, False, <f-args>)
 
 " DESC: Edit class in a new tab
-command! -nargs=* EiffelClassEditTab python eiffel_class.edit(i_eiffel_project, False, False, True, False, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassEditTab python eiffel_class.edit(i_eiffel_project, False, False, True, False, <f-args>)
 
-command! -nargs=* ECEditTab python eiffel_class.edit(i_eiffel_project, False, False, True, False, <f-args>)
+command! -complete=customlist,eiffelide#list_class -nargs=* ECEditTab python eiffel_class.edit(i_eiffel_project, False, False, True, False, <f-args>)
 
 
 " ====================== Feature informations commands =======================
 
 " DESC: Feature Ancestors
-command! -nargs=* EiffelFeatureAncestors python eiffel_feature.ancestors(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureAncestors python eiffel_feature.ancestors(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFAncestors python eiffel_feature.ancestors(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFAncestors python eiffel_feature.ancestors(i_eiffel_project,<f-args>)
 
 " DESC: Feature Callers
-command! -nargs=* EiffelFeatureCallers python eiffel_feature.callers(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureCallers python eiffel_feature.callers(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFCallers python eiffel_feature.callers(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFCallers python eiffel_feature.callers(i_eiffel_project,<f-args>)
 
 " DESC: Feature Creators
-command! -nargs=* EiffelFeatureCreators python eiffel_feature.creators(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureCreators python eiffel_feature.creators(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFCreators python eiffel_feature.creators(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFCreators python eiffel_feature.creators(i_eiffel_project,<f-args>)
 
 " DESC: Feature Assigners
-command! -nargs=* EiffelFeatureAssigners python eiffel_feature.assigners(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureAssigners python eiffel_feature.assigners(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFAssigners python eiffel_feature.assigners(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFAssigners python eiffel_feature.assigners(i_eiffel_project,<f-args>)
 
 " DESC: Feature Callees
-command! -nargs=* EiffelFeatureCallees python eiffel_feature.callees(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureCallees python eiffel_feature.callees(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFCallees python eiffel_feature.callees(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFCallees python eiffel_feature.callees(i_eiffel_project,<f-args>)
 
 " DESC: Feature Creations
-command! -nargs=* EiffelFeatureCreations python eiffel_feature.creations(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureCreations python eiffel_feature.creations(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFCreations python eiffel_feature.creations(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFCreations python eiffel_feature.creations(i_eiffel_project,<f-args>)
 
 " DESC: Feature Assignees
-command! -nargs=* EiffelFeatureAssignees python eiffel_feature.assignees(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureAssignees python eiffel_feature.assignees(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFAssignees python eiffel_feature.assignees(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFAssignees python eiffel_feature.assignees(i_eiffel_project,<f-args>)
 
 " DESC: Feature Descendants
-command! -nargs=* EiffelFeatureDescendants python eiffel_feature.descendants(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureDescendants python eiffel_feature.descendants(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFDescendants python eiffel_feature.descendants(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFDescendants python eiffel_feature.descendants(i_eiffel_project,<f-args>)
 
 " DESC: Feature Flat
-command! -nargs=* EiffelFeatureFlat python eiffel_feature.flat(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureFlat python eiffel_feature.flat(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFFlat python eiffel_feature.flat(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFFlat python eiffel_feature.flat(i_eiffel_project,<f-args>)
 
 " DESC: Feature Homonyms
-command! -nargs=* EiffelFeatureHomonyms python eiffel_feature.homonyms(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureHomonyms python eiffel_feature.homonyms(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFHomonyms python eiffel_feature.homonyms(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFHomonyms python eiffel_feature.homonyms(i_eiffel_project,<f-args>)
 
 " DESC: Feature Implementers
-command! -nargs=* EiffelFeatureImplementers python eiffel_feature.implementers(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureImplementers python eiffel_feature.implementers(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFImplementers python eiffel_feature.implementers(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFImplementers python eiffel_feature.implementers(i_eiffel_project,<f-args>)
 
 " DESC: Feature Text
-command! -nargs=* EiffelFeatureText python eiffel_feature.text(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EiffelFeatureText python eiffel_feature.text(i_eiffel_project,<f-args>)
 
-command! -nargs=* EFText python eiffel_feature.text(i_eiffel_project,<f-args>)
+command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFText python eiffel_feature.text(i_eiffel_project,<f-args>)
 
 
 " ============================ Others commands ==============================
@@ -486,3 +486,26 @@ endpython
 	endif
 	return result
 endfunction
+
+" DESC: Used for Auto-Completion for classes name in command argument.
+" See `:help command-completion'
+function! eiffelide#list_class(ArgLead, CmdLine, CursorPos)
+	echom a:CursorPos
+python << endpython
+if i_eiffel_project:
+	vim.command("let result = " +  eiffel_class.complete_class_match(i_eiffel_project,vim.eval('a:ArgLead')))
+endpython
+	return result
+endfunction
+
+" DESC: Used for Auto-Completion for features in command argument.
+" See `:help command-completion'
+function! eiffelide#complete_freatures_commands(ArgLead, CmdLine, CursorPos)
+python << endpython
+if i_eiffel_project:
+	vim.command("let result = " +  eiffel_feature.complete_features_commands(\
+		i_eiffel_project,vim.eval('a:ArgLead'), vim.eval('a:CmdLine'),vim.eval('a:CursorPos')))
+endpython
+	return result
+endfunction
+

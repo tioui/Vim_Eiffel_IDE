@@ -17,6 +17,17 @@ function! Valide_informations(name)
 	call eiffelide#return_to_saved_window()
 endfunction
 
+python import tests_python
+
+function! eiffelide#tests#execute_python_side()
+python << endpython
+if i_eiffel_project:
+	tests_python.execute(i_eiffel_project)
+else:
+	print("Error: Eiffel_Project (python side) is not initialized.")
+endpython
+endfunction
+
 function! eiffelide#tests#execute()
 	call system("rm -rf " . eiffelide#project_path() . "/test_result")
     call system("mkdir -p " . eiffelide#project_path() . "/test_result")

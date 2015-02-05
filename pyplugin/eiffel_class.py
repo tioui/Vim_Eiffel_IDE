@@ -480,18 +480,6 @@ def match_list_feature(a_list, a_base):
     return result
 
 
-def match_list_class(a_list, a_base):
-    """
-        Every element of `a_list' that start with the same character of
-        `a_base'.
-    """
-    result = []
-    for element in a_list:
-        if a_base.upper() == element[:len(a_base)].upper():
-            result.append(element)
-    return result
-
-
 def get_local_variable(a_project):
     """
         A list of local variables declared in the previous local section.
@@ -520,17 +508,8 @@ def complete_class_match(a_project, a_base):
         A Vim compatible list of the classes of `a_project' that start with
         the characters in `a_base'
     """
-    matches = match_list_class(a_project.class_list(), a_base)
-    result = "["
-    is_first = True
-    for match in matches:
-        if is_first:
-            result = result + "\"" + match + "\""
-            is_first = False
-        else:
-            result = result + ",\"" + match + "\""
-    result = result + "]"
-    return result
+    matches = eiffel_ide.match_list_class(a_project.class_list(), a_base)
+    return str(matches)
 
 
 def is_cursor_on_client_call():

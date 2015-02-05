@@ -436,3 +436,28 @@ def text(a_project, *arguments):
                         a_project.fetch_feature_text(a_class, a_feature,
                                                      a_buffer),
                     l_class_name, l_feature_name)
+
+
+def complete_features_commands(a_project, a_base, a_command_line,
+                               a_cursor_position):
+    l_to_complete = 0
+    l_last_was_space = False
+    i = 0
+    while(i < a_cursor_position and i < len(a_command_line) and
+          l_to_complete < 2):
+        if a_command_line[i] == " ":
+            if not l_last_was_space:
+                l_to_complete = l_to_complete + 1
+                l_last_was_space = True
+        else:
+            l_last_was_space = False
+        i = i + 1
+    if l_to_complete < 2:
+        l_result = eiffel_class.complete_class_match(a_project, a_base)
+    else:
+        l_features_list = a_project.feature_list(a_command_line.split()[1])
+        print(l_features_list)
+        l_matches = eiffel_ide.match_list_class(
+            (element[0] for element in l_features_list), a_base)
+        l_result = str(l_matches)
+    return l_result

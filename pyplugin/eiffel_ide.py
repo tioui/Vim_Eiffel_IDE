@@ -195,8 +195,13 @@ def launch_process(a_project, a_routine, a_work_text, a_done_text,
         print("No Eiffel project opened")
 
 
-def test_argv(*arguments):
-    text = ""
-    for i in arguments:
-        text = text + str(i)
-    print(text)
+def match_list_class(a_list, a_base):
+    """
+        Every element of `a_list' that start with the same character of
+        `a_base'.
+    """
+    result = []
+    for element in a_list:
+        if a_base.upper() == element[:len(a_base)].upper():
+            result.append(element)
+    return result

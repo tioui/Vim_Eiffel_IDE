@@ -1,0 +1,1 @@
+['-- Comparison', "-- Does `other' contain the same elements?", '-- Status report', '-- Is there no valid cursor position to the right of cursor?', '-- Is there no valid cursor position to the left of cursor?', '-- Cursor movement', '-- Move to next position; if no next position,', '-- ensure that exhausted will be true.', '-- class LIST']
