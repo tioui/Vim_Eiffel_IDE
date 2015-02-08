@@ -581,6 +581,15 @@ class project:
         self._command_output = temp
         return l_temp_list
 
+    def creators_list(self, a_class):
+        """The list of every creator of a class"""
+        temp = self._command_output
+        self.fetch_class_creators(self.convert_class_name(a_class))
+        l_temp_list = self._tools_regex["extract_feature"].findall(
+            self.command_output())
+        self._command_output = temp
+        return l_temp_list
+
     def feature_list(self, a_class):
         """The list of every features of a class"""
         temp = self._command_output

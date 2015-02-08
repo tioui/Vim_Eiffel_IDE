@@ -7,6 +7,7 @@ What you can do with it
 -----------------------
 
 * Editing Eiffel file with syntax highlighting
+
 * Autocompletion for classes
 
 ***
@@ -15,6 +16,16 @@ What you can do with it
 	inoremap <C-G> <esc>:call eiffelide#StartClassCompletion()<cr>
 ```
 ***
+
+* Autocompletion for creator
+
+***
+	You have to assign a keyboard shortcut like this:
+```
+	inoremap <C-G> <esc>:call eiffelide#StartCreatorCompletion()<cr>
+```
+***
+
 
 * Autocompletion for feature
 
@@ -306,7 +317,6 @@ ToDo
     * Error and warning flags in code buffer.
     * Tests (autotest, statistics, etc.)
 	* Breakpoint in the environment
-	* Autocompletion for creator
 
 
 Eiffel related

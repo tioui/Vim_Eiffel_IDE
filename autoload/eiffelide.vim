@@ -23,6 +23,12 @@
 " THE SOFTWARE.
 
 
+" To map a shortcut for Class and creator completion, use the following line
+" (just change the <C-X><C-G> and <C-X><C-H>)
+inoremap <C-X><C-G> <esc>:call eiffelide#StartClassCompletion()<cr>
+inoremap <C-X><C-H> <esc>:call eiffelide#StartCreatorCompletion()<cr>
+
+
 " DESC: Redefine to change the path to the EiffelStudio (EC) compiler.
 if !exists("g:eiffelstudio_compiler")
     let g:eiffelstudio_compiler = "ec"
@@ -80,12 +86,9 @@ let &statusline = g:eiffel_tools_window_statusline
 
 " Initialize the Omnicomplete system
 let g:eiffel_complete_is_class = 0
+let g:eiffel_complete_is_creator = 0
 execute "set omnifunc=eiffelide#CompleteEiffel"
 autocmd CompleteDone * call eiffelide#EndCompletion()
-" To map a shortcut for Class completion, use the following line
-" (just change the <C-G>)
-inoremap <C-G> <esc>:call eiffelide#StartClassCompletion()<cr>
-
 
 
 " DESC: Python environment initialisation
@@ -441,10 +444,20 @@ function! eiffelide#StartClassCompletion()
 	call feedkeys("a\<c-x>\<c-o>") 
 endfunction
 
-" DESC: Used to activate completion for classes
+" DESC: Used to activate completion for creator
+function! eiffelide#StartCreatorCompletion()
+	let g:eiffel_complete_is_creator = 1
+	call feedkeys("a\<c-x>\<c-o>") 
+endfunction
+
+
+" DESC: Used to desactivate completion for classes and creator
 function! eiffelide#EndCompletion()
 	if g:eiffel_complete_is_class
 		let g:eiffel_complete_is_class = 0
+	endif
+	if g:eiffel_complete_is_creator
+		let g:eiffel_complete_is_creator = 0
 	endif
 endfunction
 
@@ -453,11 +466,14 @@ endfunction
 function! eiffelide#CompleteEiffel(findstart, base)
 	if g:eiffel_complete_is_class
 		let result = eiffelide#CompleteClass(a:findstart, a:base)
+	elseif g:eiffel_complete_is_creator
+		let result = eiffelide#CompleteCreator(a:findstart, a:base)
 	else
 		let result = eiffelide#CompleteFeature(a:findstart, a:base)
 	endif
 	return result
 endfunction
+
 
 " DESC: Used for Auto-Completion system for classes. See `:help complete-function'
 function! eiffelide#CompleteClass(findstart, base)
@@ -467,6 +483,20 @@ function! eiffelide#CompleteClass(findstart, base)
 python << endpython
 if i_eiffel_project:
 	vim.command("let result = " +  eiffel_class.complete_class_match(i_eiffel_project,vim.eval('a:base')))
+endpython
+	endif
+	return result
+endfunction
+
+
+" DESC: Used for Auto-Completion system for classes. See `:help complete-function'
+function! eiffelide#CompleteCreator(findstart, base)
+	if a:findstart
+		python vim.command("let result = " +  str(eiffel_class.complete_start()))
+	else
+python << endpython
+if i_eiffel_project:
+	vim.command("let result = " +  eiffel_class.complete_creator_match(i_eiffel_project,vim.eval('a:base')))
 endpython
 	endif
 	return result

@@ -697,3 +697,33 @@ def complete_feature_match(a_project, a_base):
             result = result + ",\"" + match + "\""
     result = result + "]"
     return result
+
+
+def complete_creator_match(a_project, a_base):
+    """
+        A string list of the creator of `a_project' that match
+        `a_base' in the current code context
+    """
+    matches = []
+    if is_cursor_on_client_call():
+        l_features = a_project.feature_list(get_class_from_buffer(a_project))
+        l_features.extend(get_local_variable(a_project))
+        l_stack = create_row_object_stack()
+        if l_stack:
+            l_index = index_of_key_in_pair(l_stack[0], l_features)
+            if l_index >= 0:
+                l_class = l_features[l_index][1]
+                if l_class:
+                    matches = match_list_feature(
+                        a_project.creators_list(l_class), a_base)
+    matches.sort(key=lambda mbr: mbr.lower())
+    result = "["
+    is_first = True
+    for match in matches:
+        if is_first:
+            result = result + "\"" + match + "\""
+            is_first = False
+        else:
+            result = result + ",\"" + match + "\""
+    result = result + "]"
+    return result
