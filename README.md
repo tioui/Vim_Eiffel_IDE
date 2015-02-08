@@ -7,6 +7,21 @@ What you can do with it
 -----------------------
 
 * Editing Eiffel file with syntax highlighting
+* Autocompletion for classes
+
+***
+	You have to assign a keyboard shortcut like this:
+```
+	inoremap <C-G> <esc>:call eiffelide#StartClassCompletion()<cr>
+```
+***
+
+* Autocompletion for feature
+
+***
+	By using the normal omnicomplete keyboard shortcut (normally CTRL-x_CTRL-o in insert mode).
+***
+
 * Opening a project config file (.ecf).
 
 ***
@@ -277,7 +292,6 @@ Not that if the buffer in the current window has been modified, the command will
 	:EFText [CLASS_NAME] [feature_name]
 ***
 
-
 ToDo
 ----
 
@@ -290,9 +304,9 @@ ToDo
     * Feature and class browser (tree view like)
     * Modification since last compilation
     * Error and warning flags in code buffer.
-    * Autocompletion
     * Tests (autotest, statistics, etc.)
 	* Breakpoint in the environment
+	* Autocompletion for creator
 
 
 Eiffel related

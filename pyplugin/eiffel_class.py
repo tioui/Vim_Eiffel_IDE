@@ -560,8 +560,7 @@ def create_row_object_stack():
     l_col = environment.previous_non_white_character_in_row(l_row, l_col)
     l_text = environment.text_of_cursor_row()
     l_result = []
-    while l_col > 0 and\
-            l_text[l_col] == ".":
+    while l_col > 0 and l_text[l_col] == ".":
         l_col = l_col - 1
         l_col = environment.previous_non_white_character_in_row(l_row, l_col)
         while l_col >= 0 and l_text[l_col] in (")", "]"):
@@ -620,8 +619,6 @@ def translate_generics_to_class(a_class_generics, a_object_generics,
         replace("\t", "").split(",")
     l_result = None
     i = 0
-    print(l_object_generics)
-    print(a_class_generics)
     while i < len(a_class_generics) and a_class_generics[i] != a_class_name:
         i = i + 1
     l_result = None
@@ -630,13 +627,13 @@ def translate_generics_to_class(a_class_generics, a_object_generics,
     return l_result
 
 
-def features_of_client_call(a_project):
+def class_and_features_of_client_call(a_project):
     """
-        Retreive the features of the current cursor context. The cursor
-        context must be a client call.
+        Retreive the name of the class under the current cursor context and
+        the list or features of this class. The cursor context must be a
+        client call.
     """
     l_features = a_project.feature_list(get_class_from_buffer(a_project))
-    l_features.extend(get_local_variable(a_project))
     l_features.extend(get_local_variable(a_project))
     l_stack = create_row_object_stack()
     l_old_class = None
@@ -646,13 +643,10 @@ def features_of_client_call(a_project):
     i = len(l_stack) - 1
     l_abort = False
     while i >= 0 and not l_abort:
-        print(l_stack[i])
         l_index = index_of_key_in_pair(l_stack[i], l_features)
         if l_index >= 0:
-            print(l_features[l_index])
             l_old_class = l_class
             l_class = l_features[l_index][1]
-            print(l_class)
             l_old_generics = l_generics
             l_generics = l_features[l_index][2]
             if l_class:
@@ -672,21 +666,20 @@ def features_of_client_call(a_project):
                 l_features = []
                 l_abort = True
         else:
-            print(l_features)
             l_features = []
             l_abort = True
         i = i - 1
-    return l_features
+    return (l_class, l_features)
 
 
 def complete_feature_match(a_project, a_base):
     """
-        A Vim compatible list of the feature of `a_project' that match
+        A string list of the feature of `a_project' that match
         `a_base' in the current code context
     """
     matches = []
     if is_cursor_on_client_call():
-        l_list = features_of_client_call(a_project)
+        l_list = class_and_features_of_client_call(a_project)[1]
         if l_list:
             matches = match_list_feature(l_list, a_base)
     else:

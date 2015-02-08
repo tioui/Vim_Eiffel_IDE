@@ -36,13 +36,14 @@ def get_feature_from_current_buffer_and_pos(a_project):
 
 def get_feature_under_the_cursor(a_project):
     """
-        Get the feature name and it's assoriate class name
-
-        ToDo:   For now, It return the current class name and the word
-                presently under the cursor as feature name
+        Get the feature name of the word under the cursor and it's assoriate
+        class name.
     """
-    return (eiffel_class.get_class_from_buffer(a_project),
-            environment.word_under_the_cursor())
+    if eiffel_class.is_cursor_on_client_call():
+        l_class = eiffel_class.class_and_features_of_client_call(a_project)[0]
+    else:
+        l_class = eiffel_class.get_class_from_buffer(a_project)
+    return (l_class, environment.word_under_the_cursor())
 
 
 def set_feature_class_and_info(a_info_name, a_class_name, a_feature_name):
@@ -440,6 +441,12 @@ def text(a_project, *arguments):
 
 def complete_features_commands(a_project, a_base, a_command_line,
                                a_cursor_position):
+    """
+        Return a text list of the possible features or classes
+        starting with `a_base' in `a_project'. Use `a_command_lise'
+        and `a_cursor_position' to validate if the function must
+        complete class names or feature names.
+    """
     l_to_complete = 0
     l_last_was_space = False
     i = 0
@@ -455,8 +462,10 @@ def complete_features_commands(a_project, a_base, a_command_line,
     if l_to_complete < 2:
         l_result = eiffel_class.complete_class_match(a_project, a_base)
     else:
-        l_features_list = a_project.feature_list(a_command_line.split()[1])
-        print(l_features_list)
+        l_class = a_command_line.split()[1]
+        if l_class == "%":
+            l_class = eiffel_class.get_class_from_buffer(a_project)
+        l_features_list = a_project.feature_list(l_class)
         l_matches = eiffel_ide.match_list_class(
             (element[0] for element in l_features_list), a_base)
         l_result = str(l_matches)

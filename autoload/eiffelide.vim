@@ -451,7 +451,6 @@ endfunction
 
 " DESC: Used for Auto-Completion system. See `:help complete-function'
 function! eiffelide#CompleteEiffel(findstart, base)
-	echom a:base
 	if g:eiffel_complete_is_class
 		let result = eiffelide#CompleteClass(a:findstart, a:base)
 	else
@@ -490,7 +489,6 @@ endfunction
 " DESC: Used for Auto-Completion for classes name in command argument.
 " See `:help command-completion'
 function! eiffelide#list_class(ArgLead, CmdLine, CursorPos)
-	echom a:CursorPos
 python << endpython
 if i_eiffel_project:
 	vim.command("let result = " +  eiffel_class.complete_class_match(i_eiffel_project,vim.eval('a:ArgLead')))
