@@ -201,10 +201,11 @@ class project:
         l_regex["extract_class"] = re.compile("[a-zA-Z_]\w*")
         l_regex["extract_feature"] =\
             re.compile("\t([_a-zA-Z]\w*)(?:[ \t]+alias[ \t]*\".*\")?[ \t]*" +
-                       "(?:\(.*\))?[ \t]*(?::[ \t]*(?:\[.*\])?[ \t]*" +
-                       "(?:(?:attached)|(?:detachable))?[ \t]*([_a-zA-Z]\w*)" +
-                       "[ \t]*(?:\[[ \t]*(?:\[[ \t]*.*[ \t]*\][ \t]*)?(.*)" +
-                       "[ \t]*\])?)?[ \t]*(?:(?:--).*)?\n")
+                       "(?:\((?:(?!obsolete).)*\))?[ \t]*(?::[ \t]*(?:\[.*\])?" +
+                       "[ \t]*(?:(?:attached)|(?:detachable))?[ \t]*" +
+                       "([_a-zA-Z]\w*)[ \t]*(?:\[[ \t]*(?:\[[ \t]*.*[ \t]*\]" +
+                       "[ \t]*)?(.*)[ \t]*\])?)?[ \t]*(?:\((obsolete)\))?"+
+                       "[ \t]*(?:(?:--).*)?\n")
         l_regex["extract_do_keywork"] =\
             re.compile("^[ \t]*(do)((([ \t])|(--)).*)?$")
         l_regex["extract_local_keywork"] =\
@@ -405,6 +406,13 @@ class project:
         if self.target_name():
             result = result + " -target " + self.target_name()
         return result
+
+    def fetch_system_classes(self, a_window=None):
+        """
+            Fetch and optionnaly print on `a_window' the all system classes
+            organise in clusters
+        """
+        self._execute_compiler("S\nL\nQ\n", ["-loop"], a_window, False, True)
 
     def fetch_class_flat(self, a_class, a_window=None):
         """

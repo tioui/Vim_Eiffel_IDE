@@ -16,6 +16,29 @@ endif
 " Don't load another plugin for this buffer
 let b:did_ftplugin = 1
 
+setlocal foldmethod=expr
+setlocal foldexpr=GetEiffelFoldValue(v:lnum)
+
+" DESC: Used by GetEiffelFoldValue to get the first line of a folding bloc
+function! IsLineFoldStart(line)
+	return a:line =~? '\v^\s*feature(\s*\{.*\})?(\s*(--.*)?)?'
+		\ || a:line =~? '\v^\s*invariant(\s*(--.*)?)?'
+endfunction
+
+" DESC: Used for Eiffel folding
+" See `:help foldexpr'
+function! GetEiffelFoldValue(lnum)
+	let current_line = getline(a:lnum)
+	if IsLineFoldStart(getline(a:lnum))
+		let result = ">1"
+	elseif IsLineFoldStart(getline(a:lnum + 1)) && l:current_line =~? '\v^\s*$'
+		let result = 0
+	else
+		let result = "="
+	endif
+	return l:result
+endfunction
+
 " Matchit handling
 " The following lines enable the macros/matchit.vim plugin for
 " extended matching with the % key.

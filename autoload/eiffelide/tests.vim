@@ -33,32 +33,30 @@ function! eiffelide#tests#execute()
     call system("mkdir -p " . eiffelide#project_path() . "/test_result")
 
 	" Compilation tests
-	EiffelCompile
-	call Valide_compilation("EiffelCompile")
-	ECompile
-	call Valide_compilation("ECompile")
-	EC
-	call Valide_compilation("EC")
-	EiffelRecompile
-	call Valide_compilation("EiffelRecompile")
-	ERecompile
-	call Valide_compilation("ERecompile")
-	EiffelFinalize
-	call Valide_compilation("EiffelFinalize")
-	EFinalize
-	call Valide_compilation("EFinalize")
-	EiffelFreeze
-	call Valide_compilation("EiffelFreeze")
-	EFreeze
-	call Valide_compilation("EFreeze")
-	EiffelMelt
-	call Valide_compilation("EiffelMelt")
-	EMelt
-	call Valide_compilation("EMelt")
-	EiffelQuickMelt
-	call Valide_compilation("EiffelQuickMelt")
-	EQuickMelt
-	call Valide_compilation("EQuickMelt")
+	EiffelSystemCompile
+	call Valide_compilation("EiffelSystemCompile")
+	ESCompile
+	call Valide_compilation("ESCompile")
+	EiffelSystemRecompile
+	call Valide_compilation("EiffelSystemRecompile")
+	ESRecompile
+	call Valide_compilation("ESRecompile")
+	EiffelSystemFinalize
+	call Valide_compilation("EiffelSystemFinalize")
+	ESFinalize
+	call Valide_compilation("ESFinalize")
+	EiffelSystemFreeze
+	call Valide_compilation("EiffelSystemFreeze")
+	ESFreeze
+	call Valide_compilation("ESFreeze")
+	EiffelSystemMelt
+	call Valide_compilation("EiffelSystemMelt")
+	ESMelt
+	call Valide_compilation("ESMelt")
+	EiffelSystemQuickMelt
+	call Valide_compilation("EiffelSystemQuickMelt")
+	ESQuickMelt
+	call Valide_compilation("ESQuickMelt")
 	
 	" Class tests
 	EiffelClassFlat ANY
@@ -183,7 +181,10 @@ function! eiffelide#tests#execute()
 	call Valide_informations("EiffelFeatureText")
 	EFText CONSOLE read_stream_thread_aware
 	call Valide_informations("EFText")
-
+	EiffelSystemClasses
+	call Valide_informations("EiffelSystemClasses")
+	ESClasses
+	call Valide_informations("ESClasses")
 
 	echo "Tests done."
 endfunction

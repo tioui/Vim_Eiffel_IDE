@@ -11,7 +11,7 @@ What you can do with it
 * Autocompletion for classes
 
 ***
-	You have to assign a keyboard shortcut like this:
+	You have to assign a keyboard shortcut like this (see the file: autoload/eiffelide.vim):
 ```
 	inoremap <C-G> <esc>:call eiffelide#StartClassCompletion()<cr>
 ```
@@ -20,7 +20,7 @@ What you can do with it
 * Autocompletion for creator
 
 ***
-	You have to assign a keyboard shortcut like this:
+	You have to assign a keyboard shortcut like this (see the file: autoload/eiffelide.vim):
 ```
 	inoremap <C-G> <esc>:call eiffelide#StartCreatorCompletion()<cr>
 ```
@@ -43,44 +43,52 @@ What you can do with it
 * Compiling a project from scratch (a project must be open)
 
 ***
-    :EiffelRecompile
-    :ERecompile
+    :EiffelSystemRecompile
+    :ESRecompile
 ***
 
 * Freezing a project (a project must be open)
 
 ***
-    :EiffelFreeze
-    :EFreeze
+    :EiffelSystemFreeze
+    :ESFreeze
 ***
 
 * Melting a project (a project must be open)
 
 ***
-    :EiffelMelt
-    :EMelt
+    :EiffelSystemMelt
+    :ESMelt
 ***
 
 * Quick Melting a project (a project must be open)
 
 ***
-    :EiffelQuickMelt
-    :EQuickMelt
+    :EiffelSystemQuickMelt
+    :ESQuickMelt
 ***
 
 * A quick on the fly compilation. Like a Quick melting, but keep the focus on 
 the current source code. (a project must be open)
 
 ***
-    :EiffelCompile
-    :ECompile
+    :EiffelSystemCompile
+    :ESCompile
     :EC
 ***
 
 * Running and debugging (a project must be open)
 
 ***
+	:EiffelRun
 	:ERun
+***
+
+* Listing system classes orginized in clusters
+
+***
+	:EiffelSystemClasses
+	:ESClasses
 ***
 
 * Edit a class (a project must be open)
@@ -89,7 +97,7 @@ the current source code. (a project must be open)
 	:EiffelClassEdit [CLASS_NAME]
 	:ECEdit [CLASS_NAME]
 
-Not that if the buffer in the current window has been modified, the command will fail. If you want to force to override use those command:
+Note that if the buffer in the current window has been modified, the command will fail. If you want to force to override use those command:
 
 	:EiffelClassEditF [CLASS_NAME]
 	:ECEditF [CLASS_NAME]
@@ -306,11 +314,6 @@ Not that if the buffer in the current window has been modified, the command will
 ToDo
 ----
 
-* Cluster informations
-    * Classes in alphabetic order
-    * Cluster hierarchy
-    * Classes, Cluster by cluster
-    * Indexing clauses of classes
 * Vim environment
     * Feature and class browser (tree view like)
     * Modification since last compilation

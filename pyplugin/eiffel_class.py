@@ -105,6 +105,7 @@ def flat(a_project, *arguments):
                   lambda a_class, a_buffer:
                       a_project.fetch_class_flat(a_class, a_buffer),
                   l_class_name)
+    environment.eiffel_fold()
 
 
 def ancestors(a_project, *arguments):
@@ -256,6 +257,7 @@ def flatshort(a_project, *arguments):
                   lambda a_class, a_buffer:
                       a_project.fetch_class_flatshort(a_class, a_buffer),
                   l_class_name)
+    environment.eiffel_fold()
 
 
 def once(a_project, *arguments):
@@ -350,6 +352,7 @@ def short(a_project, *arguments):
                   lambda a_class, a_buffer:
                       a_project.fetch_class_short(a_class, a_buffer),
                   l_class_name)
+    environment.eiffel_fold()
 
 
 def suppliers(a_project, *arguments):
@@ -388,6 +391,7 @@ def text(a_project, *arguments):
                   lambda a_class, a_buffer:
                       a_project.fetch_class_text(a_class, a_buffer),
                   l_class_name)
+    environment.eiffel_fold()
 
 
 def _edit_command_and_flag(is_split, is_vertical, is_tab, force_edit):
@@ -680,8 +684,13 @@ def complete_feature_match(a_project, a_base):
     matches = []
     if is_cursor_on_client_call():
         l_list = class_and_features_of_client_call(a_project)[1]
-        if l_list:
-            matches = match_list_feature(l_list, a_base)
+        print(l_list)
+        l_not_obsolete_feature = []
+        for element in l_list:
+            if not element[3]:
+                l_not_obsolete_feature.append(element)
+        if l_not_obsolete_feature:
+            matches = match_list_feature(l_not_obsolete_feature, a_base)
     else:
         l_list = a_project.feature_list(get_class_from_buffer(a_project))
         l_list.extend(get_local_variable(a_project))

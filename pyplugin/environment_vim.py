@@ -263,6 +263,23 @@ def show_error(message):
     execute("echoerr \"" + message + "\"")
 
 
+def indent_fold():
+    """Put the fold indentation."""
+    execute("setlocal foldmethod=expr")
+    execute("setlocal foldexpr=eiffelide#indent_fold(v:lnum)")
+
+
+def manual_fold():
+    """Put the manual fold."""
+    execute("setlocal foldmethod=manual")
+
+
+def eiffel_fold():
+    """Put the eiffel specific fold."""
+    execute("setlocal foldmethod=expr")
+    execute("setlocal foldexpr=GetEiffelFoldValue(v:lnum)")
+
+
 class window:
     """A Vim window."""
 

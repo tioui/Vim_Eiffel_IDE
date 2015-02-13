@@ -96,7 +96,7 @@ python import sys, vim
 
 python sys.path.insert(0, vim.eval('g:eiffel_plugin_root')+"/pyplugin")
 
-python import eiffel_project, eiffel_ide, eiffel_compilation, eiffel_class
+python import eiffel_project, eiffel_ide, eiffel_system, eiffel_class
 python import eiffel_feature
 
 " DESC: The Eiffel Project python object
@@ -106,41 +106,49 @@ python i_eiffel_project = None
 
 
 
-" ========================== Compilation commands============================
+" ========================== System commands============================
 
 " DESC: Command shortcuts for a simple speedy compilation
-command! EiffelCompile python eiffel_compilation.quick_melt_no_focus(i_eiffel_project)
+command! EiffelSystemCompile python eiffel_system.quick_melt_no_focus(i_eiffel_project)
 
-command! ECompile EiffelCompile 
-
-command! EC EiffelCompile 
+command! ESCompile EiffelSystemCompile 
 
 " DESC: Command shortcuts for a 'Recompile from scratch' compilation
-command! EiffelRecompile python eiffel_compilation.recompile(i_eiffel_project)
+command! EiffelSystemRecompile python eiffel_system.recompile(i_eiffel_project)
 
-command! ERecompile EiffelRecompile 
+command! ESRecompile EiffelSystemRecompile 
 
 " DESC: Command shortcuts for a 'Finalize' compilation.
-command! EiffelFinalize python eiffel_compilation.finalize(i_eiffel_project)
+command! EiffelSystemFinalize python eiffel_system.finalize(i_eiffel_project)
 
-command! EFinalize EiffelFinalize 
+command! ESFinalize EiffelSystemFinalize 
 
 " DESC: Command shortcuts for a 'Freeze' compilation.
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-command! EiffelFreeze python eiffel_compilation.freeze(i_eiffel_project)
+command! EiffelSystemFreeze python eiffel_system.freeze(i_eiffel_project)
 
-command! EFreeze EiffelFreeze 
+command! ESFreeze EiffelSystemFreeze 
 
 " DESC: Command shortcut for a 'Melting' compilation
 " SEE: http://docs.eiffel.com/book/eiffelstudio/melting-ice-technology
-command! EiffelMelt python eiffel_compilation.melt(i_eiffel_project)
+command! EiffelSystemMelt python eiffel_system.melt(i_eiffel_project)
 
-command! EMelt EiffelMelt
+command! ESMelt EiffelSystemMelt
 
 " DESC: Command shortcut for a 'Quick Melting' compilation
-command! EiffelQuickMelt python eiffel_compilation.quick_melt(i_eiffel_project)
+command! EiffelSystemQuickMelt python eiffel_system.quick_melt(i_eiffel_project)
 
-command! EQuickMelt EiffelQuickMelt
+command! ESQuickMelt EiffelSystemQuickMelt
+
+" DESC: Run and Debug
+command! EiffelSystemRun python eiffel_ide.run_project(i_eiffel_project)
+
+command! ESRun EiffelSystemRun
+
+" DESC: Class list
+command! EiffelSystemClasses python eiffel_system.list_classes(i_eiffel_project)
+
+command! ESClasses python eiffel_system.list_classes(i_eiffel_project)
 
 " DESC: Command shortcuts for Eiffel project information.
 command! EiffelProject echom eiffelide#config_file()
@@ -266,7 +274,6 @@ command! -complete=customlist,eiffelide#list_class -nargs=* EiffelClassEditTab p
 
 command! -complete=customlist,eiffelide#list_class -nargs=* ECEditTab python eiffel_class.edit(i_eiffel_project, False, False, True, False, <f-args>)
 
-
 " ====================== Feature informations commands =======================
 
 " DESC: Feature Ancestors
@@ -331,12 +338,6 @@ command! -complete=customlist,eiffelide#complete_freatures_commands -nargs=* EFT
 
 
 " ============================ Others commands ==============================
-
-" DESC: Run and Debug
-command! EiffelRun python eiffel_ide.run_project(i_eiffel_project)
-
-command! ERun EiffelRun
-
 " ============================ Common routines ============================
 
 
@@ -376,7 +377,7 @@ function! eiffelide#open(...)
     else
 		python i_eiffel_project = eiffel_project.project(vim.eval('config_file'))
     endif
-	EiffelQuickMelt
+	EiffelSystemQuickMelt
 endfunction
 
 " DESC: Open an Eiffel Project. The first optionnal argument is the Eiffel 
@@ -536,4 +537,21 @@ if i_eiffel_project:
 endpython
 	return result
 endfunction
+
+" DESC: Used for indentation folding
+" See `:help foldexpr'
+function! eiffelide#indent_fold(lnum)
+	if getline(a:lnum) =~? '\v^\s*$'
+		let result = -1
+	else
+		if indent(a:lnum) < indent(a:lnum + 1)
+			let result = ">" . indent(a:lnum + 1)
+		else
+			let result = indent(a:lnum)
+		endif
+	endif
+	return result
+endfunction
+
+
 

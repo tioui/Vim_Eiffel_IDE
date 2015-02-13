@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import environment_vim as environment
 import eiffel_ide
 import eiffel_feature
 
@@ -93,3 +94,15 @@ def quick_melt_no_focus(a_project):
                               "Quick Melting...", "Quick Meting output", False,
                               False, lambda:
                               eiffel_feature.unset_feature_class_and_info())
+
+
+def list_classes(a_project):
+    """
+        List all classes organize by cluster
+    """
+    eiffel_ide.launch_process(a_project,
+                              lambda window: a_project.fetch_system_classes(
+                                  window), "Getting system classes",
+                              "System classes", False, True, lambda:
+                              eiffel_feature.unset_feature_class_and_info())
+    environment.indent_fold()

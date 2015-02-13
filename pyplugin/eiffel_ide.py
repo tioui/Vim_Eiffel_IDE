@@ -181,6 +181,7 @@ def launch_process(a_project, a_routine, a_work_text, a_done_text,
         `a_always_focus' Always focus the Eiffel tools window on exit.
     """
     if a_project:
+        environment.manual_fold()
         save_current_window_and_open_tools_window()
         set_tools_window_text(a_work_text)
         tools_buffer_number = get_tools_buffer_number()
