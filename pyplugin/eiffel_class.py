@@ -33,8 +33,11 @@ def get_class_from_buffer(a_project):
     """
     if environment.evaluate("bufname('%')") ==\
             environment.get_global_variable("eiffel_tools_buffer_name"):
-        l_class =\
-            environment.get_buffer_variable("eiffel_tools_buffer_class")
+        try:
+            l_class =\
+                environment.get_buffer_variable("eiffel_tools_buffer_class")
+        except:
+            l_class = ""
     else:
         l_buffer_text = environment.buffer_to_text()
         l_class = a_project.class_name_from_text(l_buffer_text)
@@ -490,7 +493,6 @@ def get_local_variable(a_project):
     """
     do_regex = a_project.get_tools_regex("extract_do_keywork")
     local_regex = a_project.get_tools_regex("extract_local_keywork")
-    variable_regex = a_project.get_tools_regex("extract_local_variable")
     text_list = environment.text_list()
     i = environment.get_cursor_row()
     do_row = -1
@@ -499,11 +501,11 @@ def get_local_variable(a_project):
         if do_regex.search(text_list[i]):
             do_row = i
         i = i - 1
-        while i >= 0 and not local_regex.search(text_list[i]):
-            l_find = variable_regex.findall(text_list[i])
-            if l_find:
-                l_result.append(l_find[0])
-            i = i - 1
+    while i >= 0 and not local_regex.search(text_list[i]):
+        l_variables = get_variable_from_line(a_project, text_list[i])
+        if l_variables:
+            l_result.extend(l_variables)
+        i = i - 1
     return l_result
 
 
@@ -631,6 +633,62 @@ def translate_generics_to_class(a_class_generics, a_object_generics,
     return l_result
 
 
+def get_variable_from_line(a_project, a_variable_line):
+    """
+        Parse a variable declaration line (like "a, b, c:INTEGER")
+        and return a list of tuple containing 0: variable name,
+        1: Type, 2: Generic, 3: Empty string (those feature are not
+        obsolete)
+    """
+    l_variable_regex = a_project.get_tools_regex("extract_local_variable")
+    l_variable_values = l_variable_regex.findall(a_variable_line)
+    l_result = []
+    if l_variable_values:
+        l_variable_names = l_variable_values[0][0].replace(" ", "").\
+            replace("\t", "").split(",")
+        for name in l_variable_names:
+            l_result.append((name, l_variable_values[0][1],
+                            l_variable_values[0][2], ""))
+    return l_result
+
+
+def get_arguments_from_lines(a_project, a_arguments_line):
+    """
+        Parse an argument declaration line
+        (like "a, b, c:INTEGER; d, e:STRING")
+        and return a list of tuple containing 0: variable name,
+        1: Type, 2: Generic, 3: Empty string (those feature are not
+        obsolete)
+    """
+    l_type_list = a_arguments_line.split(";")
+    l_argument_list = []
+    for element in l_type_list:
+        l_variables = get_variable_from_line(a_project, element)
+        if l_variables:
+            l_argument_list.extend(l_variables)
+    return l_argument_list
+
+
+def get_result_and_arguments(a_project):
+    """
+        Found the signature of the current routine and return a list
+        of tuple for Result and arguments containing 0: variable name,
+        1: Type, 2: Generic, 3: Empty string (those feature are not
+        obsolete)
+    """
+    l_signature_row = eiffel_ide.find_last_routine_header(a_project)
+    l_signature_regex = a_project.get_tools_regex("extract_signature")
+    l_signature_values =\
+        l_signature_regex.findall(environment.text_list()[l_signature_row])
+    l_result = []
+    if l_signature_values[0][1]:
+        l_result.append(("Result", l_signature_values[0][1],
+                         l_signature_values[0][2], ""))
+    l_result.extend(get_arguments_from_lines(a_project,
+                                             l_signature_values[0][0]))
+    return l_result
+
+
 def class_and_features_of_client_call(a_project):
     """
         Retreive the name of the class under the current cursor context and
@@ -639,6 +697,7 @@ def class_and_features_of_client_call(a_project):
     """
     l_features = a_project.feature_list(get_class_from_buffer(a_project))
     l_features.extend(get_local_variable(a_project))
+    l_features.extend(get_result_and_arguments(a_project))
     l_stack = create_row_object_stack()
     l_old_class = None
     l_class = None
@@ -684,7 +743,6 @@ def complete_feature_match(a_project, a_base):
     matches = []
     if is_cursor_on_client_call():
         l_list = class_and_features_of_client_call(a_project)[1]
-        print(l_list)
         l_not_obsolete_feature = []
         for element in l_list:
             if not element[3]:
@@ -694,6 +752,7 @@ def complete_feature_match(a_project, a_base):
     else:
         l_list = a_project.feature_list(get_class_from_buffer(a_project))
         l_list.extend(get_local_variable(a_project))
+        l_list.extend(get_result_and_arguments(a_project))
         matches = match_list_feature(l_list, a_base)
     matches.sort(key=lambda mbr: mbr.lower())
     result = "["
@@ -717,6 +776,7 @@ def complete_creator_match(a_project, a_base):
     if is_cursor_on_client_call():
         l_features = a_project.feature_list(get_class_from_buffer(a_project))
         l_features.extend(get_local_variable(a_project))
+        l_features.extend(get_result_and_arguments(a_project))
         l_stack = create_row_object_stack()
         if l_stack:
             l_index = index_of_key_in_pair(l_stack[0], l_features)

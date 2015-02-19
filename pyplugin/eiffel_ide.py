@@ -181,11 +181,11 @@ def launch_process(a_project, a_routine, a_work_text, a_done_text,
         `a_always_focus' Always focus the Eiffel tools window on exit.
     """
     if a_project:
-        environment.manual_fold()
         save_current_window_and_open_tools_window()
         set_tools_window_text(a_work_text)
         tools_buffer_number = get_tools_buffer_number()
         tools_buffer = environment.window(tools_buffer_number, True)
+        environment.manual_fold()
         a_routine(tools_buffer)
         if post_routine:
             post_routine()
@@ -206,3 +206,57 @@ def match_list_class(a_list, a_base):
         if a_base.upper() == element[:len(a_base)].upper():
             result.append(element)
     return result
+
+
+def _find_last_regex_match(a_from_row, a_regex, a_text_list):
+    """
+        Retreive the previous line number (before `a_from_row') of
+        `a_text_list' that match at least one regular expression of
+        `a_regex'.
+    """
+    l_row = a_from_row - 1
+    while l_row >= 0 and not any((a_regex[la_key].match(a_text_list[l_row])
+                                  for la_key in a_regex)):
+        l_row = l_row - 1
+    return l_row
+
+
+def find_last_routine_header(a_project):
+    """
+        Retreive the line number of the last routine header (signature)
+    """
+    l_signature_regex = a_project.get_tools_regex("extract_signature")
+    l_local_regex = a_project.get_tools_regex("extract_local_keywork")
+    l_require_regex = a_project.get_tools_regex("extract_require_keywork")
+    l_end_regex = a_project.get_tools_regex("extract_end_keywork")
+    l_feature_regex = a_project.get_tools_regex("extract_feature_keywork")
+    l_final_regex = {"end": l_end_regex, "feature": l_feature_regex}
+    l_first_regex = {"feature": l_feature_regex,
+                     "do": a_project.get_tools_regex("extract_do_keywork")}
+    l_section_regex = {"local": l_local_regex, "require": l_require_regex}
+    l_regex = {
+        "end": l_end_regex, "feature": l_feature_regex, "local": l_local_regex,
+        "require": l_require_regex, "signature": l_signature_regex,
+        "require": l_require_regex
+    }
+    l_text_list = environment.text_list()
+    l_row = _find_last_regex_match(environment.get_cursor_row(),
+                                   l_first_regex, l_text_list)
+    l_result = -1
+    l_row = _find_last_regex_match(l_row, l_regex, l_text_list)
+    while l_row >= 0 and\
+            not any((l_final_regex[la_key].match(l_text_list[l_row])
+                     for la_key in l_final_regex)):
+        if any((l_section_regex[la_key].match(l_text_list[l_row]) for la_key in
+                l_section_regex)):
+            l_result = -1
+            if "local" in l_regex:
+                del(l_regex["local"])
+            if l_require_regex.match(l_text_list[l_row]):
+                del(l_regex["require"])
+        elif l_signature_regex.match(l_text_list[l_row]):
+            if l_result == -1:
+                l_result = l_row
+        l_row = _find_last_regex_match(l_row, l_regex,
+                                       l_text_list)
+    return l_result

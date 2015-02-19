@@ -186,40 +186,50 @@ class project:
             that is not used for error and warning
             (see: `_init_error_warning_regex')
         """
-        l_regex = {
-            "comment": re.compile("--.*$", re.MULTILINE)
+        self._tools_regex = {
+            "comment": re.compile("--.*$", re.MULTILINE),
+            "string": re.compile(
+                '("\[(([^\]%]|\n)|%(.|\n)|\][^"])*?\]")|("([^"%\n]|%.)*?")',
+                re.MULTILINE
+                ),
+            "class": re.compile("\Wclass[\n\r\t ]*(\w*)", re.MULTILINE),
+            "extract_class_line": re.compile("\t[^(\n\t]*\n"),
+            "extract_class": re.compile("[a-zA-Z_]\w*"),
+            "extract_feature": re.compile(
+                "\t([_a-zA-Z]\w*)" +
+                "(?:[ \t]+alias[ \t]*\".*\")?[ \t]*" +
+                "(?:\((?:(?!obsolete).)*\))?[ \t]*(?::[ \t]*(?:\[.*\])?" +
+                "[ \t]*(?:(?:attached)|(?:detachable))?[ \t]*" +
+                "([_a-zA-Z]\w*)[ \t]*(?:\[[ \t]*(?:\[[ \t]*.*[ \t]*\]" +
+                "[ \t]*)?(.*)[ \t]*\])?)?[ \t]*(?:\((obsolete)\))?" +
+                "[ \t]*(?:(?:--).*)?\n"),
+            "extract_signature": re.compile(
+                "^[ \t]*(?:[_a-zA-Z]\w*)" +
+                "(?:[ \t]+alias[ \t]*\".*\")?[ \t]*(?:\((.*)\))?[ \t]*" +
+                "(?::[ \t]*[ \t]*(?:(?:attached)|(?:detachable))?[ \t]*" +
+                "([_a-zA-Z]\w*)[ \t]*(?:\[[ \t]*(.*)[ \t]*\])?" +
+                "(?:[ \t]*assign[ \t]*[_a-zA-Z]\w*)?)?[ \t]*" +
+                "(?:(?:--).*)?$"),
+            "extract_do_keywork": re.compile(
+                "^[ \t]*(do)((([ \t])|(--)).*)?$"),
+            "extract_end_keywork": re.compile(
+                "^[ \t]*(end)((([ \t])|(--)).*)?$"),
+            "extract_local_keywork": re.compile(
+                "^[ \t]*(local)((([ \t])|(--)).*)?$"),
+            "extract_require_keywork": re.compile(
+                "^[ \t]*(require)([ \t](else))?((([ \t])|(--)).*)?$"),
+            "extract_feature_keywork": re.compile(
+                "^[ \t]*feature[ \n]*(?:\{.*\})?((([ \t])|(--)).*)?$"),
+            "extract_local_variable": re.compile(
+                "^[ \t]*([_a-zA-Z]\w*(?:[ \t]*\,[ \t]*[_a-zA-Z]\w*)*)[ \t]*" +
+                "(?::[ \t]*([_a-zA-Z]\w*)[ \t]*(?:\[[ \t]*" +
+                "(?:\[[ \t]*.*[ \t]*\][ \t]*)?(.*)[ \t]*\])?)[ \t]*" +
+                "(?:(?:--).*)?$"),
+            "extract_generics_clause": re.compile(
+                "\n(?:deferred )?class.*\n\t(?:[a-zA-Z_]\w*) \[(.*)\].*",
+                re.MULTILINE),
+            "extract_generics": re.compile("([a-zA-Z_]\w*)[^,$]*")
         }
-        l_regex["string"] = re.compile(
-            '("\[(([^\]%]|\n)|%(.|\n)|\][^"])*?\]")|("([^"%\n]|%.)*?")',
-            re.MULTILINE
-        )
-        l_regex["class"] = re.compile(
-            "\Wclass[\n\r\t ]*(\w*)",
-            re.MULTILINE
-        )
-        l_regex["extract_class_line"] = re.compile("\t[^(\n\t]*\n")
-        l_regex["extract_class"] = re.compile("[a-zA-Z_]\w*")
-        l_regex["extract_feature"] =\
-            re.compile("\t([_a-zA-Z]\w*)(?:[ \t]+alias[ \t]*\".*\")?[ \t]*" +
-                       "(?:\((?:(?!obsolete).)*\))?[ \t]*(?::[ \t]*(?:\[.*\])?" +
-                       "[ \t]*(?:(?:attached)|(?:detachable))?[ \t]*" +
-                       "([_a-zA-Z]\w*)[ \t]*(?:\[[ \t]*(?:\[[ \t]*.*[ \t]*\]" +
-                       "[ \t]*)?(.*)[ \t]*\])?)?[ \t]*(?:\((obsolete)\))?"+
-                       "[ \t]*(?:(?:--).*)?\n")
-        l_regex["extract_do_keywork"] =\
-            re.compile("^[ \t]*(do)((([ \t])|(--)).*)?$")
-        l_regex["extract_local_keywork"] =\
-            re.compile("^[ \t]*(local)((([ \t])|(--)).*)?$")
-        l_regex["extract_local_variable"] =\
-            re.compile("^[ \t]*([_a-zA-Z]\w*)[ \t]*" +
-                       "(?::[ \t]*([_a-zA-Z]\w*)[ \t]*" +
-                       "(?:\[[ \t]*(?:\[[ \t]*.*[ \t]*\][ \t]*)?" +
-                       "(.*)[ \t]*\])?)[ \t]*(?:(?:--).*)?$")
-        l_regex["extract_generics_clause"] = re.compile(
-            "\n(?:deferred )?class.*\n\t(?:[a-zA-Z_]\w*) \[(.*)\].*",
-            re.MULTILINE)
-        l_regex["extract_generics"] = re.compile("([a-zA-Z_]\w*)[^,$]*")
-        self._tools_regex = l_regex
 
     def __init__(self, a_config_file, a_target_name=None):
         """Constructor of `Current' using `a_config_file' as config

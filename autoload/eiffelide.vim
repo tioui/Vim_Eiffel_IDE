@@ -113,6 +113,8 @@ command! EiffelSystemCompile python eiffel_system.quick_melt_no_focus(i_eiffel_p
 
 command! ESCompile EiffelSystemCompile 
 
+command! EC EiffelSystemCompile
+
 " DESC: Command shortcuts for a 'Recompile from scratch' compilation
 command! EiffelSystemRecompile python eiffel_system.recompile(i_eiffel_project)
 
