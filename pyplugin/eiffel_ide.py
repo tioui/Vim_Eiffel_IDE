@@ -232,12 +232,15 @@ def find_last_routine_header(a_project):
     l_feature_regex = a_project.get_tools_regex("extract_feature_keywork")
     l_final_regex = {"end": l_end_regex, "feature": l_feature_regex}
     l_first_regex = {"feature": l_feature_regex,
-                     "do": a_project.get_tools_regex("extract_do_keywork")}
+                     "do": a_project.get_tools_regex("extract_do_keywork"),
+                     "deferred": a_project.get_tools_regex(
+                         "extract_deferred_keywork"),
+                     "require": a_project.get_tools_regex(
+                         "extract_require_keywork")}
     l_section_regex = {"local": l_local_regex, "require": l_require_regex}
     l_regex = {
         "end": l_end_regex, "feature": l_feature_regex, "local": l_local_regex,
-        "require": l_require_regex, "signature": l_signature_regex,
-        "require": l_require_regex
+        "require": l_require_regex, "signature": l_signature_regex
     }
     l_text_list = environment.text_list()
     l_row = _find_last_regex_match(environment.get_cursor_row(),

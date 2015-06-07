@@ -9,6 +9,16 @@ product alias "*" from INTEGER_8_REF
 product alias "*" from INTEGER_8
 	INTEGER_8_REF
 		product alias "*"
+product alias "*" from REAL_32_REF
+	REAL_32
+		product alias "*"
+	REAL_32_REF
+		default_create
+		item
+		set_item
+product alias "*" from REAL_32
+	REAL_32_REF
+		product alias "*"
 product alias "*" from INTEGER_64_REF
 	INTEGER_64
 		product alias "*"
@@ -38,16 +48,6 @@ product alias "*" from NATURAL_8_REF
 		set_item
 product alias "*" from NATURAL_8
 	NATURAL_8_REF
-		product alias "*"
-product alias "*" from REAL_32_REF
-	REAL_32
-		product alias "*"
-	REAL_32_REF
-		default_create
-		item
-		set_item
-product alias "*" from REAL_32
-	REAL_32_REF
 		product alias "*"
 product alias "*" from NATURAL_32_REF
 	NATURAL_32

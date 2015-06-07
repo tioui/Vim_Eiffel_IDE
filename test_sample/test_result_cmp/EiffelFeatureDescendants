@@ -34,7 +34,7 @@ CHARACTER_PROPERTY is_equal (other: [attached like Current] attached CHARACTER_P
 	Version from class ANY
 STD_FILES is_equal (other: [attached like Current] attached STD_FILES): BOOLEAN
 	Version from class ANY
-UNIX_SIGNALS is_equal (other: [attached like Current] attached UNIX_SIGNALS): BOOLEAN
+OPERATING_ENVIRONMENT is_equal (other: [attached like Current] attached OPERATING_ENVIRONMENT): BOOLEAN
 	Version from class ANY
 VERSIONABLE is_equal (other: [attached like Current] attached VERSIONABLE): BOOLEAN
 	Version from class ANY
@@ -50,7 +50,7 @@ PROFILING_SETTING is_equal (other: [attached like Current] attached PROFILING_SE
 	Version from class ANY
 TRACING_SETTING is_equal (other: [attached like Current] attached TRACING_SETTING): BOOLEAN
 	Version from class ANY
-OPERATING_ENVIRONMENT is_equal (other: [attached like Current] attached OPERATING_ENVIRONMENT): BOOLEAN
+UNIX_SIGNALS is_equal (other: [attached like Current] attached UNIX_SIGNALS): BOOLEAN
 	Version from class ANY
 SYSTEM_STRING is_equal (other: [attached like Current] attached SYSTEM_STRING): BOOLEAN
 	Version from class ANY
@@ -98,13 +98,17 @@ RT_EXTENSION is_equal (other: [attached like Current] attached RT_EXTENSION): BO
 	Version from class ANY
 RT_DBG_COMMON is_equal (other: [attached like Current] attached RT_DBG_COMMON): BOOLEAN
 	Version from class ANY
+MEMORY_STRUCTURE is_equal (other: [attached like Current] attached MEMORY_STRUCTURE): BOOLEAN
+	Version from class ANY
 OBJECT_GRAPH_TRAVERSABLE is_equal (other: [attached like Current] attached OBJECT_GRAPH_TRAVERSABLE): BOOLEAN
 	Version from class ANY
 OBJECT_GRAPH_DEPTH_FIRST_TRAVERSABLE is_equal (other: [attached like Current] attached OBJECT_GRAPH_DEPTH_FIRST_TRAVERSABLE): BOOLEAN
 	Version from class ANY
 OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE is_equal (other: [attached like Current] attached OBJECT_GRAPH_BREADTH_FIRST_TRAVERSABLE): BOOLEAN
 	Version from class ANY
-MEMORY_STRUCTURE is_equal (other: [attached like Current] attached MEMORY_STRUCTURE): BOOLEAN
+EXCEPTION_MANAGER is_equal (other: [attached like Current] attached EXCEPTION_MANAGER): BOOLEAN
+	Version from class ANY
+ISE_EXCEPTION_MANAGER is_equal (other: [attached like Current] attached ISE_EXCEPTION_MANAGER): BOOLEAN
 	Version from class ANY
 REFLECTOR_HELPER is_equal (other: [attached like Current] attached REFLECTOR_HELPER): BOOLEAN
 	Version from class ANY
@@ -227,10 +231,6 @@ SED_BASIC_SERIALIZER is_equal (other: [attached like Current] attached SED_BASIC
 SED_RECOVERABLE_SERIALIZER is_equal (other: [attached like Current] attached SED_RECOVERABLE_SERIALIZER): BOOLEAN
 	Version from class ANY
 SED_INDEPENDENT_SERIALIZER is_equal (other: [attached like Current] attached SED_INDEPENDENT_SERIALIZER): BOOLEAN
-	Version from class ANY
-EXCEPTION_MANAGER is_equal (other: [attached like Current] attached EXCEPTION_MANAGER): BOOLEAN
-	Version from class ANY
-ISE_EXCEPTION_MANAGER is_equal (other: [attached like Current] attached ISE_EXCEPTION_MANAGER): BOOLEAN
 	Version from class ANY
 SED_SESSION_DESERIALIZER is_equal (other: [attached like Current] attached SED_SESSION_DESERIALIZER): BOOLEAN
 	Version from class ANY
@@ -542,9 +542,9 @@ HASH_TABLE is_equal (other: [like Current] attached HASH_TABLE [G, K]): BOOLEAN
 	Version from class HASH_TABLE
 STRING_TABLE is_equal (other: [like Current] attached STRING_TABLE [G]): BOOLEAN
 	Version from class STRING_TABLE
-MISMATCH_INFORMATION is_equal (other: [attached like Current] attached MISMATCH_INFORMATION): BOOLEAN
-	Version from class HASH_TABLE
 CLASS_NAME_TRANSLATIONS is_equal (other: [attached like Current] attached CLASS_NAME_TRANSLATIONS): BOOLEAN
+	Version from class HASH_TABLE
+MISMATCH_INFORMATION is_equal (other: [attached like Current] attached MISMATCH_INFORMATION): BOOLEAN
 	Version from class HASH_TABLE
 SED_OBJECTS_TABLE is_equal (other: [attached like Current] attached SED_OBJECTS_TABLE): BOOLEAN
 	Version from class HASH_TABLE
@@ -576,6 +576,10 @@ INTEGER_8_REF is_equal (other: [like Current] attached INTEGER_8_REF): BOOLEAN
 	Version from class INTEGER_8_REF
 INTEGER_8 is_equal (other: [attached like Current] attached INTEGER_8): BOOLEAN
 	Version from class INTEGER_8_REF
+REAL_32_REF is_equal (other: [like Current] attached REAL_32_REF): BOOLEAN
+	Version from class REAL_32_REF
+REAL_32 is_equal (other: [attached like Current] attached REAL_32): BOOLEAN
+	Version from class REAL_32_REF
 CHARACTER_32_REF is_equal (other: [like Current] attached CHARACTER_32_REF): BOOLEAN
 	Version from class CHARACTER_32_REF
 CHARACTER_32 is_equal (other: [attached like Current] attached CHARACTER_32): BOOLEAN
@@ -600,10 +604,6 @@ NATURAL_8_REF is_equal (other: [like Current] attached NATURAL_8_REF): BOOLEAN
 	Version from class NATURAL_8_REF
 NATURAL_8 is_equal (other: [attached like Current] attached NATURAL_8): BOOLEAN
 	Version from class NATURAL_8_REF
-REAL_32_REF is_equal (other: [like Current] attached REAL_32_REF): BOOLEAN
-	Version from class REAL_32_REF
-REAL_32 is_equal (other: [attached like Current] attached REAL_32): BOOLEAN
-	Version from class REAL_32_REF
 NATURAL_32_REF is_equal (other: [like Current] attached NATURAL_32_REF): BOOLEAN
 	Version from class NATURAL_32_REF
 NATURAL_32 is_equal (other: [attached like Current] attached NATURAL_32): BOOLEAN

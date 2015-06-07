@@ -11,6 +11,10 @@ INTEGER_8_REF hash_code: INTEGER_32
 	Version from class INTEGER_8_REF
 INTEGER_8 hash_code: INTEGER_32
 	Version from class INTEGER_8_REF
+REAL_32_REF hash_code: INTEGER_32
+	Version from class REAL_32_REF
+REAL_32 hash_code: INTEGER_32
+	Version from class REAL_32_REF
 CHARACTER_32_REF hash_code: INTEGER_32
 	Version from class CHARACTER_32_REF
 CHARACTER_32 hash_code: INTEGER_32
@@ -35,10 +39,6 @@ NATURAL_8_REF hash_code: INTEGER_32
 	Version from class NATURAL_8_REF
 NATURAL_8 hash_code: INTEGER_32
 	Version from class NATURAL_8_REF
-REAL_32_REF hash_code: INTEGER_32
-	Version from class REAL_32_REF
-REAL_32 hash_code: INTEGER_32
-	Version from class REAL_32_REF
 NATURAL_32_REF hash_code: INTEGER_32
 	Version from class NATURAL_32_REF
 NATURAL_32 hash_code: INTEGER_32

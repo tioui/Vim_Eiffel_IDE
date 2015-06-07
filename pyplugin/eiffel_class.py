@@ -492,19 +492,33 @@ def get_local_variable(a_project):
         A list of local variables declared in the previous local section.
     """
     do_regex = a_project.get_tools_regex("extract_do_keywork")
+    deferred_regex = a_project.get_tools_regex("extract_deferred_keywork")
     local_regex = a_project.get_tools_regex("extract_local_keywork")
+    require_regex = a_project.get_tools_regex("extract_require_keywork")
+    ensure_regex = a_project.get_tools_regex("extract_ensure_keywork")
     text_list = environment.text_list()
     i = environment.get_cursor_row()
+    is_cancel_syntax_founded = False
     do_row = -1
     l_result = []
-    while do_row < 0 and i >= 0:
-        if do_regex.search(text_list[i]):
+    while not is_cancel_syntax_founded and do_row < 0 and i >= 0:
+        if require_regex.search(text_list[i]) or\
+                deferred_regex.search(text_list[i]):
+            is_cancel_syntax_founded = True
+        elif do_regex.search(text_list[i]):
             do_row = i
         i = i - 1
-    while i >= 0 and not local_regex.search(text_list[i]):
-        l_variables = get_variable_from_line(a_project, text_list[i])
-        if l_variables:
-            l_result.extend(l_variables)
+    while not is_cancel_syntax_founded and i >= 0 and not\
+            local_regex.search(text_list[i]):
+        if require_regex.search(text_list[i]) or\
+                do_regex.search(text_list[i]) or\
+                ensure_regex.search(text_list[i]):
+            l_result = []
+            is_cancel_syntax_founded = True
+        else:
+            l_variables = get_variable_from_line(a_project, text_list[i])
+            if l_variables:
+                l_result.extend(l_variables)
         i = i - 1
     return l_result
 

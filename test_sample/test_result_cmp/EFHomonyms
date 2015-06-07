@@ -131,9 +131,9 @@ HASH_TABLE count: INTEGER_32
 	Version from class HASH_TABLE
 STRING_TABLE count: INTEGER_32
 	Version from class HASH_TABLE
-MISMATCH_INFORMATION count: INTEGER_32
-	Version from class HASH_TABLE
 CLASS_NAME_TRANSLATIONS count: INTEGER_32
+	Version from class HASH_TABLE
+MISMATCH_INFORMATION count: INTEGER_32
 	Version from class HASH_TABLE
 ARRAYED_LIST count: INTEGER_32
 	Version from class ARRAYED_LIST

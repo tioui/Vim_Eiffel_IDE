@@ -212,12 +212,16 @@ class project:
                 "(?:(?:--).*)?$"),
             "extract_do_keywork": re.compile(
                 "^[ \t]*(do)((([ \t])|(--)).*)?$"),
+            "extract_deferred_keywork": re.compile(
+                "^[ \t]*(deferred)((([ \t])|(--)).*)?$"),
             "extract_end_keywork": re.compile(
                 "^[ \t]*(end)((([ \t])|(--)).*)?$"),
             "extract_local_keywork": re.compile(
                 "^[ \t]*(local)((([ \t])|(--)).*)?$"),
             "extract_require_keywork": re.compile(
                 "^[ \t]*(require)([ \t](else))?((([ \t])|(--)).*)?$"),
+            "extract_ensure_keywork": re.compile(
+                "^[ \t]*(ensure)([ \t](then))?((([ \t])|(--)).*)?$"),
             "extract_feature_keywork": re.compile(
                 "^[ \t]*feature[ \n]*(?:\{.*\})?((([ \t])|(--)).*)?$"),
             "extract_local_variable": re.compile(

@@ -12,6 +12,10 @@ INTEGER_8_REF min (other: [attached like Current] attached INTEGER_8_REF): [atta
 	Version from class COMPARABLE
 INTEGER_8 min (other: [attached like Current] attached INTEGER_8): [attached like Current] attached INTEGER_8
 	Version from class COMPARABLE
+REAL_32_REF min (other: [attached like Current] attached REAL_32_REF): [attached like Current] attached REAL_32_REF
+	Version from class COMPARABLE
+REAL_32 min (other: [attached like Current] attached REAL_32): [attached like Current] attached REAL_32
+	Version from class COMPARABLE
 CHARACTER_32_REF min (other: [attached like Current] attached CHARACTER_32_REF): [attached like Current] attached CHARACTER_32_REF
 	Version from class COMPARABLE
 CHARACTER_32 min (other: [attached like Current] attached CHARACTER_32): [attached like Current] attached CHARACTER_32
@@ -31,10 +35,6 @@ REAL_64 min (other: [attached like Current] attached REAL_64): [attached like Cu
 NATURAL_8_REF min (other: [attached like Current] attached NATURAL_8_REF): [attached like Current] attached NATURAL_8_REF
 	Version from class COMPARABLE
 NATURAL_8 min (other: [attached like Current] attached NATURAL_8): [attached like Current] attached NATURAL_8
-	Version from class COMPARABLE
-REAL_32_REF min (other: [attached like Current] attached REAL_32_REF): [attached like Current] attached REAL_32_REF
-	Version from class COMPARABLE
-REAL_32 min (other: [attached like Current] attached REAL_32): [attached like Current] attached REAL_32
 	Version from class COMPARABLE
 NATURAL_32_REF min (other: [attached like Current] attached NATURAL_32_REF): [attached like Current] attached NATURAL_32_REF
 	Version from class COMPARABLE
