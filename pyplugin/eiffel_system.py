@@ -70,7 +70,7 @@ def finalize(a_project):
     environment.manual_fold()
     eiffel_ide.launch_process(a_project,
                               lambda window: a_project.finalize(window),
-                              "Freezing...", "Freezing output", True,
+                              "Finalizing...", "Finalizing output", True,
                               False, lambda:
                               eiffel_feature.unset_feature_class_and_info())
 
