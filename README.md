@@ -3,6 +3,39 @@ Vim_Eiffel_IDE
 
 An Eiffel programming environment for Vim using the ISE EiffelStudio tools.
 
+Installation
+------------
+
+This plugin is created with Vinscript and Python (v2). So, be sure that your vim is compile with Python2 support. You can see by using:
+
+***
+	vim --version
+***
+
+I presume that you are using Pathogen. If not, you can find it there: http://www.vim.org/scripts/script.php?script_id=2332 . If you don't want to install
+Pathogen, I presume that you know how to install a Vim plugin. Don't forget to put the Pathogen lines in your .vimrc:
+
+***
+	" Pathogen load
+	filetype off
+	
+	call pathogen#infect()
+	call pathogen#helptags()
+	
+	filetype plugin indent on
+	syntax on
+***
+
+Then, all you have to do is put the content of this repository inside the ~/.vim/bundle like that:
+
+***
+	cd ~/.vim
+	mkdir -p bundle && cd bundle
+	git clone https://github.com/tioui/Vim_Eiffel_IDE.git
+***
+
+After that, the plugin should work.
+
 What you can do with it
 -----------------------
 
