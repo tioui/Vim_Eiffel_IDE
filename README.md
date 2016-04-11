@@ -3,6 +3,8 @@ Vim_Eiffel_IDE
 
 An Eiffel programming environment for Vim using the ISE EiffelStudio tools.
 
+See it in action there: https://vimeo.com/tioui/vimeiffelide
+
 Installation
 ------------
 
