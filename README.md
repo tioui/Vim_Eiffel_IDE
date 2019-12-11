@@ -8,7 +8,7 @@ See it in action: https://vimeo.com/tioui/vimeiffelide
 Installation
 ------------
 
-This plugin is created with Vinscript and Python (v2). So, be sure that your vim is compile with Python2 support. You can see by using:
+This plugin is created with Vimscript and Python (v2). So, be sure that your vim is compile with Python2 support. You can see by using:
 
 ***
 	vim --version
