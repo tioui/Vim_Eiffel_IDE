@@ -197,7 +197,7 @@ class AsyncPopen(Popen):
                 self.stderr_lock.release()
                 raise
             self.stderr_lock.release()
-            if data: stdoutdata = data
+            if data: stdoutdata = data.decode(encoding="UTF-8")
 
         if self.use_stderr:
             # get data
@@ -210,6 +210,6 @@ class AsyncPopen(Popen):
                 self.stderr_lock.release()
                 raise
             self.stderr_lock.release()
-            if data: stderrdata = data
+            if data: stderrdata = data.decode(encoding="UTF-8")
 
         return (stdoutdata, stderrdata)

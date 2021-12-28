@@ -273,7 +273,7 @@ class project:
                                                 stderr=async_subprocess.PIPE)
         l_data = ""
         if a_input and l_process.poll() is None:
-            l_data += self._get_new_process_output(l_process, a_input,
+            l_data += self._get_new_process_output(l_process, a_input.encode(),
                                                    a_get_stdout, a_get_stderr)
         while l_process.poll() is None:
             l_data += self._get_new_process_output(l_process, None,
